@@ -1,0 +1,17 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "Source/Fonts/pacifico.ttf",
+      "sha1": "e31302d2fce7caf5cb86ddde0db78cdac47952bd"
+    },
+    {
+      "path": "Source/Assets/defaultavatar.jpg",
+      "sha1": "da0962131abc3f9f19d35bfc84b7a4488bcab9d4"
+    },
+    {
+      "path": "Source/Assets/nomusic.jpg",
+      "sha1": "ca1d62fbe371388758a6f9470f4c1dde2f3e7d5b"
+    }
+  ]
+}
