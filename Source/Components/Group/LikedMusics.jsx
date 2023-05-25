@@ -19,7 +19,7 @@ export class LikedMusics extends React.Component {
 			.then((ApiResult) => {
 				this.setState({ ApiResult, IsFetching: false });
 			})
-			.catch(() => {});
+			.catch(() => { });
 	}
 
 	render() {
@@ -27,7 +27,7 @@ export class LikedMusics extends React.Component {
 
 		return (
 			<Layout level="2" style={{ height: '100%' }}>
-				<MusicGroup
+				{/* <MusicGroup
 					DetailType="Liked Musics"
 					ShowDetailType
 					ContextType={CONTEXT_SEARCH}
@@ -35,7 +35,7 @@ export class LikedMusics extends React.Component {
 					IsFetching={IsFetching}
 					Reverse
 					Count={20}
-				/>
+				/> */}
 			</Layout>
 		);
 	}

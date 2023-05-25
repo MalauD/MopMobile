@@ -105,12 +105,12 @@ export class SearchScreen extends React.Component {
 							onSelect={(index) => this.setState({ selectedIndex: index })}
 						>
 							<Tab title="Musics">
-								<MusicGroup
+								{/* <MusicGroup
 									DetailType="Musics"
 									ContextType={CONTEXT_SEARCH}
 									MusicIds={MusicIds}
 									IsFetching={IsFetchingMusics}
-								/>
+								/> */}
 
 							</Tab>
 							<Tab title="Albums">

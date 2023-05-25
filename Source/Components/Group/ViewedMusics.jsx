@@ -19,7 +19,7 @@ export class ViewedMusics extends React.Component {
 			.then((ApiResult) => {
 				this.setState({ ApiResult, IsFetching: false });
 			})
-			.catch(() => {});
+			.catch(() => { });
 	}
 
 	render() {
@@ -27,14 +27,14 @@ export class ViewedMusics extends React.Component {
 
 		return (
 			<Layout level="2" style={{ height: '100%' }}>
-				<MusicGroup
+				{/* <MusicGroup
 					ShowDetailType
 					DetailType="Viewed Musics"
 					ContextType={CONTEXT_SEARCH}
 					MusicIds={ApiResult ? [...(ApiResult.MusicsId)].reverse() : undefined}
 					IsFetching={IsFetching}
 					Count={20}
-				/>
+				/> */}
 			</Layout>
 		);
 	}

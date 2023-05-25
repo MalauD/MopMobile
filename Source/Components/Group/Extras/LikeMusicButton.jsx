@@ -2,17 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Icon } from '@ui-kitten/components';
 
-const LikeOutlineIcon = (props) => <Icon {...props} name="heart-outline" />;
-const LikeIcon = (props) => <Icon {...props} name="heart" />;
-
 class LikeMusicButton extends React.Component {
 	static propTypes = {
-		onLike: PropTypes.func.isRequired,
+		onLike: PropTypes.func,
 		defaultLikeState: PropTypes.bool,
 	}
 
 	static defaultProps = {
 		defaultLikeState: false,
+		onLike: () => { },
 	}
 
 	constructor(props) {
@@ -20,6 +18,7 @@ class LikeMusicButton extends React.Component {
 		this.state = {
 			IsLiked: props.defaultLikeState,
 		};
+		this.iconRef = React.createRef();
 	}
 
 	onLikePress = () => {
@@ -34,10 +33,10 @@ class LikeMusicButton extends React.Component {
 
 	render() {
 		const { IsLiked } = this.state;
-		const IsLikeIcon = IsLiked ? LikeIcon : LikeOutlineIcon;
 
-		return (<Button status="basic" onPress={this.onLikePress} appearance="ghost" accessoryLeft={IsLikeIcon} />);
+		return (<Button status="basic" onPress={this.onLikePress} appearance="ghost" accessoryLeft={(evaProps) => <Icon {...evaProps} fill="#cc506c" name={IsLiked ? "heart" : "heart-outline"} />} />);
 	}
 }
+
 
 export { LikeMusicButton };

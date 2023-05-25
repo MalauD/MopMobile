@@ -16,7 +16,7 @@ class PlaylistViewer extends React.Component {
 	componentDidMount = async () => {
 		this.setState({ IsFetching: true });
 		this.setState({
-		//	PlaylistIds: await TrackPlayer.getInstance().GetTracksIds(),
+			//	PlaylistIds: await TrackPlayer.getInstance().GetTracksIds(),
 			IsFetching: false,
 		});
 		//TrackPlayer.getInstance().CustomEvents.on('TrackAdded', this.NewTrackAdded);
@@ -35,13 +35,13 @@ class PlaylistViewer extends React.Component {
 		const { PlaylistIds, IsFetching } = this.state;
 		return (
 			<Layout level="2" style={{ height: '100%' }}>
-				<MusicGroup
+				{/* <MusicGroup
 					DetailType="Current Playlist"
 					ShowDetailType
 					ContextType={CONTEXT_PLAYLIST}
 					MusicIds={PlaylistIds}
 					IsFetching={IsFetching}
-				/>
+				/> */}
 			</Layout>
 		);
 	}

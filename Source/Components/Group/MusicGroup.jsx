@@ -4,8 +4,9 @@ import { StyleSheet, View } from 'react-native';
 import {
 	Spinner, List, ListItem,
 } from '@ui-kitten/components';
-import { MusicItem } from './GroupItem/MusicItem';
+import MusicElement from './GroupItem/MusicElement';
 import TrackPlayer from '../Player/TrackPlayer';
+import { DefaultAccesorySet } from './GroupItem/Accessories/AccessorySets';
 
 const styles = StyleSheet.create({
 	loading: {
@@ -17,85 +18,69 @@ const styles = StyleSheet.create({
 
 class MusicGroup extends React.Component {
 	static propTypes = {
-		IsFetching: PropTypes.bool.isRequired,
-		DetailType: PropTypes.string,
-		MusicIds: PropTypes.arrayOf(PropTypes.string),
-		ShowDetailType: PropTypes.bool,
-		ContextType: PropTypes.string.isRequired,
-		Reverse: PropTypes.bool,
-		Count: PropTypes.number,
+		musics: PropTypes.arrayOf(PropTypes.shape({ _id: PropTypes.number.isRequired })).isRequired,
+		isLoading: PropTypes.bool,
+		title: PropTypes.string.isRequired,
+		actions: PropTypes.func,
+		elementAccessories: PropTypes.arrayOf(PropTypes.element),
+		allowSort: PropTypes.bool,
+		alwaysSort: PropTypes.bool,
+		displayActionsOnSort: PropTypes.bool,
+		onMusicElementClick: PropTypes.func,
+		highlightedMusics: PropTypes.arrayOf(PropTypes.number),
+		onEndReached: PropTypes.func,
 	}
 
 	static defaultProps = {
-		DetailType: undefined,
-		MusicIds: undefined,
-		ShowDetailType: false,
-		Reverse: false,
-		Count: 10,
-	}
+		isLoading: false,
+		actions: null,
+		elementAccessories: DefaultAccesorySet,
+		allowSort: false,
+		alwaysSort: false,
+		displayActionsOnSort: false,
+		onMusicElementClick: undefined,
+		highlightedMusics: [],
+		onEndReached: () => { },
+	};
 
 	constructor(props) {
 		super(props);
-		this.Musics = [];
-		const { Count } = this.props;
-		this.state = {
-			Count,
-		};
-	}
-
-	onMusicDataReceived = (MusicApiResult, order) => {
-		this.Musics.push({ ...MusicApiResult, order });
-	}
-
-	onDetailPress = () => {
-		const MusicsOrdered = this.Musics.sort((a, b) => a.order - b.order);
-		//TrackPlayer.getInstance().RemoveAllTracks();
-		//TrackPlayer.getInstance().AddMultiple(MusicsOrdered);
 	}
 
 	render() {
-		const { Count } = this.state;
 		const {
-			IsFetching, DetailType, MusicIds, ShowDetailType, ContextType, Reverse,
+			title,
+			onEndReached,
+			musics,
+			isLoading,
+			elementAccessories
 		} = this.props;
 
-		if (IsFetching) {
+		if (isLoading) {
 			return (
-				<>
-					{!ShowDetailType || <ListItem title={DetailType} level="2" />}
-					<View style={styles.loading}>
-						<Spinner />
-					</View>
-				</>
+				<View style={styles.loading}>
+					<Spinner />
+				</View>
 			);
 		}
 
-		if (MusicIds) {
-			const MusicItemWithEvent = (props) => (
-				<MusicItem
-					{...props}
-					onDataReceived={this.onMusicDataReceived}
+		return (
+			<>
+				<ListItem title={title} level="2" />
+
+				<List
+					data={musics}
+					renderItem={({ item }) => (
+						<MusicElement
+							music={item}
+							moreAccessories={elementAccessories}
+						/>
+					)}
+					onEndReachedThreshold={0.5}
+					onEndReached={() => onEndReached()}
 				/>
-			);
-
-			const Musics = MusicIds.map((id) => ({ ContextType, id }));
-			const MusicsReversed = Reverse ? [...Musics].reverse() : Musics;
-			MusicsReversed.length = Count;
-			return (
-				<>
-					{!ShowDetailType || <ListItem title={DetailType} level="2" onPress={this.onDetailPress} />}
-
-					<List
-						data={MusicsReversed.filter((el) => el != null).map((el, order) => ({ ...el, order }))}
-						renderItem={MusicItemWithEvent}
-						onEndReachedThreshold={0.5}
-						onEndReached={() => this.setState((prev) => ({ Count: prev.Count + 30 }))}
-					/>
-				</>
-			);
-		}
-
-		return <></>;
+			</>
+		);
 	}
 }
 

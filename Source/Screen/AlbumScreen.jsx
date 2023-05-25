@@ -54,14 +54,14 @@ class AlbumScreen extends React.Component {
 			<>
 				<TopBar subtitle="Album" />
 				<Layout level="2" style={{ height: '100%' }}>
-					<MusicGroup
+					{/* <MusicGroup
 						DetailType={AlbumName}
 						ShowDetailType
 						ContextType={CONTEXT_SEARCH}
 						MusicIds={MusicsOfAlbumIds}
 						IsFetching={IsFetchingMusicsOfAlbum}
 						Count={100}
-					/>
+					/> */}
 				</Layout>
 			</>
 		);
