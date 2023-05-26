@@ -8,7 +8,10 @@ import { LogMyAccount } from '../../Action/AccountAction';
 
 function LoginLayoutConnected({ ChangeToRegister, OnLoginSuccess, dispatch }) {
 	const {
-		register, handleSubmit, formState: { errors }, setValue,
+		register,
+		handleSubmit,
+		formState: { errors },
+		setValue,
 	} = useForm();
 	const [status, SetStatus] = React.useState('primary');
 
@@ -46,17 +49,12 @@ function LoginLayoutConnected({ ChangeToRegister, OnLoginSuccess, dispatch }) {
 				name="username"
 				placeholder="Enter your username"
 				status={status}
-				caption={
-					errors.username
-						? 'Username is required and must be valid.'
-						: ''
-				}
+				caption={errors.username ? 'Username is required and must be valid.' : ''}
 				style={{ marginTop: '1%', marginBottom: '1%' }}
-				onChangeText={(text) => { setValue('username', text) }}
-				{...register(
-					'username',
-					{ required: true, minLength: 3, maxLength: 20 },
-				)}
+				onChangeText={(text) => {
+					setValue('username', text);
+				}}
+				{...register('username', { required: true, minLength: 3, maxLength: 20 })}
 			/>
 			<Input
 				label="Password"
@@ -72,7 +70,9 @@ function LoginLayoutConnected({ ChangeToRegister, OnLoginSuccess, dispatch }) {
 				textContentType="password"
 				secureTextEntry
 				style={{ marginTop: '1%', marginBottom: '4%' }}
-				onChangeText={(text) => { setValue('password', text) }}
+				onChangeText={(text) => {
+					setValue('password', text);
+				}}
 				{...register('password', { required: true, minLength: 8 })}
 			/>
 

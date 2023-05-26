@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, View } from 'react-native';
-import {
-	Spinner, List, ListItem,
-} from '@ui-kitten/components';
+import { Spinner, List, ListItem } from '@ui-kitten/components';
 import { AlbumItem } from './GroupItem/AlbumItem';
 
 const styles = StyleSheet.create({
@@ -25,7 +23,7 @@ class AlbumGroup extends React.Component {
 		navigation: PropTypes.shape({
 			navigate: PropTypes.func,
 		}).isRequired,
-	}
+	};
 
 	static defaultProps = {
 		DetailType: undefined,
@@ -33,7 +31,7 @@ class AlbumGroup extends React.Component {
 		ShowDetailType: false,
 		Reverse: false,
 		Count: 10,
-	}
+	};
 
 	constructor(props) {
 		super(props);
@@ -46,13 +44,11 @@ class AlbumGroup extends React.Component {
 	OnItemClick = (AlbumId) => {
 		const { navigation } = this.props;
 		navigation.navigate('Album', { AlbumId });
-	}
+	};
 
 	render() {
 		const { Count } = this.state;
-		const {
-			IsFetching, DetailType, AlbumIds, ShowDetailType, Reverse,
-		} = this.props;
+		const { IsFetching, DetailType, AlbumIds, ShowDetailType, Reverse } = this.props;
 
 		if (IsFetching) {
 			return (
@@ -70,14 +66,21 @@ class AlbumGroup extends React.Component {
 			const AlbumsReversed = Reverse ? [...Albums].reverse() : Albums;
 			AlbumsReversed.length = Count;
 
-			const AlbumItemWithEvent = (props) => <AlbumItem {...props} OnItemClick={this.OnItemClick} />;
+			const AlbumItemWithEvent = (props) => (
+				<AlbumItem {...props} OnItemClick={this.OnItemClick} />
+			);
 
 			return (
 				<>
-					{!ShowDetailType || <ListItem title={DetailType} level="2" onPress={this.onDetailPress} />}
+					{!ShowDetailType || (
+						<ListItem title={DetailType} level="2" onPress={this.onDetailPress} />
+					)}
 
 					<List
-						data={AlbumsReversed.filter((el) => el != null).map((el, order) => ({ ...el, order }))}
+						data={AlbumsReversed.filter((el) => el != null).map((el, order) => ({
+							...el,
+							order,
+						}))}
 						renderItem={AlbumItemWithEvent}
 						onEndReachedThreshold={0.5}
 						onEndReached={() => this.setState((prev) => ({ Count: prev.Count + 30 }))}
@@ -89,6 +92,5 @@ class AlbumGroup extends React.Component {
 		return <></>;
 	}
 }
-
 
 export default AlbumGroup;

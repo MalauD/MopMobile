@@ -36,7 +36,7 @@ function UserLayoutConnected({ IsLogged, OnRedirectLogin, dispatch }) {
 				dispatch(LogOutMyAccount());
 				OnRedirectLogin();
 			})
-			.catch(() => { });
+			.catch(() => {});
 	};
 
 	if (IsLogged && account) {
@@ -58,7 +58,6 @@ function UserLayoutConnected({ IsLogged, OnRedirectLogin, dispatch }) {
 		</Layout>
 	);
 }
-
 
 UserLayoutConnected.propTypes = {
 	IsLogged: PropTypes.bool.isRequired,

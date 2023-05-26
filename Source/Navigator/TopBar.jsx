@@ -3,7 +3,6 @@ import { StyleSheet, Text, View } from 'react-native';
 import { TopNavigation, Input, Icon } from '@ui-kitten/components';
 import PropTypes from 'prop-types';
 
-
 const SearchIcon = (props) => <Icon {...props} name="search" />;
 
 const renderTitle = () => {
@@ -11,28 +10,22 @@ const renderTitle = () => {
 
 	return (
 		<View style={styles.container}>
-			<Text style={styles.title}>
-				MOP
-			</Text>
+			<Text style={styles.title}>MOP</Text>
 			<Input
 				style={{ flex: 1 }}
 				placeholder="Search for musics"
 				accessoryLeft={SearchIcon}
 				returnKeyType="search"
-				onSubmitEditing={() => { }}
+				onSubmitEditing={() => {}}
 				onChangeText={setSearchValue}
 				value={searchValue}
 			/>
 		</View>
 	);
-}
+};
 
 export const TopBar = ({ title, subtitle }) => {
-	return (
-		<TopNavigation
-			title={renderTitle}
-		/>
-	)
+	return <TopNavigation title={renderTitle} />;
 };
 
 const styles = StyleSheet.create({
@@ -50,7 +43,6 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'stretch',
 		flexWrap: 'wrap',
-
 	},
 });
 

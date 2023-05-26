@@ -8,7 +8,7 @@ import { PlayPauseToggle } from './PlayPauseToggle';
 class PlayerSmallControls extends React.Component {
 	static propTypes = {
 		onPress: PropTypes.func.isRequired,
-	}
+	};
 
 	constructor(props) {
 		super(props);
@@ -46,15 +46,11 @@ class PlayerSmallControls extends React.Component {
 			// 		}
 			// 	});
 		}
-	}
+	};
 
 	render() {
 		const { onPress } = this.props;
-		const {
-			title,
-			artist,
-			ImageUrl,
-		} = this.state;
+		const { title, artist, ImageUrl } = this.state;
 		if (title) {
 			const MusicImage = () => (
 				<Avatar

@@ -15,8 +15,7 @@ import PlayerGuard from './Components/Player/PlayerGuard';
 
 const store = createStore(
 	RootReducer,
-	window.__REDUX_DEVTOOLS_EXTENSION__
-	&& window.__REDUX_DEVTOOLS_EXTENSION__(),
+	window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 
 Axios.defaults.withCredentials = true;
@@ -30,9 +29,21 @@ export default () => (
 			<PlayerGuard>
 				<NavigationContainer>
 					<RootStack.Navigator>
-						<RootStack.Screen options={{ headerShown: false }} name="Main" component={HomeNavigator} />
-						<RootStack.Screen options={{ headerShown: false }} name="Artist" component={ArtistScreen} />
-						<RootStack.Screen options={{ headerShown: false }} name="Album" component={AlbumScreen} />
+						<RootStack.Screen
+							options={{ headerShown: false }}
+							name="Main"
+							component={HomeNavigator}
+						/>
+						<RootStack.Screen
+							options={{ headerShown: false }}
+							name="Artist"
+							component={ArtistScreen}
+						/>
+						<RootStack.Screen
+							options={{ headerShown: false }}
+							name="Album"
+							component={AlbumScreen}
+						/>
 					</RootStack.Navigator>
 				</NavigationContainer>
 			</PlayerGuard>

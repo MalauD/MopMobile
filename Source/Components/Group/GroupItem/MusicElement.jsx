@@ -1,70 +1,89 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
-import {
-	ListItem, Avatar, Icon, Button, Modal, ButtonGroup,
-} from '@ui-kitten/components';
+import { ListItem, Avatar, Icon, Button, Modal } from '@ui-kitten/components';
 import { ImageBackground, View } from 'react-native';
-import { LikeMusic } from '../../../../../MopRs/static/Js/Actions/Action';
-import { LikeMusicButton } from '../Extras/LikeMusicButton';
+import RNTrackPlayer from 'react-native-track-player';
+import LikeMusicButton from '../Extras/LikeMusicButton';
+import { GetApiAddress } from '../../../Api/ApiUtils';
 
-const MusicElement = memo(function MusicElement({
-	music: {
-		_id, title, artist_name, image_url,
-	},
-	moreAccessories,
-}) {
-	const [modalVisible, setModalVisible] = React.useState(false);
+const MusicElement = memo(
+	({ music: { _id, title, artist_name, image_url }, moreAccessories, highlighted }) => {
+		const [modalVisible, setModalVisible] = React.useState(false);
 
-	const MusicImage = () => (
-		<Avatar
-			ImageComponent={ImageBackground}
-			shape="square"
-			source={image_url ? { uri: image_url } : require('../../../Assets/nomusic.jpg')}
-		/>
-	);
+		function MusicImage() {
+			return (
+				<Avatar
+					ImageComponent={ImageBackground}
+					shape="square"
+					source={image_url ? { uri: image_url } : require('../../../Assets/nomusic.jpg')}
+				/>
+			);
+		}
 
-	const MoreButton = (props) => (
-		<Button
-			appearance="ghost"
-			status='basic'
-			style={{ paddingHorizontal: 0, paddingVertical: 0 }}
-			onPress={() => setModalVisible(true)}
-			accessoryLeft={(evaProps) => <Icon {...evaProps} name="more-horizontal" />}
-		/>
-	);
+		function MoreButton() {
+			return (
+				<Button
+					appearance="ghost"
+					status="basic"
+					style={{ paddingHorizontal: 0, paddingVertical: 0 }}
+					onPress={() => setModalVisible(true)}
+					accessoryLeft={(evaProps) => <Icon {...evaProps} name="more-horizontal" />}
+				/>
+			);
+		}
 
-	return (
-		<>
-			<ListItem
-				style={{ backgroundColor: 'transparent', paddingTop: 12, paddingBottom: 0 }}
-				level="2"
-				title={title}
-				description={artist_name}
-				accessoryLeft={MusicImage}
-				accessoryRight={moreAccessories.length > 0 ? MoreButton : undefined}
-			/>
-			<Modal
-				visible={modalVisible}
-				backdropStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
-				onBackdropPress={() => setModalVisible(false)}
-				shouldUseContainer={false}
-				style={{ flexDirection: 'column', justifyContent: 'flex-end' }}
-			>
-				<View style={{ flex: 1 }} />
+		async function PlayMusicNow() {
+			GetApiAddress().then((url) => {
+				RNTrackPlayer.add({
+					id: _id.toString(),
+					url: `${url}/music/${_id}/audio`,
+					title,
+					artist: artist_name,
+					artwork: image_url,
+				});
+			});
+		}
+
+		return (
+			<>
 				<ListItem
+					style={{ backgroundColor: 'transparent', paddingTop: 12, paddingBottom: 0 }}
+					level="2"
 					title={title}
 					description={artist_name}
-					accessoryLeft={MusicImage}
-					accessoryRight={() => <LikeMusicButton />}
+					onPress={() => PlayMusicNow()}
+					accessoryLeft={() => <MusicImage />}
+					accessoryRight={moreAccessories.length > 0 ? MoreButton : undefined}
 				/>
-				{moreAccessories.map((Accessory) => <Accessory music={{
-					_id, title, artist_name, image_url,
-				}} />)}
-
-			</Modal>
-		</>
-	);
-});
+				<Modal
+					visible={modalVisible}
+					backdropStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
+					onBackdropPress={() => setModalVisible(false)}
+					shouldUseContainer={false}
+					style={{ flexDirection: 'column', justifyContent: 'flex-end' }}
+				>
+					<View style={{ flex: 1 }} />
+					<ListItem
+						title={title}
+						description={artist_name}
+						accessoryLeft={() => <MusicImage />}
+						accessoryRight={() => <LikeMusicButton />}
+					/>
+					{moreAccessories.map((Accessory) => (
+						<Accessory
+							music={{
+								_id,
+								title,
+								artist_name,
+								image_url,
+							}}
+						/>
+					))}
+				</Modal>
+			</>
+		);
+	}
+);
 
 MusicElement.propTypes = {
 	music: PropTypes.shape({
@@ -73,11 +92,13 @@ MusicElement.propTypes = {
 		artist_name: PropTypes.string.isRequired,
 		image_url: PropTypes.string,
 	}).isRequired,
-	moreAccessories: PropTypes.arrayOf(PropTypes.element),
+	moreAccessories: PropTypes.arrayOf(PropTypes.func),
+	highlighted: PropTypes.bool,
 };
 
 MusicElement.defaultProps = {
 	moreAccessories: [],
+	highlighted: false,
 };
 
 export default MusicElement;

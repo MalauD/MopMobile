@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-	ListItem, Avatar,
-} from '@ui-kitten/components';
+import { ListItem, Avatar } from '@ui-kitten/components';
 import { ImageBackground } from 'react-native';
 import { GetArtistById } from '../../../Api/Music/Music';
 
@@ -10,7 +8,7 @@ class ArtistItemClass extends React.PureComponent {
 	static propTypes = {
 		id: PropTypes.string.isRequired,
 		OnItemClick: PropTypes.func.isRequired,
-	}
+	};
 
 	constructor(props) {
 		super(props);
@@ -41,8 +39,10 @@ class ArtistItemClass extends React.PureComponent {
 	onPress = async () => {
 		const { OnItemClick } = this.props;
 		const { ApiResult } = this.state;
-		if (ApiResult) { OnItemClick(ApiResult._id); }
-	}
+		if (ApiResult) {
+			OnItemClick(ApiResult._id);
+		}
+	};
 
 	render() {
 		const { ApiResult } = this.state;
@@ -69,7 +69,6 @@ class ArtistItemClass extends React.PureComponent {
 			}
 		}
 
-
 		return (
 			<ListItem
 				style={{ backgroundColor: 'transparent' }}
@@ -84,10 +83,7 @@ class ArtistItemClass extends React.PureComponent {
 
 //! Weird
 export const ArtistItem = ({ item, OnItemClick }) => (
-	<ArtistItemClass
-		id={item.id}
-		OnItemClick={OnItemClick}
-	/>
+	<ArtistItemClass id={item.id} OnItemClick={OnItemClick} />
 );
 
 ArtistItem.propTypes = {

@@ -25,7 +25,6 @@ class PlayPauseToggleClass extends React.Component {
 		// });
 	}
 
-
 	componentWillUnmount() {
 		this._IsMounted = false;
 	}

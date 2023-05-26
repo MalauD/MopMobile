@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-	ListItem, Avatar,
-} from '@ui-kitten/components';
+import { ListItem, Avatar } from '@ui-kitten/components';
 import { ImageBackground } from 'react-native';
 import { GetAlbumById } from '../../../Api/Music/Music';
 
@@ -10,7 +8,7 @@ class AlbumItemClass extends React.PureComponent {
 	static propTypes = {
 		id: PropTypes.string.isRequired,
 		OnItemClick: PropTypes.func.isRequired,
-	}
+	};
 
 	constructor(props) {
 		super(props);
@@ -41,8 +39,10 @@ class AlbumItemClass extends React.PureComponent {
 	onPress = async () => {
 		const { OnItemClick } = this.props;
 		const { ApiResult } = this.state;
-		if (ApiResult) { OnItemClick(ApiResult._id); }
-	}
+		if (ApiResult) {
+			OnItemClick(ApiResult._id);
+		}
+	};
 
 	render() {
 		const { ApiResult } = this.state;
@@ -58,9 +58,7 @@ class AlbumItemClass extends React.PureComponent {
 						source={{
 							uri: ApiResult.ImagePathDeezer
 								? ApiResult.ImagePathDeezer
-								: `data:image/jpeg;base64,${ApiResult.Image.toString(
-									'base64',
-								)}`,
+								: `data:image/jpeg;base64,${ApiResult.Image.toString('base64')}`,
 						}}
 					/>
 				);
@@ -74,7 +72,6 @@ class AlbumItemClass extends React.PureComponent {
 				);
 			}
 		}
-
 
 		return (
 			<ListItem
@@ -90,10 +87,7 @@ class AlbumItemClass extends React.PureComponent {
 
 //! Weird
 export const AlbumItem = ({ item, OnItemClick }) => (
-	<AlbumItemClass
-		id={item.id}
-		OnItemClick={OnItemClick}
-	/>
+	<AlbumItemClass id={item.id} OnItemClick={OnItemClick} />
 );
 
 AlbumItem.propTypes = {

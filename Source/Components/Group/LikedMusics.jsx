@@ -19,7 +19,7 @@ export class LikedMusics extends React.Component {
 			.then((ApiResult) => {
 				this.setState({ ApiResult, IsFetching: false });
 			})
-			.catch(() => { });
+			.catch(() => {});
 	}
 
 	render() {

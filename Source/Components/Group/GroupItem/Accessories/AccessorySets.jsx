@@ -1,9 +1,9 @@
-import { AddToCurrentPlaylistAccessory, PlayAccessory, PlayNextAccessory } from "./PlayerAccessories";
+import {
+	AddToCurrentPlaylistAccessory,
+	PlayAccessory,
+	PlayNextAccessory,
+} from './PlayerAccessories';
 
-const DefaultAccesorySet = [
-    PlayAccessory,
-    PlayNextAccessory,
-    AddToCurrentPlaylistAccessory
-];
+const DefaultAccesorySet = [PlayAccessory, PlayNextAccessory, AddToCurrentPlaylistAccessory];
 
 export { DefaultAccesorySet };

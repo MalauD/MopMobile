@@ -6,17 +6,17 @@ const InitialState = {
 
 export default function UserAccountReducer(state = InitialState, action) {
 	switch (action.type) {
-	case LOG_ACCOUNT:
-		return {
-			...state,
-			IsLogged: true,
-		};
-	case LOG_OUT_ACCOUNT:
-		return {
-			...state,
-			IsLogged: false,
-		};
-	default:
-		return state;
+		case LOG_ACCOUNT:
+			return {
+				...state,
+				IsLogged: true,
+			};
+		case LOG_OUT_ACCOUNT:
+			return {
+				...state,
+				IsLogged: false,
+			};
+		default:
+			return state;
 	}
 }

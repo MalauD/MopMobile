@@ -6,13 +6,12 @@ import { connect } from 'react-redux';
 import { Register } from '../../Api/Authentication/Auth';
 import { LogMyAccount } from '../../Action/AccountAction';
 
-function RegisterLayoutConnected({
-	ChangeToLogin,
-	OnRegisterSuccess,
-	dispatch,
-}) {
+function RegisterLayoutConnected({ ChangeToLogin, OnRegisterSuccess, dispatch }) {
 	const {
-		register, handleSubmit, formState: { errors }, setValue,
+		register,
+		handleSubmit,
+		formState: { errors },
+		setValue,
 	} = useForm();
 	const [status, SetStatus] = React.useState('primary');
 
@@ -50,15 +49,12 @@ function RegisterLayoutConnected({
 				name="name"
 				placeholder="Enter your username"
 				status={status}
-				caption={
-					errors.username && 'Username is required and must be valid.'
-				}
+				caption={errors.username && 'Username is required and must be valid.'}
 				style={{ marginTop: '1%', marginBottom: '1%' }}
-				onChangeText={(text) => { setValue('username', text) }}
-				{...register(
-					'username',
-					{ required: true, minLength: 3, maxLength: 20 },
-				)}
+				onChangeText={(text) => {
+					setValue('username', text);
+				}}
+				{...register('username', { required: true, minLength: 3, maxLength: 20 })}
 			/>
 			<Input
 				label="Password"
@@ -67,13 +63,14 @@ function RegisterLayoutConnected({
 				placeholder="Enter your password"
 				status={status}
 				caption={
-					errors.password
-					&& 'Password is required and should be at least 8 characters.'
+					errors.password && 'Password is required and should be at least 8 characters.'
 				}
 				textContentType="password"
 				secureTextEntry
 				style={{ marginTop: '1%', marginBottom: '4%' }}
-				onChangeText={(text) => { setValue('password', text) }}
+				onChangeText={(text) => {
+					setValue('password', text);
+				}}
 				{...register('password', { required: true, minLength: 8 })}
 			/>
 

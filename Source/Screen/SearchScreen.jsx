@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-	Icon, Input, Layout, TabView, Tab,
-} from '@ui-kitten/components';
+import { Icon, Input, Layout, TabView, Tab } from '@ui-kitten/components';
 import { TopBar } from '../Navigator/TopBar';
 import { CONTEXT_SEARCH } from '../Components/Group/Extras/Constants';
 import { SearchMusic, SearchAlbum, SearchArtist } from '../Api/Music/Search';
@@ -16,7 +14,7 @@ const SearchIcon = (props) => <Icon {...props} name="search" />;
 export class SearchScreen extends React.Component {
 	static propTypes = {
 		navigation: PropTypes.shape({}).isRequired,
-	}
+	};
 
 	constructor(props) {
 		super(props);
@@ -80,10 +78,7 @@ export class SearchScreen extends React.Component {
 			SearchValue,
 			selectedIndex,
 		} = this.state;
-		const {
-			navigation,
-		} = this.props;
-
+		const { navigation } = this.props;
 
 		return (
 			<>
@@ -111,7 +106,6 @@ export class SearchScreen extends React.Component {
 									MusicIds={MusicIds}
 									IsFetching={IsFetchingMusics}
 								/> */}
-
 							</Tab>
 							<Tab title="Albums">
 								<AlbumGroup
@@ -128,10 +122,8 @@ export class SearchScreen extends React.Component {
 									IsFetching={IsFetchingArtists}
 									navigation={navigation}
 								/>
-
 							</Tab>
 						</TabView>
-
 					</Layout>
 				</Layout>
 			</>

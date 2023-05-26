@@ -13,7 +13,7 @@ class ArtistScreen extends React.Component {
 			}).isRequired,
 		}).isRequired,
 		navigation: PropTypes.shape({}).isRequired,
-	}
+	};
 
 	constructor(props) {
 		super(props);
@@ -32,23 +32,18 @@ class ArtistScreen extends React.Component {
 			AlbumsOfArtistIds: undefined,
 		});
 
-		GetArtistById(route.params.ArtistId, true)
-			.then((ApiResult) => {
-				this.setState({
-					IsFetchingAlbumsOfArtist: false,
-					AlbumsOfArtistIds: ApiResult.AlbumsId,
-					ArtistName: ApiResult.Name,
-				});
+		GetArtistById(route.params.ArtistId, true).then((ApiResult) => {
+			this.setState({
+				IsFetchingAlbumsOfArtist: false,
+				AlbumsOfArtistIds: ApiResult.AlbumsId,
+				ArtistName: ApiResult.Name,
 			});
+		});
 	}
 
 	render() {
 		const { navigation } = this.props;
-		const {
-			IsFetchingAlbumsOfArtist,
-			AlbumsOfArtistIds,
-			ArtistName,
-		} = this.state;
+		const { IsFetchingAlbumsOfArtist, AlbumsOfArtistIds, ArtistName } = this.state;
 
 		return (
 			<>

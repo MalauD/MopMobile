@@ -22,7 +22,7 @@ class TrackPlayer {
 		};
 
 		await RNTrackPlayer.updateOptions(options);
-	};
+	}
 }
 
 export default TrackPlayer;

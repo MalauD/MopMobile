@@ -1,0 +1,22 @@
+{
+	"env": {
+		"browser": true,
+		"es2021": true
+	},
+	"overrides": [],
+	"parserOptions": {
+		"ecmaVersion": "latest",
+		"sourceType": "module"
+	},
+	"extends": ["plugin:react/recommended", "airbnb", "airbnb/hooks", "prettier"],
+	"plugins": ["react", "react-native", "prettier"],
+	"rules": {
+		"react/no-unstable-nested-components": "off",
+		"camelcase": "off",
+		"react/jsx-props-no-spreading": "off",
+		"global-require": "off",
+		"react/static-property-placement": ["error", "static public field"],
+		"react/prefer-stateless-function": "warn",
+		"no-underscore-dangle": "off"
+	}
+}

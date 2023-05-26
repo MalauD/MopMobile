@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, View } from 'react-native';
-import {
-	Spinner, List, ListItem,
-} from '@ui-kitten/components';
+import { Spinner, List, ListItem } from '@ui-kitten/components';
 import { ArtistItem } from './GroupItem/ArtistItem';
 
 const styles = StyleSheet.create({
@@ -25,7 +23,7 @@ class ArtistGroup extends React.Component {
 		navigation: PropTypes.shape({
 			navigate: PropTypes.func,
 		}).isRequired,
-	}
+	};
 
 	static defaultProps = {
 		DetailType: undefined,
@@ -33,7 +31,7 @@ class ArtistGroup extends React.Component {
 		ShowDetailType: false,
 		Reverse: false,
 		Count: 10,
-	}
+	};
 
 	constructor(props) {
 		super(props);
@@ -46,13 +44,11 @@ class ArtistGroup extends React.Component {
 	OnItemClick = (ArtistId) => {
 		const { navigation } = this.props;
 		navigation.navigate('Artist', { ArtistId });
-	}
+	};
 
 	render() {
 		const { Count } = this.state;
-		const {
-			IsFetching, DetailType, ArtistIds, ShowDetailType, Reverse,
-		} = this.props;
+		const { IsFetching, DetailType, ArtistIds, ShowDetailType, Reverse } = this.props;
 
 		if (IsFetching) {
 			return (
@@ -71,18 +67,20 @@ class ArtistGroup extends React.Component {
 			ArtistsReversed.length = Count;
 
 			const ArtistItemWithEvent = (props) => (
-				<ArtistItem
-					{...props}
-					OnItemClick={this.OnItemClick}
-				/>
+				<ArtistItem {...props} OnItemClick={this.OnItemClick} />
 			);
 
 			return (
 				<>
-					{!ShowDetailType || <ListItem title={DetailType} level="2" onPress={this.onDetailPress} />}
+					{!ShowDetailType || (
+						<ListItem title={DetailType} level="2" onPress={this.onDetailPress} />
+					)}
 
 					<List
-						data={ArtistsReversed.filter((el) => el != null).map((el, order) => ({ ...el, order }))}
+						data={ArtistsReversed.filter((el) => el != null).map((el, order) => ({
+							...el,
+							order,
+						}))}
 						renderItem={ArtistItemWithEvent}
 						onEndReachedThreshold={0.5}
 						onEndReached={() => this.setState((prev) => ({ Count: prev.Count + 30 }))}
@@ -94,6 +92,5 @@ class ArtistGroup extends React.Component {
 		return <></>;
 	}
 }
-
 
 export default ArtistGroup;

@@ -14,7 +14,7 @@ class AlbumScreen extends React.Component {
 				AlbumId: PropTypes.string.isRequired,
 			}).isRequired,
 		}).isRequired,
-	}
+	};
 
 	constructor(props) {
 		super(props);
@@ -33,22 +33,17 @@ class AlbumScreen extends React.Component {
 			MusicsOfAlbumIds: undefined,
 		});
 
-		GetAlbumById(route.params.AlbumId, true)
-			.then((ApiResult) => {
-				this.setState({
-					IsFetchingMusicsOfAlbum: false,
-					MusicsOfAlbumIds: ApiResult.MusicsId,
-					AlbumName: ApiResult.Name,
-				});
+		GetAlbumById(route.params.AlbumId, true).then((ApiResult) => {
+			this.setState({
+				IsFetchingMusicsOfAlbum: false,
+				MusicsOfAlbumIds: ApiResult.MusicsId,
+				AlbumName: ApiResult.Name,
 			});
+		});
 	}
 
 	render() {
-		const {
-			IsFetchingMusicsOfAlbum,
-			MusicsOfAlbumIds,
-			AlbumName,
-		} = this.state;
+		const { IsFetchingMusicsOfAlbum, MusicsOfAlbumIds, AlbumName } = this.state;
 
 		return (
 			<>

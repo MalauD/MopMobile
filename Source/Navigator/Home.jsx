@@ -1,11 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import {
-	BottomNavigation,
-	BottomNavigationTab,
-	Icon,
-} from '@ui-kitten/components';
+import { BottomNavigation, BottomNavigationTab, Icon } from '@ui-kitten/components';
 import { View } from 'react-native';
 import { PlayerOverlay } from '../Components/Player/PlayerOverlay';
 import { SearchScreen } from '../Screen/SearchScreen';
@@ -64,7 +60,7 @@ export const HomeNavigator = () => (
 	<Navigator
 		{...useBottomNavigationState()}
 		tabBar={(props) => <BottomTabBar {...props} />}
-		screenOptions={() => ({headerShown: false})}
+		screenOptions={() => ({ headerShown: false })}
 	>
 		<Screen name="Search" component={SearchScreen} />
 		<Screen name="Suggestion" component={SuggestionScreen} />

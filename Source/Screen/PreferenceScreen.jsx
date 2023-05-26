@@ -1,7 +1,5 @@
 import React from 'react';
-import {
-	Layout, Input, Icon, Button,
-} from '@ui-kitten/components';
+import { Layout, Input, Icon, Button } from '@ui-kitten/components';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { TopBar } from '../Navigator/TopBar';
 

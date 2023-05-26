@@ -7,7 +7,6 @@ import { UserLayout } from '../Components/User/UserLayout';
 
 const ScreenName = ['Login', 'Register', 'Account'];
 
-
 const AccountScreen = () => {
 	const [selectedIndex, setSelectedIndex] = React.useState(2);
 	console.log(selectedIndex);
@@ -27,9 +26,7 @@ const AccountScreen = () => {
 					ChangeToLogin={() => setSelectedIndex(0)}
 					OnRegisterSuccess={() => setSelectedIndex(2)}
 				/>
-				<UserLayout
-					OnRedirectLogin={() => setSelectedIndex(0)}
-				/>
+				<UserLayout OnRedirectLogin={() => setSelectedIndex(0)} />
 			</ViewPager>
 		</>
 	);
