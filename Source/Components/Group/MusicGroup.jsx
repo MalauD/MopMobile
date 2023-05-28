@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { StyleSheet, View } from 'react-native';
 import { Spinner, List, ListItem } from '@ui-kitten/components';
 import MusicElement from './GroupItem/MusicElement';
-import TrackPlayer from '../Player/TrackPlayer';
 import { DefaultAccesorySet } from './GroupItem/Accessories/AccessorySets';
 
 const styles = StyleSheet.create({

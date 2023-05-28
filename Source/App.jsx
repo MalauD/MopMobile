@@ -22,31 +22,33 @@ Axios.defaults.withCredentials = true;
 
 const RootStack = createNativeStackNavigator();
 
-export default () => (
-	<Provider store={store}>
-		<IconRegistry icons={EvaIconsPack} />
-		<ApplicationProvider {...eva} theme={eva.dark}>
-			<PlayerGuard>
-				<NavigationContainer>
-					<RootStack.Navigator>
-						<RootStack.Screen
-							options={{ headerShown: false }}
-							name="Main"
-							component={HomeNavigator}
-						/>
-						<RootStack.Screen
-							options={{ headerShown: false }}
-							name="Artist"
-							component={ArtistScreen}
-						/>
-						<RootStack.Screen
-							options={{ headerShown: false }}
-							name="Album"
-							component={AlbumScreen}
-						/>
-					</RootStack.Navigator>
-				</NavigationContainer>
-			</PlayerGuard>
-		</ApplicationProvider>
-	</Provider>
-);
+export default function () {
+	return (
+		<Provider store={store}>
+			<IconRegistry icons={EvaIconsPack} />
+			<ApplicationProvider {...eva} theme={eva.dark}>
+				<PlayerGuard>
+					<NavigationContainer>
+						<RootStack.Navigator>
+							<RootStack.Screen
+								options={{ headerShown: false }}
+								name="Main"
+								component={HomeNavigator}
+							/>
+							<RootStack.Screen
+								options={{ headerShown: false }}
+								name="Artist"
+								component={ArtistScreen}
+							/>
+							<RootStack.Screen
+								options={{ headerShown: false }}
+								name="Album"
+								component={AlbumScreen}
+							/>
+						</RootStack.Navigator>
+					</NavigationContainer>
+				</PlayerGuard>
+			</ApplicationProvider>
+		</Provider>
+	);
+}

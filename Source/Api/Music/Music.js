@@ -124,17 +124,7 @@ export function GetMusicUrl(id) {
 	return new Promise((resolve, reject) => {
 		GetApiAddress()
 			.then((url) => {
-				resolve(`${url}/Music/cdn/${id}`);
-			})
-			.catch((err) => reject(err));
-	});
-}
-
-export function GetMusicBaseUrl() {
-	return new Promise((resolve, reject) => {
-		GetApiAddress()
-			.then((url) => {
-				resolve(`${url}/Music/cdn/`);
+				resolve(`${url}/music/${id}/audio`);
 			})
 			.catch((err) => reject(err));
 	});

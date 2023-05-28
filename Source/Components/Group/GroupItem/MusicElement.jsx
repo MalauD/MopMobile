@@ -2,9 +2,8 @@ import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { ListItem, Avatar, Icon, Button, Modal } from '@ui-kitten/components';
 import { ImageBackground, View } from 'react-native';
-import RNTrackPlayer from 'react-native-track-player';
 import LikeMusicButton from '../Extras/LikeMusicButton';
-import { GetApiAddress } from '../../../Api/ApiUtils';
+import TrackPlayer from '../../Player/TrackPlayer';
 
 const MusicElement = memo(
 	({ music: { _id, title, artist_name, image_url }, moreAccessories, highlighted }) => {
@@ -33,14 +32,11 @@ const MusicElement = memo(
 		}
 
 		async function PlayMusicNow() {
-			GetApiAddress().then((url) => {
-				RNTrackPlayer.add({
-					id: _id.toString(),
-					url: `${url}/music/${_id}/audio`,
-					title,
-					artist: artist_name,
-					artwork: image_url,
-				});
+			await TrackPlayer.removeAllAndPlay({
+				_id,
+				title,
+				artist_name,
+				image_url,
 			});
 		}
 
@@ -69,7 +65,7 @@ const MusicElement = memo(
 						accessoryLeft={() => <MusicImage />}
 						accessoryRight={() => <LikeMusicButton />}
 					/>
-					{moreAccessories.map((Accessory) => (
+					{moreAccessories.map((Accessory, i) => (
 						<Accessory
 							music={{
 								_id,
@@ -77,6 +73,8 @@ const MusicElement = memo(
 								artist_name,
 								image_url,
 							}}
+							hideModal={() => setModalVisible(false)}
+							key={i}
 						/>
 					))}
 				</Modal>

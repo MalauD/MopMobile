@@ -1,15 +1,35 @@
-import TrackPlayer from 'react-native-track-player';
+import TrackPlayer, { Event } from 'react-native-track-player';
 
-module.exports = async function () {
-	TrackPlayer.addEventListener('remote-play', () => TrackPlayer.play());
+export default async function PlaybackService() {
+  TrackPlayer.addEventListener(Event.RemotePause, () => {
+    TrackPlayer.pause();
+  });
 
-	TrackPlayer.addEventListener('remote-pause', () => TrackPlayer.pause());
+  TrackPlayer.addEventListener(Event.RemotePlay, () => {
+    TrackPlayer.play();
+  });
 
-	TrackPlayer.addEventListener('remote-next', () => TrackPlayer.skipToNext());
+  TrackPlayer.addEventListener(Event.RemoteNext, () => {
+    TrackPlayer.skipToNext();
+  });
 
-	TrackPlayer.addEventListener('remote-previous', () => TrackPlayer.skipToPrevious());
+  TrackPlayer.addEventListener(Event.RemotePrevious, () => {
+    TrackPlayer.skipToPrevious();
+  });
 
-	TrackPlayer.addEventListener('remote-duck', () => TrackPlayer.pause());
+  TrackPlayer.addEventListener(Event.RemoteJumpForward, async (event) => {
+    TrackPlayer.seekBy(event.interval);
+  });
 
-	TrackPlayer.addEventListener('remote-stop', () => TrackPlayer.reset());
-};
+  TrackPlayer.addEventListener(Event.RemoteJumpBackward, async (event) => {
+    TrackPlayer.seekBy(-event.interval);
+  });
+
+  TrackPlayer.addEventListener(Event.RemoteSeek, (event) => {
+    TrackPlayer.seekTo(event.position);
+  });
+
+  TrackPlayer.addEventListener(Event.RemoteDuck, async (event) => {
+	TrackPlayer.setVolume(event.ducking ? 0.5 : 1);
+  });
+}

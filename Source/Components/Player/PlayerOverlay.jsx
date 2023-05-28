@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { View } from 'react-native';
-import { PlayerSmallControls } from './Extras/PlayerSmallControls';
-import { PlayerProgressBar } from './Extras/PlayerProgressBar';
+import PlayerSmallControls from './Extras/PlayerSmallControls';
+import PlayerProgressBar from './Extras/PlayerProgressBar';
 
 class PlayerOverlay extends React.Component {
 	static propTypes = {
@@ -37,4 +37,4 @@ class PlayerOverlay extends React.Component {
 	}
 }
 
-export { PlayerOverlay };
+export default PlayerOverlay;

@@ -1,23 +1,47 @@
 import React, { useState, useEffect } from 'react';
-import TrackPlayer from 'react-native-track-player';
+import { View, StyleSheet } from 'react-native';
+import { Spinner } from '@ui-kitten/components';
+import PropTypes from 'prop-types';
+import TrackPlayer from './TrackPlayer';
 
 const useSetupPlayer = () => {
 	const [playerReady, setPlayerReady] = useState(false);
 
 	useEffect(() => {
 		(async () => {
-			await TrackPlayer.setupPlayer();
-			setPlayerReady(true);
+			TrackPlayer.init()
+				.then(() => {
+					setPlayerReady(true);
+				})
+				.catch(() => {
+					setPlayerReady(true);
+				});
 		})();
 	}, []);
 	return playerReady;
 };
 
-const PlayerGuard = ({ children }) => {
+const styles = StyleSheet.create({
+	loading: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+});
+
+function PlayerGuard({ children }) {
 	const playerReady = useSetupPlayer();
-	if (!playerReady) return null;
-	if (children) return children;
-	return null;
+	if (!playerReady)
+		return (
+			<View style={styles.loading}>
+				<Spinner size="giant" />
+			</View>
+		);
+	return children;
+}
+
+PlayerGuard.propTypes = {
+	children: PropTypes.node.isRequired,
 };
 
 export default PlayerGuard;

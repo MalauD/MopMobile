@@ -1,66 +1,34 @@
 import React from 'react';
 import { Button, Icon, Spinner } from '@ui-kitten/components';
-import RNTrackPlayer from 'react-native-track-player';
+import { usePlaybackState, State } from 'react-native-track-player';
 import TrackPlayer from '../TrackPlayer';
 
-const PlayIcon = (props) => <Icon {...props} name="play-circle-outline" />;
+function PlayPauseToggle() {
+	const playerState = usePlaybackState();
+	const isLoading = playerState === State.Buffering;
+	const isPlaying = playerState === State.Playing;
 
-const PauseIcon = (props) => <Icon {...props} name="pause-circle-outline" />;
-
-class PlayPauseToggleClass extends React.Component {
-	constructor(props) {
-		super(props);
-		this._IsMounted = false;
-		this.state = {
-			IsPlaying: false,
-			IsLoading: false,
-		};
-	}
-
-	componentDidMount() {
-		this._IsMounted = true;
-		this.UpdatePlayingState();
-		// TrackPlayer.getInstance().AddEvent('playback-state', ({ state }) => {
-		// 	this.UpdatePlayingState(state);
-		// });
-	}
-
-	componentWillUnmount() {
-		this._IsMounted = false;
-	}
-
-	OnButtonPress = () => {
-		const { IsPlaying, IsLoading } = this.state;
-		if (IsLoading) return;
-
-		//IsPlaying ? TrackPlayer.getInstance().Pause() : TrackPlayer.getInstance().Play();
+	const onButtonPress = async () => {
+		if (isPlaying) {
+			await TrackPlayer.pause();
+		} else {
+			await TrackPlayer.play();
+		}
 	};
 
-	async UpdatePlayingState(state) {
-		if (this._IsMounted) {
-			this.setState({
-				//		IsPlaying: await TrackPlayer.getInstance().IsPlaying(),
-				IsLoading: state === RNTrackPlayer.STATE_BUFFERING,
-			});
-		}
+	if (isLoading) {
+		return <Spinner size="small" />;
 	}
 
-	render() {
-		const { IsPlaying, IsLoading } = this.state;
+	const iconName = isPlaying ? 'pause-circle-outline' : 'play-circle-outline';
 
-		if (IsLoading) {
-			return <Spinner size="small" />;
-		}
-		return (
-			<Button
-				onPress={this.OnButtonPress}
-				appearance="ghost"
-				accessoryLeft={IsPlaying ? PauseIcon : PlayIcon}
-			/>
-		);
-	}
+	return (
+		<Button
+			onPress={onButtonPress}
+			appearance="ghost"
+			accessoryLeft={(evaProps) => <Icon {...evaProps} name={iconName} />}
+		/>
+	);
 }
 
-const PlayPauseToggle = (props) => <PlayPauseToggleClass {...props} />;
-
-export { PlayPauseToggle };
+export default PlayPauseToggle;

@@ -1,41 +1,45 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Layout } from '@ui-kitten/components';
-import { GetViewedMusics } from '../../Api/Music/Music';
+import { GetViewedMusics } from '../../Api/User/User';
 import MusicGroup from './MusicGroup';
-import { CONTEXT_SEARCH } from './Extras/Constants';
 
-export class ViewedMusics extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			ApiResult: undefined,
-			IsFetching: false,
-		};
-	}
+function ViewedMusics() {
+	const [viewedMusics, setViewedMusics] = useState([]);
+	const [isLoading, setIsLoading] = useState(false);
+	const [currentPage, setCurrentPage] = useState(0);
+	const [prevPageEmpty, setPrevPageEmpty] = useState(false);
 
-	componentDidMount() {
-		this.setState({ IsFetching: true });
-		GetViewedMusics()
+	useEffect(() => {
+		setIsLoading(true);
+		GetViewedMusics(0, 25)
 			.then((ApiResult) => {
-				this.setState({ ApiResult, IsFetching: false });
+				setViewedMusics(ApiResult);
+				setIsLoading(false);
 			})
-			.catch(() => {});
-	}
+			.catch(() => {
+				setIsLoading(false);
+			});
+	}, []);
 
-	render() {
-		const { ApiResult, IsFetching } = this.state;
+	const onEndReached = () => {
+		if (prevPageEmpty) return;
+		GetViewedMusics(currentPage + 1, 25).then((ApiResult) => {
+			setViewedMusics([...viewedMusics, ...ApiResult]);
+			setCurrentPage(currentPage + 1);
+			setPrevPageEmpty(ApiResult.length === 0);
+		});
+	};
 
-		return (
-			<Layout level="2" style={{ height: '100%' }}>
-				{/* <MusicGroup
-					ShowDetailType
-					DetailType="Viewed Musics"
-					ContextType={CONTEXT_SEARCH}
-					MusicIds={ApiResult ? [...(ApiResult.MusicsId)].reverse() : undefined}
-					IsFetching={IsFetching}
-					Count={20}
-				/> */}
-			</Layout>
-		);
-	}
+	return (
+		<Layout level="2" style={{ height: '100%' }}>
+			<MusicGroup
+				title="History"
+				isLoading={isLoading}
+				musics={viewedMusics}
+				onEndReached={onEndReached}
+			/>
+		</Layout>
+	);
 }
+
+export default ViewedMusics;

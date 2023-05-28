@@ -1,42 +1,45 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Layout } from '@ui-kitten/components';
-import { GetLikedMusics } from '../../Api/Music/Music';
+import { GetLikedMusics } from '../../Api/User/User';
 import MusicGroup from './MusicGroup';
-import { CONTEXT_SEARCH } from './Extras/Constants';
 
-export class LikedMusics extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			ApiResult: undefined,
-			IsFetching: false,
-		};
-	}
+function LikedMusics() {
+	const [likedMusics, setLikedMusics] = useState([]);
+	const [isLoading, setIsLoading] = useState(false);
+	const [currentPage, setCurrentPage] = useState(0);
+	const [prevPageEmpty, setPrevPageEmpty] = useState(false);
 
-	componentDidMount() {
-		this.setState({ IsFetching: true });
-		GetLikedMusics()
+	useEffect(() => {
+		setIsLoading(true);
+		GetLikedMusics(0, 25)
 			.then((ApiResult) => {
-				this.setState({ ApiResult, IsFetching: false });
+				setLikedMusics(ApiResult);
+				setIsLoading(false);
 			})
-			.catch(() => {});
-	}
+			.catch(() => {
+				setIsLoading(false);
+			});
+	}, []);
 
-	render() {
-		const { ApiResult, IsFetching } = this.state;
+	const onEndReached = () => {
+		if (prevPageEmpty) return;
+		GetLikedMusics(currentPage + 1, 25).then((ApiResult) => {
+			setLikedMusics([...likedMusics, ...ApiResult]);
+			setCurrentPage(currentPage + 1);
+			setPrevPageEmpty(ApiResult.length === 0);
+		});
+	};
 
-		return (
-			<Layout level="2" style={{ height: '100%' }}>
-				{/* <MusicGroup
-					DetailType="Liked Musics"
-					ShowDetailType
-					ContextType={CONTEXT_SEARCH}
-					MusicIds={ApiResult ? ApiResult.MusicsId : undefined}
-					IsFetching={IsFetching}
-					Reverse
-					Count={20}
-				/> */}
-			</Layout>
-		);
-	}
+	return (
+		<Layout level="2" style={{ height: '100%' }}>
+			<MusicGroup
+				title="Favorites"
+				isLoading={isLoading}
+				musics={likedMusics}
+				onEndReached={onEndReached}
+			/>
+		</Layout>
+	);
 }
+
+export default LikedMusics;

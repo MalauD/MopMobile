@@ -4,16 +4,18 @@ import { View } from 'react-native';
 import { useProgress } from 'react-native-track-player';
 import { withStyles } from '@ui-kitten/components';
 
-const ProgressBar = ({ eva }) => {
-	const progress = useProgress();
+function ProgressBar({ eva }) {
+	const progress = useProgress(200);
 
 	return (
 		<View
 			style={{
 				zIndex: 100,
-				height: 1,
+				height: 2,
 				width: '100%',
 				flexDirection: 'row',
+				paddingBottom: 0,
+				marginBottom: 0,
 			}}
 		>
 			<View
@@ -30,7 +32,7 @@ const ProgressBar = ({ eva }) => {
 			/>
 		</View>
 	);
-};
+}
 
 ProgressBar.propTypes = {
 	eva: PropTypes.shape({
@@ -42,4 +44,4 @@ const PlayerProgressBar = withStyles(ProgressBar, (theme) => ({
 	ProgressColor: theme['color-info-transparent-default-border'],
 }));
 
-export { PlayerProgressBar };
+export default PlayerProgressBar;

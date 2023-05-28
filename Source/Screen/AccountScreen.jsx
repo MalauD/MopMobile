@@ -7,9 +7,8 @@ import { UserLayout } from '../Components/User/UserLayout';
 
 const ScreenName = ['Login', 'Register', 'Account'];
 
-const AccountScreen = () => {
+function AccountScreen() {
 	const [selectedIndex, setSelectedIndex] = React.useState(2);
-	console.log(selectedIndex);
 	return (
 		<>
 			<TopBar subtitle={ScreenName[selectedIndex]} />
@@ -30,6 +29,6 @@ const AccountScreen = () => {
 			</ViewPager>
 		</>
 	);
-};
+}
 
 export { AccountScreen };
