@@ -1,70 +1,80 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Layout, Button, Text } from '@ui-kitten/components';
+import { Layout, Button, Text, ListItem, Icon } from '@ui-kitten/components';
 import { View } from 'react-native';
 import { Header } from './UserExtras/Header';
 import { Logout, GetAccount } from '../../Api/Authentication/Auth';
 import { LogMyAccount, LogOutMyAccount } from '../../Action/AccountAction';
+import LoadingLayout from '../LoadingLayout';
 
-const mapStateToProps = (state) => ({
-	IsLogged: state.UserAccountReducer.IsLogged,
-});
+function LikeIcon(props) {
+	return <Icon {...props} fill="#cc506c" name="heart" />;
+}
 
-function UserLayoutConnected({ IsLogged, OnRedirectLogin, dispatch }) {
+function HistoryIcon(props) {
+	return <Icon {...props} name="book" />;
+}
+
+function PlaylistIcon(props) {
+	return <Icon {...props} name="list-outline" />;
+}
+
+function UserLayoutConnected({ dispatch, OnLikedMusicsClick, OnViewedMusicsClick }) {
 	const [account, setAccount] = React.useState(undefined);
 
 	React.useEffect(() => {
-		if (!account) {
-			GetAccount()
-				.then((ApiAccount) => {
-					setAccount(ApiAccount);
-					if (ApiAccount) dispatch(LogMyAccount());
-				})
-				.catch(() => {
-					setAccount(undefined);
-					dispatch(LogOutMyAccount());
-					OnRedirectLogin();
-				});
-		}
-	}, [IsLogged, account]);
+		GetAccount()
+			.then((ApiAccount) => {
+				setAccount(ApiAccount);
+				if (ApiAccount) dispatch(LogMyAccount());
+			})
+			.catch(() => {
+				setAccount(undefined);
+				dispatch(LogOutMyAccount());
+			});
+	}, []);
 
 	const OnLogoutPress = () => {
 		Logout()
 			.then(() => {
 				setAccount(undefined);
 				dispatch(LogOutMyAccount());
-				OnRedirectLogin();
 			})
 			.catch(() => {});
 	};
 
-	if (IsLogged && account) {
-		return (
-			<Layout style={{ height: '100%' }} level="2">
-				<Header Username={account.username} likedMusicCount={account.liked_musics.length} />
-				<View style={{ padding: 16 }}>
-					<Button onPress={OnLogoutPress}>Logout</Button>
-				</View>
-			</Layout>
-		);
-	}
+	if (account === undefined) return <LoadingLayout />;
+
 	return (
 		<Layout style={{ height: '100%' }} level="2">
+			<Header Username={account.username} likedMusicCount={account.liked_musics.length} />
+			<ListItem
+				title="Liked Musics"
+				level="2"
+				accessoryLeft={LikeIcon}
+				onPress={OnLikedMusicsClick}
+			/>
+			<ListItem
+				title="History"
+				level="2"
+				accessoryLeft={HistoryIcon}
+				onPress={OnViewedMusicsClick}
+			/>
+			<ListItem title="My playlists" level="2" accessoryLeft={PlaylistIcon} />
 			<View style={{ padding: 16 }}>
-				<Text category="h1">Not logged</Text>
-				<Button onPress={OnRedirectLogin}>Login</Button>
+				<Button onPress={OnLogoutPress}>Logout</Button>
 			</View>
 		</Layout>
 	);
 }
 
 UserLayoutConnected.propTypes = {
-	IsLogged: PropTypes.bool.isRequired,
-	OnRedirectLogin: PropTypes.func.isRequired,
 	dispatch: PropTypes.func.isRequired,
+	OnLikedMusicsClick: PropTypes.func.isRequired,
+	OnViewedMusicsClick: PropTypes.func.isRequired,
 };
 
-const UserLayout = connect(mapStateToProps)(UserLayoutConnected);
+const UserLayout = connect()(UserLayoutConnected);
 
 export { UserLayout };

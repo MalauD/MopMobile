@@ -3,29 +3,24 @@ import PropTypes from 'prop-types';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { BottomNavigation, BottomNavigationTab, Icon } from '@ui-kitten/components';
 import { View } from 'react-native';
-import { SearchScreen } from '../Screen/SearchScreen';
 import { AccountScreen } from '../Screen/AccountScreen';
-import { SuggestionScreen } from '../Screen/SuggestionScreen';
-import { PreferenceScreen } from '../Screen/PreferenceScreen';
+import SuggestionScreen from '../Screen/SuggestionScreen';
 import { PlayerScreen } from '../Screen/PlayerScreen';
 import PlayerOverlay from '../Components/Player/PlayerOverlay';
+import TrendingScreen from '../Screen/TrendingScreen';
 
 const { Navigator, Screen } = createBottomTabNavigator();
-
-function SearchIcon(props) {
-	return <Icon {...props} name="search-outline" />;
-}
 
 function SuggestionIcon(props) {
 	return <Icon {...props} name="bulb-outline" />;
 }
 
-function AccountIcon(props) {
-	return <Icon {...props} name="person-outline" />;
+function TrendingIcon(props) {
+	return <Icon {...props} name="trending-up-outline" />;
 }
 
-function SettingsIcon(props) {
-	return <Icon {...props} name="settings-outline" />;
+function AccountIcon(props) {
+	return <Icon {...props} name="person-outline" />;
 }
 
 function PlaylistIcon(props) {
@@ -48,11 +43,10 @@ function BottomTabBar({ navigation, state }) {
 				selectedIndex={state.index}
 				onSelect={(index) => navigation.navigate(state.routeNames[index])}
 			>
-				<BottomNavigationTab icon={SearchIcon} />
 				<BottomNavigationTab icon={SuggestionIcon} />
+				<BottomNavigationTab icon={TrendingIcon} />
 				<BottomNavigationTab icon={PlaylistIcon} />
 				<BottomNavigationTab icon={AccountIcon} />
-				<BottomNavigationTab icon={SettingsIcon} />
 			</BottomNavigation>
 		</>
 	);
@@ -68,18 +62,17 @@ BottomTabBar.propTypes = {
 	}).isRequired,
 };
 
-export function HomeNavigator() {
+export default function HomeNavigator() {
 	return (
 		<Navigator
 			{...useBottomNavigationState()}
 			tabBar={(props) => <BottomTabBar {...props} />}
 			screenOptions={() => ({ headerShown: false })}
 		>
-			<Screen name="Search" component={SearchScreen} />
 			<Screen name="Suggestion" component={SuggestionScreen} />
+			<Screen name="Trending" component={TrendingScreen} />
 			<Screen name="Player" component={PlayerScreen} />
 			<Screen name="Account" component={AccountScreen} />
-			<Screen name="Preference" component={PreferenceScreen} />
 		</Navigator>
 	);
 }

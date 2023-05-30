@@ -1,57 +1,39 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { TopNavigation, Input, Icon } from '@ui-kitten/components';
+import React from 'react';
+import { TopNavigation, Button, Icon } from '@ui-kitten/components';
 import PropTypes from 'prop-types';
+import { useNavigation } from '@react-navigation/native';
+import AppName from './AppName';
 
-const SearchIcon = (props) => <Icon {...props} name="search" />;
-
-const renderTitle = () => {
-	const [searchValue, setSearchValue] = useState('');
+function SearchButton() {
+	const navigation = useNavigation();
 
 	return (
-		<View style={styles.container}>
-			<Text style={styles.title}>MOP</Text>
-			<Input
-				style={{ flex: 1 }}
-				placeholder="Search for musics"
-				accessoryLeft={SearchIcon}
-				returnKeyType="search"
-				onSubmitEditing={() => {}}
-				onChangeText={setSearchValue}
-				value={searchValue}
-			/>
-		</View>
+		<Button
+			appearance="ghost"
+			status="basic"
+			style={{ paddingHorizontal: 0, paddingVertical: 0 }}
+			onPress={() => navigation.navigate('Search')}
+			accessoryLeft={(evaProps) => <Icon {...evaProps} name="search" />}
+		/>
 	);
-};
+}
 
-export const TopBar = ({ title, subtitle }) => {
-	return <TopNavigation title={renderTitle} />;
-};
+function accessoryRight() {
+	return <SearchButton />;
+}
 
-const styles = StyleSheet.create({
-	title: {
-		fontFamily: 'pacifico',
-		textShadowColor: 'rgba(204, 80, 108, 1)',
-		textShadowOffset: { width: 3, height: 3 },
-		textShadowRadius: 1,
-		color: '#ffffff',
-		fontSize: 20,
-		width: 70,
-		textAlignVertical: 'top',
-	},
-	container: {
-		flexDirection: 'row',
-		alignItems: 'stretch',
-		flexWrap: 'wrap',
-	},
-});
+export function TopBar({ title, subtitle, logged }) {
+	return <TopNavigation title={AppName} accessoryRight={logged ? accessoryRight : null} />;
+}
 
 TopBar.propTypes = {
 	title: PropTypes.string,
 	subtitle: PropTypes.string,
+	logged: PropTypes.bool,
 };
 
 TopBar.defaultProps = {
 	title: 'MOP',
 	subtitle: '',
+	logged: true,
 };

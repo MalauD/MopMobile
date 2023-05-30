@@ -1,132 +1,78 @@
-import React from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { Icon, Input, Layout, TabView, Tab } from '@ui-kitten/components';
-import { TopBar } from '../Navigator/TopBar';
-import { CONTEXT_SEARCH } from '../Components/Group/Extras/Constants';
-import { SearchMusic, SearchAlbum, SearchArtist } from '../Api/Music/Search';
+import { Icon, TopNavigation, Input, Layout, Button, TabView, Tab } from '@ui-kitten/components';
+import { View, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
-import MusicGroup from '../Components/Group/MusicGroup';
-import AlbumGroup from '../Components/Group/AlbumGroup';
-import ArtistGroup from '../Components/Group/ArtistGroup';
+function SearchIcon(props) {
+	return <Icon {...props} name="search" />;
+}
 
-const SearchIcon = (props) => <Icon {...props} name="search" />;
+function BackButton() {
+	const navigation = useNavigation();
 
-export class SearchScreen extends React.Component {
-	static propTypes = {
-		navigation: PropTypes.shape({}).isRequired,
-	};
+	return (
+		<Button
+			appearance="ghost"
+			status="basic"
+			style={{ paddingHorizontal: 0, paddingVertical: 0, marginRight: 8 }}
+			onPress={() => navigation.navigate('Search')}
+			accessoryLeft={(evaProps) => <Icon {...evaProps} name="arrow-back" />}
+		/>
+	);
+}
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			SearchValue: '',
-			MusicIds: undefined,
-			AlbumIds: undefined,
-			ArtistIds: undefined,
+const styles = StyleSheet.create({
+	container: {
+		flexDirection: 'row',
+		alignItems: 'stretch',
+		flexWrap: 'wrap',
+	},
+});
 
-			IsFetchingMusics: false,
-			IsFetchingAlbums: false,
-			IsFetchingArtists: false,
+function TopNavigationTitle() {
+	const [searchValue, setSearchValue] = useState('');
+	const inputRef = useRef(null);
 
-			selectedIndex: 0,
-		};
-	}
+	useEffect(() => {
+		setTimeout(() => {
+			inputRef.current?.focus();
+		}, 0);
+	}, []);
 
-	SetSearchValue = (value) => {
-		this.setState({
-			SearchValue: value,
-		});
-	};
+	return (
+		<View style={styles.container}>
+			<BackButton />
+			<Input
+				style={{ flex: 1 }}
+				placeholder="Search for musics"
+				accessoryLeft={SearchIcon}
+				returnKeyType="search"
+				onSubmitEditing={() => {}}
+				onChangeText={setSearchValue}
+				value={searchValue}
+				ref={inputRef}
+			/>
+		</View>
+	);
+}
 
-	OnSearchSubmit = () => {
-		const { SearchValue } = this.state;
+export default function SearchScreen() {
+	const [selectedIndex, setSelectedIndex] = useState(0);
 
-		this.setState({
-			MusicIds: undefined,
-			AlbumIds: undefined,
-			ArtistIds: undefined,
-			IsFetchingMusics: true,
-			IsFetchingAlbums: true,
-			IsFetchingArtists: true,
-		});
-
-		SearchMusic(SearchValue)
-			.then((MusicIds) => {
-				this.setState({ MusicIds, IsFetchingMusics: false });
-			})
-			.catch();
-		SearchAlbum(SearchValue)
-			.then((AlbumIds) => {
-				this.setState({ AlbumIds, IsFetchingAlbums: false });
-			})
-			.catch();
-		SearchArtist(SearchValue)
-			.then((ArtistIds) => {
-				this.setState({ ArtistIds, IsFetchingArtists: false });
-			})
-			.catch();
-	};
-
-	render() {
-		const {
-			MusicIds,
-			AlbumIds,
-			ArtistIds,
-			IsFetchingMusics,
-			IsFetchingAlbums,
-			IsFetchingArtists,
-			SearchValue,
-			selectedIndex,
-		} = this.state;
-		const { navigation } = this.props;
-
-		return (
-			<>
-				<TopBar subtitle="Search" />
-
-				<Layout style={{ height: '100%' }} level="1">
-					<Input
-						value={SearchValue}
-						style={{ padding: '2%' }}
-						placeholder="Search for musics"
-						accessoryLeft={SearchIcon}
-						onChangeText={this.SetSearchValue}
-						onSubmitEditing={this.OnSearchSubmit}
-						returnKeyType="search"
-					/>
-					<Layout level="2" style={{ height: '100%' }}>
-						<TabView
-							selectedIndex={selectedIndex}
-							onSelect={(index) => this.setState({ selectedIndex: index })}
-						>
-							<Tab title="Musics">
-								{/* <MusicGroup
-									DetailType="Musics"
-									ContextType={CONTEXT_SEARCH}
-									MusicIds={MusicIds}
-									IsFetching={IsFetchingMusics}
-								/> */}
-							</Tab>
-							<Tab title="Albums">
-								<AlbumGroup
-									DetailType="Albums"
-									AlbumIds={AlbumIds}
-									IsFetching={IsFetchingAlbums}
-									navigation={navigation}
-								/>
-							</Tab>
-							<Tab title="Artists">
-								<ArtistGroup
-									DetailType="Artists"
-									ArtistIds={ArtistIds}
-									IsFetching={IsFetchingArtists}
-									navigation={navigation}
-								/>
-							</Tab>
-						</TabView>
-					</Layout>
-				</Layout>
-			</>
-		);
-	}
+	return (
+		<>
+			<TopNavigation title={TopNavigationTitle} accessoryLeft={SearchIcon} />
+			<Layout level="2" style={{ height: '100%' }}>
+				<TabView
+					selectedIndex={selectedIndex}
+					onSelect={(index) => setSelectedIndex(index)}
+				>
+					<Tab title="Musics" />
+					<Tab title="Albums" />
+					<Tab title="Artists" />
+				</TabView>
+			</Layout>
+		</>
+	);
 }

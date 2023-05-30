@@ -1,14 +1,14 @@
 import React from 'react';
 import { Layout } from '@ui-kitten/components';
 import { TopBar } from '../Navigator/TopBar';
-import SuggestionGroup from '../Components/Group/SuggestionGroup';
+import TrendingGroup from '../Components/Group/TrendingGroup';
 
-export default function SuggestionScreen() {
+export default function TrendingScreen() {
 	return (
 		<>
-			<TopBar subtitle="Explore" />
+			<TopBar subtitle="Trending" />
 			<Layout level="1">
-				<SuggestionGroup />
+				<TrendingGroup />
 			</Layout>
 		</>
 	);

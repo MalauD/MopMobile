@@ -4,14 +4,14 @@ import { GetSuggestion } from '../../Api/User/User';
 import MusicGroup from './MusicGroup';
 
 function SuggestionGroup() {
-	const [suggestedMusics, setLikedMusics] = useState([]);
+	const [suggestedMusics, setSuggestedMusics] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
 
 	useEffect(() => {
 		setIsLoading(true);
-		GetSuggestion(100, 0.5, 0.3, 20)
+		GetSuggestion(50, 0.3, 0.1, 40)
 			.then((ApiResult) => {
-				setLikedMusics(ApiResult);
+				setSuggestedMusics(ApiResult);
 				setIsLoading(false);
 			})
 			.catch(() => {

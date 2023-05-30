@@ -5,8 +5,9 @@ import { Layout, Input, Button } from '@ui-kitten/components';
 import { connect } from 'react-redux';
 import { Register } from '../../Api/Authentication/Auth';
 import { LogMyAccount } from '../../Action/AccountAction';
+import useServerIp from '../../Hooks/useServerIp';
 
-function RegisterLayoutConnected({ ChangeToLogin, OnRegisterSuccess, dispatch }) {
+function RegisterLayoutConnected({ ChangeToLogin, dispatch }) {
 	const {
 		register,
 		handleSubmit,
@@ -14,6 +15,7 @@ function RegisterLayoutConnected({ ChangeToLogin, OnRegisterSuccess, dispatch })
 		setValue,
 	} = useForm();
 	const [status, SetStatus] = React.useState('primary');
+	const { loading, serverIp } = useServerIp();
 
 	const onSubmit = (data) => {
 		SetStatus('basic');
@@ -22,14 +24,12 @@ function RegisterLayoutConnected({ ChangeToLogin, OnRegisterSuccess, dispatch })
 				if (isLoggedIn) {
 					SetStatus('success');
 					dispatch(LogMyAccount());
-					OnRegisterSuccess();
 					SetStatus('primary');
 				} else {
 					SetStatus('warning');
 				}
 			})
 			.catch((err) => {
-				console.error(err);
 				SetStatus('danger');
 			});
 	};
@@ -74,8 +74,8 @@ function RegisterLayoutConnected({ ChangeToLogin, OnRegisterSuccess, dispatch })
 				{...register('password', { required: true, minLength: 8 })}
 			/>
 
-			<Button title="Submit" onPress={handleSubmit(onSubmit)}>
-				Register
+			<Button title="Submit" onPress={handleSubmit(onSubmit)} disabled={loading}>
+				Register to {serverIp}
 			</Button>
 			<Button
 				style={{ marginTop: '1%', marginBottom: '4%' }}
@@ -90,10 +90,9 @@ function RegisterLayoutConnected({ ChangeToLogin, OnRegisterSuccess, dispatch })
 
 RegisterLayoutConnected.propTypes = {
 	ChangeToLogin: PropTypes.func.isRequired,
-	OnRegisterSuccess: PropTypes.func.isRequired,
 	dispatch: PropTypes.func.isRequired,
 };
 
 const RegisterLayout = connect()(RegisterLayoutConnected);
 
-export { RegisterLayout };
+export default RegisterLayout;

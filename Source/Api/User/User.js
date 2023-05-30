@@ -1,6 +1,23 @@
 import Axios from 'axios';
 import { GetApiAddress } from '../ApiUtils';
 
+export function GetUser() {
+	return new Promise((resolve, reject) => {
+		GetApiAddress()
+			.then((url) => {
+				Axios.get(`${url}/api/me`)
+					.then((res) => {
+						resolve(res.data);
+					})
+					.catch((err) => {
+						console.warn(err);
+						reject(err);
+					});
+			})
+			.catch((err) => reject(err));
+	});
+}
+
 export function GetViewedMusics(page, maxResults) {
 	return new Promise((resolve, reject) => {
 		GetApiAddress()
@@ -39,7 +56,7 @@ export function GetSuggestion(memory, likeHistRatio, novelty, limit) {
 	return new Promise((resolve, reject) => {
 		GetApiAddress()
 			.then((url) => {
-				Axios.get(`${url}/api/me/suggestions?memory=${page}&likeHistRatio=${likeHistRatio}&novelty=${novelty}&limit=${limit}`)
+				Axios.get(`${url}/api/me/suggestions?memory=${memory}&likeHistRatio=${likeHistRatio}&novelty=${novelty}&limit=${limit}`)
 					.then((res) => {
 						resolve(res.data);
 					})
