@@ -5,7 +5,7 @@ import { BottomNavigation, BottomNavigationTab, Icon } from '@ui-kitten/componen
 import { View } from 'react-native';
 import { AccountScreen } from '../Screen/AccountScreen';
 import SuggestionScreen from '../Screen/SuggestionScreen';
-import { PlayerScreen } from '../Screen/PlayerScreen';
+import PlayerScreen from '../Screen/PlayerScreen';
 import PlayerOverlay from '../Components/Player/PlayerOverlay';
 import TrendingScreen from '../Screen/TrendingScreen';
 
