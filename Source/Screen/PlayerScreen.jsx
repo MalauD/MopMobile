@@ -1,17 +1,24 @@
 import React from 'react';
-import { Layout } from '@ui-kitten/components';
+import { useTheme } from '@ui-kitten/components';
+import { ScrollView, View } from 'react-native';
 import PlayerMain from '../Components/Player/PlayerMain';
 import CurrentPlaylist from '../Components/Player/CurrentPlaylist';
 import { TopBar } from '../Navigator/TopBar';
 
 function PlayerScreen() {
+	const theme = useTheme();
+
 	return (
 		<>
 			<TopBar subtitle="Player" />
-			<Layout style={{ height: '100%' }} level="2">
+			<ScrollView
+				style={{ height: '100%', backgroundColor: theme['background-basic-color-2'] }}
+				level="2"
+			>
 				<PlayerMain />
 				<CurrentPlaylist />
-			</Layout>
+				<View style={{ height: 100 }} />
+			</ScrollView>
 		</>
 	);
 }

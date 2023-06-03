@@ -35,9 +35,11 @@ const useBottomNavigationState = (initialState = 1) => {
 function BottomTabBar({ navigation, state }) {
 	return (
 		<>
-			<View style={{ position: 'relative' }}>
-				<PlayerOverlay navigation={navigation} />
-			</View>
+			{state.index !== 2 && (
+				<View style={{ position: 'relative' }}>
+					<PlayerOverlay navigation={navigation} />
+				</View>
+			)}
 			<BottomNavigation
 				appearance="noIndicator"
 				selectedIndex={state.index}

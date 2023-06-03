@@ -4,6 +4,7 @@ import { StyleSheet, View } from 'react-native';
 import { Spinner, List, ListItem } from '@ui-kitten/components';
 import MusicElement from './GroupItem/MusicElement';
 import { DefaultAccesorySet } from './GroupItem/Accessories/AccessorySets';
+import TrackPlayer from '../Player/TrackPlayer';
 
 const styles = StyleSheet.create({
 	loading: {
@@ -20,6 +21,7 @@ function MusicGroup({
 	isLoading,
 	elementAccessories,
 	highlightedMusics,
+	onMusicElementPress,
 }) {
 	if (isLoading) {
 		return (
@@ -35,11 +37,16 @@ function MusicGroup({
 
 			<List
 				data={musics}
-				renderItem={({ item }) => (
+				renderItem={({ item, index }) => (
 					<MusicElement
 						music={item}
+						index={index}
 						moreAccessories={elementAccessories}
 						highlighted={highlightedMusics.includes(item._id)}
+						onPress={(music, index) => {
+							if (onMusicElementPress) onMusicElementPress(music, index);
+							else TrackPlayer.removeAllAndPlay(music);
+						}}
 					/>
 				)}
 				onEndReachedThreshold={0.5}
@@ -60,6 +67,7 @@ MusicGroup.propTypes = {
 	displayActionsOnSort: PropTypes.bool,
 	highlightedMusics: PropTypes.arrayOf(PropTypes.number),
 	onEndReached: PropTypes.func,
+	onMusicElementPress: PropTypes.func,
 };
 
 MusicGroup.defaultProps = {
@@ -71,6 +79,7 @@ MusicGroup.defaultProps = {
 	displayActionsOnSort: false,
 	highlightedMusics: [],
 	onEndReached: () => {},
+	onMusicElementPress: undefined,
 };
 
 export default MusicGroup;

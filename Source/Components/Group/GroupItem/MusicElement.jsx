@@ -3,10 +3,15 @@ import PropTypes from 'prop-types';
 import { ListItem, Avatar, Icon, Button, Modal } from '@ui-kitten/components';
 import { ImageBackground, View } from 'react-native';
 import LikeMusicButton from '../Extras/LikeMusicButton';
-import TrackPlayer from '../../Player/TrackPlayer';
 
 const MusicElement = memo(
-	({ music: { _id, title, artist_name, image_url }, moreAccessories, highlighted }) => {
+	({
+		music: { _id, title, artist_name, image_url },
+		moreAccessories,
+		onPress,
+		highlighted,
+		index,
+	}) => {
 		const [modalVisible, setModalVisible] = React.useState(false);
 
 		function MusicImage() {
@@ -14,6 +19,10 @@ const MusicElement = memo(
 				<Avatar
 					ImageComponent={ImageBackground}
 					shape="square"
+					style={{
+						borderColor: highlighted ? '#cc506c' : 'transparent',
+						borderWidth: highlighted ? 2 : 0,
+					}}
 					source={image_url ? { uri: image_url } : require('../../../Assets/nomusic.jpg')}
 				/>
 			);
@@ -31,15 +40,6 @@ const MusicElement = memo(
 			);
 		}
 
-		async function PlayMusicNow() {
-			await TrackPlayer.removeAllAndPlay({
-				_id,
-				title,
-				artist_name,
-				image_url,
-			});
-		}
-
 		return (
 			<>
 				<ListItem
@@ -47,9 +47,9 @@ const MusicElement = memo(
 					level="2"
 					title={title}
 					description={artist_name}
-					onPress={() => PlayMusicNow()}
+					onPress={() => onPress({ _id, title, artist_name, image_url }, index)}
 					accessoryLeft={() => <MusicImage />}
-					accessoryRight={moreAccessories.length > 0 ? MoreButton : undefined}
+					accessoryRight={() => <MoreButton />}
 				/>
 				<Modal
 					visible={modalVisible}
@@ -92,6 +92,8 @@ MusicElement.propTypes = {
 	}).isRequired,
 	moreAccessories: PropTypes.arrayOf(PropTypes.func),
 	highlighted: PropTypes.bool,
+	onPress: PropTypes.func.isRequired,
+	index: PropTypes.number.isRequired,
 };
 
 MusicElement.defaultProps = {

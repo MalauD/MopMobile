@@ -5,5 +5,6 @@ import {
 } from './PlayerAccessories';
 
 const DefaultAccesorySet = [PlayAccessory, PlayNextAccessory, AddToCurrentPlaylistAccessory];
+const QueueAccessorySet = [];
 
-export { DefaultAccesorySet };
+export { DefaultAccesorySet, QueueAccessorySet };

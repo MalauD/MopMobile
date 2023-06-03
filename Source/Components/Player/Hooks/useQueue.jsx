@@ -8,7 +8,6 @@ function useQueue() {
 	useEffect(() => {
 		async function fetchQueue() {
 			const currentQueue = await RNTtrackPlayer.getQueue();
-			console.log(currentQueue);
 			setQueue(currentQueue.map((track) => TrackPlayer.trackToApiMusic(track)));
 		}
 		fetchQueue();

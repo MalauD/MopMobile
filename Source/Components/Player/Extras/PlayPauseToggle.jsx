@@ -3,9 +3,9 @@ import { Button, Icon, Spinner } from '@ui-kitten/components';
 import { usePlaybackState, State } from 'react-native-track-player';
 import TrackPlayer from '../TrackPlayer';
 
-function PlayPauseToggle() {
+function PlayPauseToggle(props) {
 	const playerState = usePlaybackState();
-	const isLoading = playerState === State.Buffering;
+	const isLoading = playerState === State.Connecting;
 	const isPlaying = playerState === State.Playing;
 
 	const onButtonPress = async () => {
@@ -27,6 +27,7 @@ function PlayPauseToggle() {
 			onPress={onButtonPress}
 			appearance="ghost"
 			accessoryLeft={(evaProps) => <Icon {...evaProps} name={iconName} />}
+			{...props}
 		/>
 	);
 }
