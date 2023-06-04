@@ -7,9 +7,9 @@ function SuggestionGroup() {
 	const [suggestedMusics, setSuggestedMusics] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
 
-	useEffect(() => {
+	const getSuggestion = () => {
 		setIsLoading(true);
-		GetSuggestion(50, 0.3, 0.1, 40)
+		GetSuggestion(50, 0.3, 0.1, 20)
 			.then((ApiResult) => {
 				setSuggestedMusics(ApiResult);
 				setIsLoading(false);
@@ -17,11 +17,20 @@ function SuggestionGroup() {
 			.catch(() => {
 				setIsLoading(false);
 			});
+	};
+
+	useEffect(() => {
+		getSuggestion();
 	}, []);
 
 	return (
 		<Layout level="2" style={{ height: '100%' }}>
-			<MusicGroup title="Suggestion" isLoading={isLoading} musics={suggestedMusics} />
+			<MusicGroup
+				title="Suggestion"
+				musics={suggestedMusics}
+				onRefresh={getSuggestion}
+				refreshing={isLoading}
+			/>
 		</Layout>
 	);
 }

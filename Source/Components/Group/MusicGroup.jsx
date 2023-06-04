@@ -16,6 +16,8 @@ function MusicGroup({
 	highlightedMusics,
 	onMusicElementPress,
 	hideHeader,
+	onRefresh,
+	refreshing,
 }) {
 	if (isLoading) {
 		return <LoadingLayout />;
@@ -41,6 +43,8 @@ function MusicGroup({
 				)}
 				onEndReachedThreshold={0.5}
 				onEndReached={() => onEndReached()}
+				refreshing={refreshing}
+				onRefresh={onRefresh}
 			/>
 		</>
 	);
@@ -59,6 +63,8 @@ MusicGroup.propTypes = {
 	onEndReached: PropTypes.func,
 	onMusicElementPress: PropTypes.func,
 	hideHeader: PropTypes.bool,
+	onRefresh: PropTypes.func,
+	refreshing: PropTypes.bool,
 };
 
 MusicGroup.defaultProps = {
@@ -72,6 +78,8 @@ MusicGroup.defaultProps = {
 	onEndReached: () => {},
 	onMusicElementPress: undefined,
 	hideHeader: false,
+	onRefresh: undefined,
+	refreshing: undefined,
 };
 
 export default MusicGroup;
