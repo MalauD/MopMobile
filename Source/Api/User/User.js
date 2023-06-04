@@ -7,7 +7,7 @@ export function GetUser() {
 			.then((url) => {
 				Axios.get(`${url}/api/me`)
 					.then((res) => {
-						resolve(res.data);
+						resolve(res.data.Account);
 					})
 					.catch((err) => {
 						console.warn(err);

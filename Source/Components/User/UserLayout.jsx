@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { Layout, Button, Text, ListItem, Icon } from '@ui-kitten/components';
 import { View } from 'react-native';
 import { Header } from './UserExtras/Header';
@@ -21,30 +21,17 @@ function PlaylistIcon(props) {
 }
 
 function UserLayoutConnected({ dispatch, OnLikedMusicsClick, OnViewedMusicsClick }) {
-	const [account, setAccount] = React.useState(undefined);
-
-	React.useEffect(() => {
-		GetAccount()
-			.then((ApiAccount) => {
-				setAccount(ApiAccount);
-				if (ApiAccount) dispatch(LogMyAccount());
-			})
-			.catch(() => {
-				setAccount(undefined);
-				dispatch(LogOutMyAccount());
-			});
-	}, []);
+	const account = useSelector((state) => state.UserAccountReducer);
 
 	const OnLogoutPress = () => {
 		Logout()
 			.then(() => {
-				setAccount(undefined);
 				dispatch(LogOutMyAccount());
 			})
 			.catch(() => {});
 	};
 
-	if (account === undefined) return <LoadingLayout />;
+	if (account === null) return <LoadingLayout />;
 
 	return (
 		<Layout style={{ height: '100%' }} level="2">

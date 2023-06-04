@@ -1,20 +1,22 @@
-import { LOG_ACCOUNT, LOG_OUT_ACCOUNT } from '../Action/AccountAction';
+import { LOG_ACCOUNT, LOG_OUT_ACCOUNT, LIKE_MUSIC, UNLIKE_MUSIC } from '../Action/AccountAction';
 
-const InitialState = {
-	IsLogged: false,
-};
+const InitialState = null;
 
 export default function UserAccountReducer(state = InitialState, action) {
 	switch (action.type) {
 		case LOG_ACCOUNT:
-			return {
-				...state,
-				IsLogged: true,
-			};
+			return action.AccountData;
 		case LOG_OUT_ACCOUNT:
+			return null;
+		case LIKE_MUSIC:
 			return {
 				...state,
-				IsLogged: false,
+				liked_musics: [...state.liked_musics, action.MusicId],
+			};
+		case UNLIKE_MUSIC:
+			return {
+				...state,
+				liked_musics: state.liked_musics.filter((musicId) => musicId !== action.MusicId),
 			};
 		default:
 			return state;

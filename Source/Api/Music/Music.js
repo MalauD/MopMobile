@@ -107,7 +107,7 @@ export function LikeMusic(id) {
 	return new Promise((resolve, reject) => {
 		GetApiAddress()
 			.then((url) => {
-				Axios.get(`${url}/Music/Music/Like/${id}`)
+				Axios.get(`${url}/api/music/${id}/like`)
 					.then(() => {
 						resolve();
 					})

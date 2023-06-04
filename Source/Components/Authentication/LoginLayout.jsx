@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
-import { Layout, Input, Button } from '@ui-kitten/components';
+import { Layout, Input, Button, Icon } from '@ui-kitten/components';
 import { connect } from 'react-redux';
-import { Login } from '../../Api/Authentication/Auth';
+import { TouchableWithoutFeedback } from 'react-native';
+import { GetAccount, Login } from '../../Api/Authentication/Auth';
 import { LogMyAccount } from '../../Action/AccountAction';
 import useServerIp from '../../Hooks/useServerIp';
 
@@ -15,6 +16,7 @@ function LoginLayoutConnected({ ChangeToRegister, dispatch }) {
 		setValue,
 	} = useForm();
 	const [status, SetStatus] = React.useState('primary');
+	const [securedPasswordEntry, setSecuredPasswordEntry] = React.useState(true);
 	const { loading, serverIp } = useServerIp();
 
 	const onSubmit = (data) => {
@@ -22,9 +24,11 @@ function LoginLayoutConnected({ ChangeToRegister, dispatch }) {
 		Login(data)
 			.then((isLoggedIn) => {
 				if (isLoggedIn) {
-					SetStatus('success');
-					dispatch(LogMyAccount());
-					SetStatus('primary');
+					GetAccount().then((account) => {
+						dispatch(LogMyAccount(account));
+						SetStatus('success');
+						SetStatus('primary');
+					});
 				} else {
 					SetStatus('warning');
 				}
@@ -33,6 +37,16 @@ function LoginLayoutConnected({ ChangeToRegister, dispatch }) {
 				SetStatus('danger');
 			});
 	};
+
+	const toggleSecuredPasswordEntry = () => {
+		setSecuredPasswordEntry(!securedPasswordEntry);
+	};
+
+	const renderIcon = (props) => (
+		<TouchableWithoutFeedback onPress={toggleSecuredPasswordEntry}>
+			<Icon {...props} name={securedPasswordEntry ? 'eye-off' : 'eye'} />
+		</TouchableWithoutFeedback>
+	);
 
 	return (
 		<Layout
@@ -68,11 +82,12 @@ function LoginLayoutConnected({ ChangeToRegister, dispatch }) {
 						: ''
 				}
 				textContentType="password"
-				secureTextEntry
+				secureTextEntry={securedPasswordEntry}
 				style={{ marginTop: '1%', marginBottom: '4%' }}
 				onChangeText={(text) => {
 					setValue('password', text);
 				}}
+				accessoryRight={renderIcon}
 				{...register('password', { required: true, minLength: 8 })}
 			/>
 

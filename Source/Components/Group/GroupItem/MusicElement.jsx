@@ -65,7 +65,7 @@ const MusicElement = memo(
 						title={title}
 						description={artist_name}
 						accessoryLeft={() => <MusicImage />}
-						accessoryRight={() => <LikeMusicButton />}
+						accessoryRight={() => <LikeMusicButton music={{ _id }} />}
 					/>
 					{moreAccessories.map((Accessory, i) => (
 						<Accessory

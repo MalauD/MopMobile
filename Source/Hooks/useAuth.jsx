@@ -6,14 +6,14 @@ import { LogMyAccount, LogOutMyAccount } from '../Action/AccountAction';
 export default function useAuth() {
 	const [user, setUser] = useState(null);
 	const [loading, setLoading] = useState(true);
-	const IsLogged = useSelector((state) => state.UserAccountReducer.IsLogged);
+	const IsLogged = useSelector((state) => state.UserAccountReducer !== null);
 	const dispatch = useDispatch();
 
 	useEffect(() => {
 		GetUser()
 			.then((data) => {
 				setUser(data);
-				dispatch(LogMyAccount());
+				dispatch(LogMyAccount(data));
 				setLoading(false);
 			})
 			.catch(() => {
