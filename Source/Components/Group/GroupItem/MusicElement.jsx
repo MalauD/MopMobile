@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
-import { ListItem, Avatar, Icon, Button, Modal } from '@ui-kitten/components';
+import { ListItem, Avatar, Icon, Button, Modal, useTheme } from '@ui-kitten/components';
 import { ImageBackground, View } from 'react-native';
 import LikeMusicButton from '../Extras/LikeMusicButton';
 
@@ -13,16 +13,13 @@ const MusicElement = memo(
 		index,
 	}) => {
 		const [modalVisible, setModalVisible] = React.useState(false);
+		const theme = useTheme();
 
 		function MusicImage() {
 			return (
 				<Avatar
 					ImageComponent={ImageBackground}
 					shape="square"
-					style={{
-						borderColor: highlighted ? '#cc506c' : 'transparent',
-						borderWidth: highlighted ? 2 : 0,
-					}}
 					source={image_url ? { uri: image_url } : require('../../../Assets/nomusic.jpg')}
 				/>
 			);
@@ -43,8 +40,13 @@ const MusicElement = memo(
 		return (
 			<>
 				<ListItem
-					style={{ backgroundColor: 'transparent', paddingTop: 12, paddingBottom: 0 }}
-					level="2"
+					style={{
+						paddingTop: 6,
+						paddingBottom: 6,
+						backgroundColor: 'transparent',
+						borderColor: highlighted ? theme['color-basic-transparent-focus'] : null,
+						borderWidth: highlighted ? 1 : null,
+					}}
 					title={title}
 					description={artist_name}
 					onPress={() => onPress({ _id, title, artist_name, image_url }, index)}

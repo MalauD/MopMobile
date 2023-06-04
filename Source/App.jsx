@@ -11,7 +11,7 @@ import PlayerGuard from './Components/Player/PlayerGuard';
 import useAuth from './Hooks/useAuth';
 import LoadingLayout from './Components/LoadingLayout';
 import AuthStack from './Navigator/AuthStack';
-import RootStack from './Navigator/RootStack';
+import Home from './Navigator/Home';
 
 const store = createStore(
 	RootReducer,
@@ -26,7 +26,7 @@ function MainRouter() {
 	if (loading) return <LoadingLayout />;
 
 	if (!user) return <AuthStack />;
-	return <RootStack />;
+	return <Home />;
 }
 
 export default function App() {

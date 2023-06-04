@@ -8,6 +8,7 @@ import SuggestionScreen from '../Screen/SuggestionScreen';
 import PlayerScreen from '../Screen/PlayerScreen';
 import PlayerOverlay from '../Components/Player/PlayerOverlay';
 import TrendingScreen from '../Screen/TrendingScreen';
+import SearchScreen from '../Screen/SearchScreen';
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
@@ -33,6 +34,8 @@ const useBottomNavigationState = (initialState = 1) => {
 };
 
 function BottomTabBar({ navigation, state }) {
+	const shownState = state.index > 3 ? undefined : state.index;
+
 	return (
 		<>
 			{state.index !== 2 && (
@@ -42,7 +45,7 @@ function BottomTabBar({ navigation, state }) {
 			)}
 			<BottomNavigation
 				appearance="noIndicator"
-				selectedIndex={state.index}
+				selectedIndex={shownState}
 				onSelect={(index) => navigation.navigate(state.routeNames[index])}
 			>
 				<BottomNavigationTab icon={SuggestionIcon} />
@@ -75,6 +78,7 @@ export default function HomeNavigator() {
 			<Screen name="Trending" component={TrendingScreen} />
 			<Screen name="Player" component={PlayerScreen} />
 			<Screen name="Account" component={AccountScreen} />
+			<Screen name="Search" component={SearchScreen} />
 		</Navigator>
 	);
 }

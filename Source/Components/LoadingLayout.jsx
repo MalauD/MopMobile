@@ -4,7 +4,8 @@ import { Layout, Spinner } from '@ui-kitten/components';
 
 const styles = StyleSheet.create({
 	loading: {
-		flex: 1,
+		height: '100%',
+		flexDirection: 'row',
 		justifyContent: 'center',
 		alignItems: 'center',
 	},

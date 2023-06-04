@@ -1,18 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, View } from 'react-native';
-import { Spinner, List, ListItem } from '@ui-kitten/components';
+import { StyleSheet } from 'react-native';
+import { List, ListItem } from '@ui-kitten/components';
 import MusicElement from './GroupItem/MusicElement';
 import { DefaultAccesorySet } from './GroupItem/Accessories/AccessorySets';
 import TrackPlayer from '../Player/TrackPlayer';
-
-const styles = StyleSheet.create({
-	loading: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
-	},
-});
+import LoadingLayout from '../LoadingLayout';
 
 function MusicGroup({
 	title,
@@ -22,18 +15,15 @@ function MusicGroup({
 	elementAccessories,
 	highlightedMusics,
 	onMusicElementPress,
+	hideHeader,
 }) {
 	if (isLoading) {
-		return (
-			<View style={styles.loading}>
-				<Spinner />
-			</View>
-		);
+		return <LoadingLayout />;
 	}
 
 	return (
 		<>
-			<ListItem title={title} level="2" />
+			{hideHeader || <ListItem title={title} level="2" />}
 
 			<List
 				data={musics}
@@ -68,6 +58,7 @@ MusicGroup.propTypes = {
 	highlightedMusics: PropTypes.arrayOf(PropTypes.number),
 	onEndReached: PropTypes.func,
 	onMusicElementPress: PropTypes.func,
+	hideHeader: PropTypes.bool,
 };
 
 MusicGroup.defaultProps = {
@@ -80,6 +71,7 @@ MusicGroup.defaultProps = {
 	highlightedMusics: [],
 	onEndReached: () => {},
 	onMusicElementPress: undefined,
+	hideHeader: false,
 };
 
 export default MusicGroup;
