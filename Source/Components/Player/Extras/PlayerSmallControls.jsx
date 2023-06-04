@@ -33,7 +33,14 @@ function PlayerSmallControls({ onPress }) {
 
 		return (
 			<ListItem
-				style={{ zIndex: 1, paddingBottom: 4, paddingTop: 4, marginTop: 0 }}
+				style={{
+					zIndex: 1,
+					paddingBottom: 6,
+					paddingTop: 6,
+					marginTop: 0,
+					borderBottomLeftRadius: 10,
+					borderBottomRightRadius: 10,
+				}}
 				title={title}
 				description={artist_name}
 				accessoryRight={PlayPauseToggle}

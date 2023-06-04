@@ -20,12 +20,14 @@ function ProgressBar({ eva }) {
 		>
 			<View
 				style={{
+					borderTopLeftRadius: 10,
 					flex: progress.position,
 					backgroundColor: eva.style.ProgressColor,
 				}}
 			/>
 			<View
 				style={{
+					borderTopRightRadius: 10,
 					flex: progress.duration - progress.position,
 					backgroundColor: 'transparent',
 				}}
