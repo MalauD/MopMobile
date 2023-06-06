@@ -20,7 +20,12 @@ function PlaylistIcon(props) {
 	return <Icon {...props} name="list-outline" />;
 }
 
-function UserLayoutConnected({ dispatch, OnLikedMusicsClick, OnViewedMusicsClick }) {
+function UserLayoutConnected({
+	dispatch,
+	OnLikedMusicsClick,
+	OnViewedMusicsClick,
+	OnOwnPlaylistClick,
+}) {
 	const account = useSelector((state) => state.UserAccountReducer);
 
 	const OnLogoutPress = () => {
@@ -48,7 +53,12 @@ function UserLayoutConnected({ dispatch, OnLikedMusicsClick, OnViewedMusicsClick
 				accessoryLeft={HistoryIcon}
 				onPress={OnViewedMusicsClick}
 			/>
-			<ListItem title="My playlists" level="2" accessoryLeft={PlaylistIcon} />
+			<ListItem
+				title="My playlists"
+				level="2"
+				accessoryLeft={PlaylistIcon}
+				onPress={OnOwnPlaylistClick}
+			/>
 			<View style={{ padding: 16 }}>
 				<Button onPress={OnLogoutPress}>Logout</Button>
 			</View>
@@ -60,6 +70,7 @@ UserLayoutConnected.propTypes = {
 	dispatch: PropTypes.func.isRequired,
 	OnLikedMusicsClick: PropTypes.func.isRequired,
 	OnViewedMusicsClick: PropTypes.func.isRequired,
+	OnOwnPlaylistClick: PropTypes.func.isRequired,
 };
 
 const UserLayout = connect()(UserLayoutConnected);
