@@ -35,16 +35,15 @@ function MusicGroup({
 						index={index}
 						moreAccessories={elementAccessories}
 						highlighted={highlightedMusics.includes(item._id)}
-						onPress={(music, index) => {
-							if (onMusicElementPress) onMusicElementPress(music, index);
-							else TrackPlayer.removeAllAndPlay(music);
-						}}
+						onPress={onMusicElementPress}
 					/>
 				)}
-				onEndReachedThreshold={0.5}
+				onEndReachedThreshold={0.1}
 				onEndReached={() => onEndReached()}
+				keyExtractor={(item) => `item_${item._id}`}
 				refreshing={refreshing}
 				onRefresh={onRefresh}
+				initialNumToRender={15}
 			/>
 		</>
 	);
@@ -76,7 +75,7 @@ MusicGroup.defaultProps = {
 	displayActionsOnSort: false,
 	highlightedMusics: [],
 	onEndReached: () => {},
-	onMusicElementPress: undefined,
+	onMusicElementPress: () => {},
 	hideHeader: false,
 	onRefresh: undefined,
 	refreshing: undefined,
