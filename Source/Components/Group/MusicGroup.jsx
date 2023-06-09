@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet } from 'react-native';
 import { List, ListItem } from '@ui-kitten/components';
 import MusicElement from './GroupItem/MusicElement';
 import { DefaultAccesorySet } from './GroupItem/Accessories/AccessorySets';
@@ -16,6 +15,7 @@ function MusicGroup({
 	highlightedMusics,
 	onMusicElementPress,
 	hideHeader,
+	ListHeaderComponent,
 	onRefresh,
 	refreshing,
 }) {
@@ -24,28 +24,30 @@ function MusicGroup({
 	}
 
 	return (
-		<>
-			{hideHeader || <ListItem title={title} level="2" />}
-
-			<List
-				data={musics}
-				renderItem={({ item, index }) => (
-					<MusicElement
-						music={item}
-						index={index}
-						moreAccessories={elementAccessories}
-						highlighted={highlightedMusics.includes(item._id)}
-						onPress={onMusicElementPress}
-					/>
-				)}
-				onEndReachedThreshold={0.1}
-				onEndReached={() => onEndReached()}
-				keyExtractor={(item) => `item_${item._id}`}
-				refreshing={refreshing}
-				onRefresh={onRefresh}
-				initialNumToRender={15}
-			/>
-		</>
+		<List
+			data={musics}
+			renderItem={({ item, index }) => (
+				<MusicElement
+					music={item}
+					index={index}
+					moreAccessories={elementAccessories}
+					highlighted={highlightedMusics.includes(item._id)}
+					onPress={onMusicElementPress}
+				/>
+			)}
+			onEndReachedThreshold={0.1}
+			onEndReached={() => onEndReached()}
+			keyExtractor={(item) => `item_${item._id}`}
+			refreshing={refreshing}
+			onRefresh={onRefresh}
+			initialNumToRender={15}
+			ListHeaderComponent={() => (
+				<>
+					<ListHeaderComponent />
+					{hideHeader || <ListItem title={title} level="2" />}
+				</>
+			)}
+		/>
 	);
 }
 
@@ -64,6 +66,7 @@ MusicGroup.propTypes = {
 	hideHeader: PropTypes.bool,
 	onRefresh: PropTypes.func,
 	refreshing: PropTypes.bool,
+	ListHeaderComponent: PropTypes.elementType,
 };
 
 MusicGroup.defaultProps = {
@@ -75,10 +78,13 @@ MusicGroup.defaultProps = {
 	displayActionsOnSort: false,
 	highlightedMusics: [],
 	onEndReached: () => {},
-	onMusicElementPress: () => {},
+	onMusicElementPress: (music, _) => {
+		TrackPlayer.removeAllAndPlay(music);
+	},
 	hideHeader: false,
 	onRefresh: undefined,
 	refreshing: undefined,
+	ListHeaderComponent: undefined,
 };
 
 export default MusicGroup;
