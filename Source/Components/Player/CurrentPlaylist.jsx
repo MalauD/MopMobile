@@ -4,18 +4,18 @@ import RNTrackPlayer from 'react-native-track-player';
 import MusicGroup from '../Group/MusicGroup';
 import useQueue from './Hooks/useQueue';
 import { QueueAccessorySet } from '../Group/GroupItem/Accessories/AccessorySets';
-import useCurrentTrack from './Hooks/useCurrentTrack';
+import useCurrentTrackIndex from './Hooks/useCurrentTrackIndex';
 
 function CurrentPlaylist({ HeaderComponent }) {
 	const queue = useQueue();
-	const currentTrack = useCurrentTrack();
+	const currentTrackIndex = useCurrentTrackIndex();
 
 	return (
 		<MusicGroup
 			title="Queue"
 			musics={queue}
 			elementAccessories={QueueAccessorySet}
-			highlightedMusics={[currentTrack?._id]}
+			highlightedMusicsIndex={[currentTrackIndex]}
 			onMusicElementPress={(_, index) => {
 				RNTrackPlayer.skip(index);
 			}}
@@ -29,7 +29,7 @@ CurrentPlaylist.propTypes = {
 };
 
 CurrentPlaylist.defaultProps = {
-	HeaderComponent: undefined,
+	HeaderComponent: () => null,
 };
 
 export default CurrentPlaylist;

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { List, ListItem } from '@ui-kitten/components';
+import { Layout, List, ListItem, Text } from '@ui-kitten/components';
 import MusicElement from './GroupItem/MusicElement';
 import { DefaultAccesorySet } from './GroupItem/Accessories/AccessorySets';
 import TrackPlayer from '../Player/TrackPlayer';
@@ -12,7 +12,7 @@ function MusicGroup({
 	musics,
 	isLoading,
 	elementAccessories,
-	highlightedMusics,
+	highlightedMusicsIndex,
 	onMusicElementPress,
 	hideHeader,
 	ListHeaderComponent,
@@ -31,7 +31,7 @@ function MusicGroup({
 					music={item}
 					index={index}
 					moreAccessories={elementAccessories}
-					highlighted={highlightedMusics.includes(item._id)}
+					highlighted={highlightedMusicsIndex.includes(index)}
 					onPress={onMusicElementPress}
 				/>
 			)}
@@ -47,6 +47,21 @@ function MusicGroup({
 					{hideHeader || <ListItem title={title} level="2" />}
 				</>
 			)}
+			ListFooterComponent={() => (
+				<Layout level="2" style={{ height: 250 }}>
+					<Text
+						style={{
+							textAlign: 'center',
+							marginTop: 5,
+							fontFamily: 'pacifico',
+							fontSize: 20,
+						}}
+					>
+						{musics.length === 0 ? 'No musics :(' : "That's all folks!"}
+					</Text>
+				</Layout>
+			)}
+			sti
 		/>
 	);
 }
@@ -60,7 +75,7 @@ MusicGroup.propTypes = {
 	allowSort: PropTypes.bool,
 	alwaysSort: PropTypes.bool,
 	displayActionsOnSort: PropTypes.bool,
-	highlightedMusics: PropTypes.arrayOf(PropTypes.number),
+	highlightedMusicsIndex: PropTypes.arrayOf(PropTypes.number),
 	onEndReached: PropTypes.func,
 	onMusicElementPress: PropTypes.func,
 	hideHeader: PropTypes.bool,
@@ -76,7 +91,7 @@ MusicGroup.defaultProps = {
 	allowSort: false,
 	alwaysSort: false,
 	displayActionsOnSort: false,
-	highlightedMusics: [],
+	highlightedMusicsIndex: [],
 	onEndReached: () => {},
 	onMusicElementPress: (music, _) => {
 		TrackPlayer.removeAllAndPlay(music);
@@ -84,7 +99,7 @@ MusicGroup.defaultProps = {
 	hideHeader: false,
 	onRefresh: undefined,
 	refreshing: undefined,
-	ListHeaderComponent: undefined,
+	ListHeaderComponent: () => null,
 };
 
 export default MusicGroup;
