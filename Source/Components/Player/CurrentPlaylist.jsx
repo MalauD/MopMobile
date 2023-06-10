@@ -15,6 +15,7 @@ function CurrentPlaylist({ HeaderComponent }) {
 			title="Queue"
 			musics={queue}
 			elementAccessories={QueueAccessorySet}
+			groupAccessories={QueueAccessorySet}
 			highlightedMusicsIndex={[currentTrackIndex]}
 			onMusicElementPress={(_, index) => {
 				RNTrackPlayer.skip(index);

@@ -5,6 +5,7 @@ import MusicElement from './GroupItem/MusicElement';
 import { DefaultAccesorySet } from './GroupItem/Accessories/AccessorySets';
 import TrackPlayer from '../Player/TrackPlayer';
 import LoadingLayout from '../LoadingLayout';
+import { DefaultGroupAccesorySet } from './Accessories/AccessorySets';
 
 function MusicGroup({
 	title,
@@ -12,6 +13,7 @@ function MusicGroup({
 	musics,
 	isLoading,
 	elementAccessories,
+	groupAccessories,
 	highlightedMusicsIndex,
 	onMusicElementPress,
 	hideHeader,
@@ -44,7 +46,20 @@ function MusicGroup({
 			ListHeaderComponent={() => (
 				<>
 					<ListHeaderComponent />
-					{hideHeader || <ListItem title={title} level="2" />}
+					{hideHeader || (
+						<ListItem
+							title={title}
+							level="2"
+							style={{ paddingVertical: 4, minHeight: 40 }}
+							accessoryRight={() => (
+								<>
+									{groupAccessories.map((Accessory, index) => (
+										<Accessory key={index} musics={musics} />
+									))}
+								</>
+							)}
+						/>
+					)}
 				</>
 			)}
 			ListFooterComponent={() => (
@@ -72,6 +87,7 @@ MusicGroup.propTypes = {
 	title: PropTypes.string.isRequired,
 	actions: PropTypes.func,
 	elementAccessories: PropTypes.arrayOf(PropTypes.func),
+	groupAccessories: PropTypes.arrayOf(PropTypes.func),
 	allowSort: PropTypes.bool,
 	alwaysSort: PropTypes.bool,
 	displayActionsOnSort: PropTypes.bool,
@@ -88,6 +104,7 @@ MusicGroup.defaultProps = {
 	isLoading: false,
 	actions: null,
 	elementAccessories: DefaultAccesorySet,
+	groupAccessories: DefaultGroupAccesorySet,
 	allowSort: false,
 	alwaysSort: false,
 	displayActionsOnSort: false,

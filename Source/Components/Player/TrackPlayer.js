@@ -87,6 +87,12 @@ const TrackPlayer = {
 		await TrackPlayer.play();
 	},
 
+	removeAllAndPlayMultiple: async (tracksFromApi) => {
+		await RNTrackPlayer.reset();
+		await TrackPlayer.addTracks(tracksFromApi);
+		await TrackPlayer.play();
+	},
+
 	playNext: async (trackFromApi) => {
 		const track = TrackPlayer.apiMusicToTrack(trackFromApi);
 		const nextIndex = await RNTrackPlayer.getCurrentTrack() + 1;
