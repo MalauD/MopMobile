@@ -9,6 +9,7 @@ import PlayerScreen from '../Screen/PlayerScreen';
 import PlayerOverlay from '../Components/Player/PlayerOverlay';
 import TrendingScreen from '../Screen/TrendingScreen';
 import SearchScreen from '../Screen/SearchScreen';
+import UserPlaylistsScreen from '../Screen/UserPlaylistsScreen';
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
@@ -79,6 +80,7 @@ export default function HomeNavigator() {
 			<Screen name="Player" component={PlayerScreen} />
 			<Screen name="Account" component={AccountScreen} />
 			<Screen name="Search" component={SearchScreen} />
+			<Screen name="UserPlaylists" component={UserPlaylistsScreen} />
 		</Navigator>
 	);
 }

@@ -87,7 +87,7 @@ const PlaylistElement = memo(
 
 PlaylistElement.propTypes = {
 	playlist: PropTypes.shape({
-		_id: PropTypes.number.isRequired,
+		_id: PropTypes.string.isRequired,
 		name: PropTypes.string.isRequired,
 		creator: PropTypes.string.isRequired,
 		public: PropTypes.bool.isRequired,

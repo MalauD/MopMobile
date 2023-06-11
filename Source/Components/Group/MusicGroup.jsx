@@ -76,7 +76,6 @@ function MusicGroup({
 					</Text>
 				</Layout>
 			)}
-			sti
 		/>
 	);
 }

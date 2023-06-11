@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { List, ListItem } from '@ui-kitten/components';
+import { Layout, List, ListItem, Text } from '@ui-kitten/components';
 import PlaylistElement from './GroupItem/PlaylistElement';
 import LoadingLayout from '../LoadingLayout';
 
@@ -41,13 +41,27 @@ function PlaylistGroup({
 				onEndReached={() => onEndReached()}
 				refreshing={refreshing}
 				onRefresh={onRefresh}
+				ListFooterComponent={() => (
+					<Layout level="2" style={{ height: 250 }}>
+						<Text
+							style={{
+								textAlign: 'center',
+								marginTop: 5,
+								fontFamily: 'pacifico',
+								fontSize: 20,
+							}}
+						>
+							{playlists.length === 0 ? 'No playlists :(' : "That's all folks!"}
+						</Text>
+					</Layout>
+				)}
 			/>
 		</>
 	);
 }
 
 PlaylistGroup.propTypes = {
-	playlists: PropTypes.arrayOf(PropTypes.shape({ _id: PropTypes.number.isRequired })).isRequired,
+	playlists: PropTypes.arrayOf(PropTypes.shape({ _id: PropTypes.string.isRequired })).isRequired,
 	isLoading: PropTypes.bool,
 	title: PropTypes.string.isRequired,
 	actions: PropTypes.func,
@@ -72,7 +86,7 @@ PlaylistGroup.defaultProps = {
 	displayActionsOnSort: false,
 	highlightedPlaylists: [],
 	onEndReached: () => {},
-	onPlaylistElementPress: undefined,
+	onPlaylistElementPress: () => {},
 	hideHeader: false,
 	onRefresh: undefined,
 	refreshing: undefined,

@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
-import { ListItem, Avatar, Icon, Button, Modal, useTheme } from '@ui-kitten/components';
-import { ImageBackground, View } from 'react-native';
+import { ListItem, Icon, Button, Modal, useTheme } from '@ui-kitten/components';
+import { View } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import LikeMusicButton from '../Extras/LikeMusicButton';
 
