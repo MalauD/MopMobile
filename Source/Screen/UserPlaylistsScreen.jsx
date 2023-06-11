@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Layout } from '@ui-kitten/components';
 import PropTypes from 'prop-types';
+import { useNavigation } from '@react-navigation/native';
 import PlaylistGroup from '../Components/Group/PlaylistGroup';
 import { GetPlaylistsOf } from '../Api/Music/Playlist';
 import { TopBar } from '../Navigator/TopBar';
@@ -9,6 +10,8 @@ function UserPlaylistsScreen({ route }) {
 	const {
 		user: { _id, username },
 	} = route.params;
+	const navigation = useNavigation();
+
 	const [playlists, setPlaylists] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
 	// const [currentPage, setCurrentPage] = useState(1);
@@ -39,6 +42,14 @@ function UserPlaylistsScreen({ route }) {
 			});
 	}, []);
 
+	const onPlaylistElementPress = (playlist) => {
+		navigation.navigate('Playlist', {
+			playlistId: playlist._id,
+			playlistName: playlist.name,
+			playlistCreatorUsername: username,
+		});
+	};
+
 	return (
 		<>
 			<TopBar />
@@ -47,6 +58,7 @@ function UserPlaylistsScreen({ route }) {
 					title={`Playlists of ${username}`}
 					playlists={playlists}
 					isLoading={isLoading}
+					onPlaylistElementPress={onPlaylistElementPress}
 					// onEndReached={getPlaylists}
 				/>
 			</Layout>

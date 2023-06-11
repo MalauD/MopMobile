@@ -17,3 +17,21 @@ export function GetPlaylistsOf(id, page, maxResults) {
 			.catch((err) => reject(err));
 	});
 }
+
+export function GetPlaylist(id) {
+	return new Promise((resolve, reject) => {
+		GetApiAddress()
+			.then((url) => {
+				Axios.get(`${url}/api/playlist/${id}`)
+					.then((res) => {
+						resolve(res.data);
+					})
+					.catch((err) => { 
+						console.warn(err);
+						reject(err);
+					});
+			})
+			.catch((err) => reject(err));
+	});
+
+}
