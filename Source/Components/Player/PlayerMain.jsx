@@ -1,21 +1,13 @@
 import React from 'react';
 import { View, Image } from 'react-native';
-import { Button, Icon, Text, useTheme } from '@ui-kitten/components';
-import { Slider } from '@miblanchard/react-native-slider';
-import RNTrackPlayer, { useProgress } from 'react-native-track-player';
+import { Button, Icon, Text } from '@ui-kitten/components';
+import RNTrackPlayer from 'react-native-track-player';
 import useCurrentTrack from './Hooks/useCurrentTrack';
 import PlayPauseToggle from './Extras/PlayPauseToggle';
-
-function secondsToText(seconds) {
-	const minutes = Math.floor(seconds / 60);
-	const remainingSeconds = Math.floor(seconds % 60);
-	return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
-}
+import PlayerEditableProgressBar from './Extras/PlayerEditableProgressBar';
 
 export default function PlayerMain() {
 	const currentTrack = useCurrentTrack();
-	const progress = useProgress(200);
-	const theme = useTheme();
 
 	if (currentTrack) {
 		const { image_url, title, artist_name } = currentTrack;
@@ -40,34 +32,7 @@ export default function PlayerMain() {
 					{artist_name}
 				</Text>
 
-				<Slider
-					containerStyle={{ marginHorizontal: 20, marginVertical: 0 }}
-					thumbTintColor={theme['color-info-500']}
-					maximumTrackTintColor={theme['color-primary-transparent-600']}
-					minimumTrackTintColor={theme['color-info-500']}
-					minimumValue={0}
-					maximumValue={progress.duration}
-					value={progress.position}
-					onSlidingComplete={async (value) => {
-						await RNTrackPlayer.seekTo(value[0]);
-					}}
-				/>
-
-				<View
-					style={{
-						flexDirection: 'row',
-						justifyContent: 'space-between',
-						marginBottom: 0,
-						marginHorizontal: 20,
-					}}
-				>
-					<Text category="s1" appearance="hint" style={{ alignSelf: 'center' }}>
-						{secondsToText(progress.position)}
-					</Text>
-					<Text category="s1" appearance="hint" style={{ alignSelf: 'center' }}>
-						{secondsToText(progress.duration)}
-					</Text>
-				</View>
+				<PlayerEditableProgressBar />
 
 				<View
 					style={{
