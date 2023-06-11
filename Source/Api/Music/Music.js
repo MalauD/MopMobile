@@ -129,3 +129,24 @@ export function GetMusicUrl(id) {
 			.catch((err) => reject(err));
 	});
 }
+
+export function GetRelatedMusics(MusicIds, ExcludeIds, limit) {
+	return new Promise((resolve, reject) => {
+		GetApiAddress()
+			.then((url) => {
+				Axios.post(`${url}/api/related/musics`, {
+					Exclude: ExcludeIds,
+					MusicIds,
+					Limit: limit,
+				})
+					.then((data) => {
+						resolve(data.RelatedMusics);
+					})
+					.catch((err) => {
+						console.warn(err);
+						reject(err);
+					});
+			})
+			.catch((err) => reject(err));
+	});
+}

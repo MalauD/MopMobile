@@ -1,35 +1,35 @@
-import TrackPlayer, { Event } from 'react-native-track-player';
+import RNTrackPlayer, { Event } from 'react-native-track-player';
 
 export default async function PlaybackService() {
-  TrackPlayer.addEventListener(Event.RemotePause, () => {
-    TrackPlayer.pause();
+  RNTrackPlayer.addEventListener(Event.RemotePause, () => {
+    RNTrackPlayer.pause();
   });
 
-  TrackPlayer.addEventListener(Event.RemotePlay, () => {
-    TrackPlayer.play();
+  RNTrackPlayer.addEventListener(Event.RemotePlay, () => {
+    RNTrackPlayer.play();
   });
 
-  TrackPlayer.addEventListener(Event.RemoteNext, () => {
-    TrackPlayer.skipToNext();
+  RNTrackPlayer.addEventListener(Event.RemoteNext, () => {
+    RNTrackPlayer.skipToNext();
   });
 
-  TrackPlayer.addEventListener(Event.RemotePrevious, () => {
-    TrackPlayer.skipToPrevious();
+  RNTrackPlayer.addEventListener(Event.RemotePrevious, () => {
+    RNTrackPlayer.skipToPrevious();
   });
 
-  TrackPlayer.addEventListener(Event.RemoteJumpForward, async (event) => {
-    TrackPlayer.seekBy(event.interval);
+  RNTrackPlayer.addEventListener(Event.RemoteJumpForward, async (event) => {
+    RNTrackPlayer.seekBy(event.interval);
   });
 
-  TrackPlayer.addEventListener(Event.RemoteJumpBackward, async (event) => {
-    TrackPlayer.seekBy(-event.interval);
+  RNTrackPlayer.addEventListener(Event.RemoteJumpBackward, async (event) => {
+    RNTrackPlayer.seekBy(-event.interval);
   });
 
-  TrackPlayer.addEventListener(Event.RemoteSeek, (event) => {
-    TrackPlayer.seekTo(event.position);
+  RNTrackPlayer.addEventListener(Event.RemoteSeek, (event) => {
+    RNTrackPlayer.seekTo(event.position);
   });
 
-  TrackPlayer.addEventListener(Event.RemoteDuck, async (event) => {
-	TrackPlayer.setVolume(event.ducking ? 0.5 : 1);
+  RNTrackPlayer.addEventListener(Event.RemoteDuck, async (event) => {
+    RNTrackPlayer.setVolume(event.ducking ? 0.5 : 1);
   });
 }

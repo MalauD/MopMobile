@@ -99,7 +99,12 @@ const TrackPlayer = {
 		const nextIndex = await RNTrackPlayer.getCurrentTrack() + 1;
 		console.log(nextIndex);
 		await RNTrackPlayer.add(track, nextIndex);
-	}
+	},
+
+	getQueue: async () => {
+		const queue = await RNTrackPlayer.getQueue();
+		return queue.map((track) => TrackPlayer.trackToApiMusic(track));
+	},
 }
 
 export default TrackPlayer;
