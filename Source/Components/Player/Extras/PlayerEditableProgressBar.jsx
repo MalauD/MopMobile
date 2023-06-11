@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { Easing, View } from 'react-native';
 import { Text, useTheme } from '@ui-kitten/components';
 import { Slider } from '@miblanchard/react-native-slider';
 import RNTrackPlayer, { useProgress } from 'react-native-track-player';
@@ -38,6 +38,11 @@ export default function PlayerEditableProgressBar() {
 				minimumValue={0}
 				animateTransitions
 				animationType="timing"
+				animationConfig={{
+					duration: 1000,
+					useNativeDriver: true,
+					easing: Easing.linear,
+				}}
 				maximumValue={progress.duration}
 				value={progress.position}
 				onSlidingComplete={(value) => {
