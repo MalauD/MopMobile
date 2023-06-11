@@ -17,7 +17,7 @@ function PlayPauseToggle(props) {
 	};
 
 	if (isLoading) {
-		return <Spinner size="small" />;
+		return <Spinner {...props} />;
 	}
 
 	const iconName = isPlaying ? 'pause-circle-outline' : 'play-circle-outline';

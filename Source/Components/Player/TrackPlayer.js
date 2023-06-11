@@ -35,7 +35,8 @@ const TrackPlayer = {
 			compactCapabilities,
 			android: {
 				appKilledPlaybackBehavior: AppKilledPlaybackBehavior.StopPlaybackAndRemoveNotification,
-			}
+			},
+			notificationCapabilities: capabilities,
 		});
 	},
 

@@ -16,7 +16,7 @@
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		6B9D7DC95D034FBCA7FD7CF3 /* pacifico.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 35D0B87424D140E691227F61 /* pacifico.ttf */; };
 		48CD0CF7770B4321BD72DD52 /* defaultavatar.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F8146C1B0A4548F9932E91ED /* defaultavatar.jpg */; };
-		C6DADB191AA943E8957C9BE0 /* nomusic.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E273C92B5A6C422AB0675D96 /* nomusic.jpg */; };
+		F0B7C0E41A2D487289D29DCD /* nomusic.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2B9271AC35EA4F4BA119FBB5 /* nomusic.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,7 +49,7 @@
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		35D0B87424D140E691227F61 /* pacifico.ttf */ = {isa = PBXFileReference; name = "pacifico.ttf"; path = "../Source/Fonts/pacifico.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		F8146C1B0A4548F9932E91ED /* defaultavatar.jpg */ = {isa = PBXFileReference; name = "defaultavatar.jpg"; path = "../Source/Assets/defaultavatar.jpg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		E273C92B5A6C422AB0675D96 /* nomusic.jpg */ = {isa = PBXFileReference; name = "nomusic.jpg"; path = "../Source/Assets/nomusic.jpg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		2B9271AC35EA4F4BA119FBB5 /* nomusic.jpg */ = {isa = PBXFileReference; name = "nomusic.jpg"; path = "../Source/Assets/nomusic.jpg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -160,7 +160,7 @@
 			children = (
 				35D0B87424D140E691227F61 /* pacifico.ttf */,
 				F8146C1B0A4548F9932E91ED /* defaultavatar.jpg */,
-				E273C92B5A6C422AB0675D96 /* nomusic.jpg */,
+				2B9271AC35EA4F4BA119FBB5 /* nomusic.jpg */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -264,7 +264,7 @@
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				6B9D7DC95D034FBCA7FD7CF3 /* pacifico.ttf in Resources */,
 				48CD0CF7770B4321BD72DD52 /* defaultavatar.jpg in Resources */,
-				C6DADB191AA943E8957C9BE0 /* nomusic.jpg in Resources */,
+				F0B7C0E41A2D487289D29DCD /* nomusic.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
