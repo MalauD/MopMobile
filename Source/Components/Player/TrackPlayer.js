@@ -52,12 +52,14 @@ const TrackPlayer = {
 
 	addTrack: async (trackFromApi) => {
 		await RNTrackPlayer.add(TrackPlayer.apiMusicToTrack(trackFromApi));
+		await RNTrackPlayer.play();
 		TrackPlayer.Emitter.emit('tracksAdded', [trackFromApi]);
 	},
 
 	addTracks: async (tracksFromApi) => {
 		const tracks = tracksFromApi.map((track) => TrackPlayer.apiMusicToTrack(track));
 		await RNTrackPlayer.add(tracks);
+		await RNTrackPlayer.play();
 		TrackPlayer.Emitter.emit('tracksAdded', tracksFromApi);
 	},
 
