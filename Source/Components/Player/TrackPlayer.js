@@ -1,4 +1,4 @@
-import RNTrackPlayer, {Capability, AppKilledPlaybackBehavior} from 'react-native-track-player';
+import RNTrackPlayer, { Capability, AppKilledPlaybackBehavior } from 'react-native-track-player';
 import EventEmitter from 'events';
 import { GetApiAddress, getCookie } from '../../Api/ApiUtils';
 
@@ -16,27 +16,19 @@ const TrackPlayer = {
 
 		await RNTrackPlayer.setupPlayer();
 
-		const capabilities = [
-			Capability.Play,
-			Capability.Pause,
-			Capability.SkipToNext,
-			Capability.SkipToPrevious,
-			Capability.Stop,
-			Capability.SeekTo,
-		];
-
-		const compactCapabilities = [
-			Capability.Play,
-			Capability.Pause,
-		];
-
 		await RNTrackPlayer.updateOptions({
-			capabilities,
-			compactCapabilities,
+			capabilities: [
+				Capability.Play,
+				Capability.Pause,
+				Capability.SkipToNext,
+				Capability.SkipToPrevious,
+				Capability.SeekTo,
+			],
+			compactCapabilities: [Capability.Play, Capability.Pause, Capability.SkipToNext],
 			android: {
-				appKilledPlaybackBehavior: AppKilledPlaybackBehavior.StopPlaybackAndRemoveNotification,
+				appKilledPlaybackBehavior:
+					AppKilledPlaybackBehavior.StopPlaybackAndRemoveNotification,
 			},
-			notificationCapabilities: capabilities,
 		});
 	},
 
@@ -48,7 +40,7 @@ const TrackPlayer = {
 		artwork: apiMusic.image_url,
 		headers: {
 			Cookie: `mop-id=${TrackPlayer.MopIdCookie}`,
-		}
+		},
 	}),
 
 	trackToApiMusic: (track) => ({
@@ -96,7 +88,7 @@ const TrackPlayer = {
 
 	playNext: async (trackFromApi) => {
 		const track = TrackPlayer.apiMusicToTrack(trackFromApi);
-		const nextIndex = await RNTrackPlayer.getCurrentTrack() + 1;
+		const nextIndex = (await RNTrackPlayer.getCurrentTrack()) + 1;
 		console.log(nextIndex);
 		await RNTrackPlayer.add(track, nextIndex);
 	},
@@ -105,6 +97,6 @@ const TrackPlayer = {
 		const queue = await RNTrackPlayer.getQueue();
 		return queue.map((track) => TrackPlayer.trackToApiMusic(track));
 	},
-}
+};
 
 export default TrackPlayer;

@@ -134,13 +134,16 @@ export function GetRelatedMusics(MusicIds, ExcludeIds, limit) {
 	return new Promise((resolve, reject) => {
 		GetApiAddress()
 			.then((url) => {
-				Axios.post(`${url}/api/related/musics`, {
+				const data = {
 					Exclude: ExcludeIds,
 					MusicIds,
 					Limit: limit,
-				})
-					.then((data) => {
-						resolve(data.RelatedMusics);
+				};
+				Axios.post(`${url}/api/related/musics`, data)
+					.then((res) => {
+
+						console.log(res);
+						resolve(res.data.RelatedMusics);
 					})
 					.catch((err) => {
 						console.warn(err);

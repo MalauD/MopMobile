@@ -1,4 +1,6 @@
 import RNTrackPlayer, { Event } from 'react-native-track-player';
+import TrackPlayer from './Components/Player/TrackPlayer';
+import { GetRelatedMusics } from './Api/Music/Music';
 
 export default async function PlaybackService() {
   RNTrackPlayer.addEventListener(Event.RemotePause, () => {
@@ -31,5 +33,14 @@ export default async function PlaybackService() {
 
   RNTrackPlayer.addEventListener(Event.RemoteDuck, async (event) => {
     RNTrackPlayer.setVolume(event.ducking ? 0.5 : 1);
+  });
+
+  RNTrackPlayer.addEventListener(Event.PlaybackQueueEnded, async (event) => {
+    const queue = await TrackPlayer.getQueue();
+    const queueIds = queue.map((m) => m._id);
+    console.log(queueIds);
+    const related = await GetRelatedMusics(queueIds, [], 20);
+    console.log(related);
+    // await TrackPlayer.addTracks(related);
   });
 }
