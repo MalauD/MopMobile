@@ -1,11 +1,11 @@
 import Axios from 'axios';
 import { GetApiAddress } from '../ApiUtils';
 
-export function GetMusicById(id) {
+export function GetAlbumById(id) {
 	return new Promise((resolve, reject) => {
 		GetApiAddress()
 			.then((url) => {
-				Axios.get(`${url}/Music/Music/id/${id}`)
+				Axios.get(`${url}/api/album/${id}`)
 					.then((res) => {
 						resolve(res.data);
 					})
@@ -18,79 +18,11 @@ export function GetMusicById(id) {
 	});
 }
 
-export function GetAlbumById(id, getAll = false) {
+export function GetArtistById(id) {
 	return new Promise((resolve, reject) => {
 		GetApiAddress()
 			.then((url) => {
-				Axios.get(`${url}/Music/Album/id/${id}${getAll ? '?mode=all' : ''}`)
-					.then((res) => {
-						resolve(res.data);
-					})
-					.catch((err) => {
-						console.warn(err);
-						reject(err);
-					});
-			})
-			.catch((err) => reject(err));
-	});
-}
-
-export function GetArtistById(id, getAll = false) {
-	return new Promise((resolve, reject) => {
-		GetApiAddress()
-			.then((url) => {
-				Axios.get(`${url}/Music/Artist/id/${id}${getAll ? '?mode=all' : ''}`)
-					.then((res) => {
-						resolve(res.data);
-					})
-					.catch((err) => {
-						console.warn(err);
-						reject(err);
-					});
-			})
-			.catch((err) => reject(err));
-	});
-}
-
-export function GetFilePathById(id, noLog = false) {
-	return new Promise((resolve, reject) => {
-		GetApiAddress()
-			.then((url) => {
-				Axios.get(`${url}/Music/Music/get/${id}?noLog=${noLog}`)
-					.then((res) => {
-						resolve(`${url}/${res.data.FilePath}`);
-					})
-					.catch((err) => {
-						console.warn(err);
-						reject(err);
-					});
-			})
-			.catch((err) => reject(err));
-	});
-}
-
-export function GetLikedMusics() {
-	return new Promise((resolve, reject) => {
-		GetApiAddress()
-			.then((url) => {
-				Axios.get(`${url}/User/LikedMusics`)
-					.then((res) => {
-						resolve(res.data);
-					})
-					.catch((err) => {
-						console.warn(err);
-						reject(err);
-					});
-			})
-			.catch((err) => reject(err));
-	});
-}
-
-export function GetViewedMusics() {
-	return new Promise((resolve, reject) => {
-		GetApiAddress()
-			.then((url) => {
-				Axios.get(`${url}/User/ViewedMusics`)
+				Axios.get(`${url}/api/artist/${id}`)
 					.then((res) => {
 						resolve(res.data);
 					})

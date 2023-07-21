@@ -10,7 +10,7 @@ function ArtistElement({ artist: { _id, name, picture }, moreAccessories, onPres
 	function ArtistImage() {
 		return (
 			<FastImage
-				style={{ width: 40, height: 40 }}
+				style={{ width: 40, height: 40, borderRadius: 20 }}
 				source={{
 					uri: picture,
 				}}

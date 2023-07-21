@@ -1,66 +1,44 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-
+import React, { useEffect, useState } from 'react';
+import propTypes from 'prop-types';
 import { Layout } from '@ui-kitten/components';
-import { CONTEXT_SEARCH } from '../Components/Group/Extras/Constants';
+import MusicGroup from '../Components/Group/MusicGroup';
 import { TopBar } from '../Navigator/TopBar';
 import { GetAlbumById } from '../Api/Music/Music';
-import MusicGroup from '../Components/Group/MusicGroup';
 
-class AlbumScreen extends React.Component {
-	static propTypes = {
-		route: PropTypes.shape({
-			params: PropTypes.shape({
-				AlbumId: PropTypes.string.isRequired,
-			}).isRequired,
-		}).isRequired,
-	};
+function AlbumScreen({ route }) {
+	const { albumId, albumName } = route.params;
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			IsFetchingMusicsOfAlbum: false,
-			MusicsOfAlbumIds: undefined,
-			AlbumName: 'Loading',
-		};
-	}
+	const [albumMusics, setAlbumMusics] = useState([]);
+	const [isLoading, setIsLoading] = useState(false);
 
-	componentDidMount() {
-		const { route } = this.props;
+	useEffect(() => {
+		setIsLoading(true);
+		GetAlbumById(albumId)
+			.then((res) => {
+				setAlbumMusics(res.musics);
+				setIsLoading(false);
+			})
+			.catch(() => {});
+	}, [albumId]);
 
-		this.setState({
-			IsFetchingMusicsOfAlbum: true,
-			MusicsOfAlbumIds: undefined,
-		});
-
-		GetAlbumById(route.params.AlbumId, true).then((ApiResult) => {
-			this.setState({
-				IsFetchingMusicsOfAlbum: false,
-				MusicsOfAlbumIds: ApiResult.MusicsId,
-				AlbumName: ApiResult.Name,
-			});
-		});
-	}
-
-	render() {
-		const { IsFetchingMusicsOfAlbum, MusicsOfAlbumIds, AlbumName } = this.state;
-
-		return (
-			<>
-				<TopBar subtitle="Album" />
-				<Layout level="2" style={{ height: '100%' }}>
-					{/* <MusicGroup
-						DetailType={AlbumName}
-						ShowDetailType
-						ContextType={CONTEXT_SEARCH}
-						MusicIds={MusicsOfAlbumIds}
-						IsFetching={IsFetchingMusicsOfAlbum}
-						Count={100}
-					/> */}
-				</Layout>
-			</>
-		);
-	}
+	return (
+		<>
+			<TopBar />
+			<Layout level="2" style={{ height: '100%' }}>
+				<MusicGroup title={albumName} musics={albumMusics} isLoading={isLoading} />
+			</Layout>
+		</>
+	);
 }
+
+AlbumScreen.propTypes = {
+	route: propTypes.shape({
+		params: propTypes.shape({
+			albumId: propTypes.number.isRequired,
+			albumName: propTypes.string.isRequired,
+			albumCover: propTypes.string.isRequired,
+		}).isRequired,
+	}).isRequired,
+};
 
 export default AlbumScreen;

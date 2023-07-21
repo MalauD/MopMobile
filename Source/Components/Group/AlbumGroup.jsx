@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Layout, List, ListItem, Text } from '@ui-kitten/components';
 import AlbumElement from './GroupItem/AlbumElement';
 import { DefaultAccesorySet } from './GroupItem/Accessories/AccessorySets';
-import TrackPlayer from '../Player/TrackPlayer';
 import LoadingLayout from '../LoadingLayout';
 import { DefaultGroupAccesorySet } from './Accessories/AccessorySets';
 
@@ -105,9 +104,7 @@ AlbumGroup.defaultProps = {
 	alwaysSort: false,
 	displayActionsOnSort: false,
 	onEndReached: () => {},
-	onAlbumElementPress: (Album, _) => {
-		TrackPlayer.removeAllAndPlay(Album);
-	},
+	onAlbumElementPress: () => {},
 	hideHeader: false,
 	onRefresh: undefined,
 	refreshing: undefined,

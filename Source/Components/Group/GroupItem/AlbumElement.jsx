@@ -10,7 +10,7 @@ function AlbumElement({ album: { _id, name, cover }, moreAccessories, onPress, i
 	function AlbumImage() {
 		return (
 			<FastImage
-				style={{ width: 40, height: 40 }}
+				style={{ width: 40, height: 40, borderRadius: 10 }}
 				source={{
 					uri: cover,
 				}}

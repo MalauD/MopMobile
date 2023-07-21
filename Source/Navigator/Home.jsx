@@ -11,6 +11,8 @@ import TrendingScreen from '../Screen/TrendingScreen';
 import SearchScreen from '../Screen/SearchScreen';
 import UserPlaylistsScreen from '../Screen/UserPlaylistsScreen';
 import PlaylistScreen from '../Screen/PlaylistScreen';
+import AlbumScreen from '../Screen/AlbumScreen';
+import ArtistScreen from '../Screen/ArtistScreen';
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
@@ -83,6 +85,8 @@ export default function HomeNavigator() {
 			<Screen name="Search" component={SearchScreen} />
 			<Screen name="UserPlaylists" component={UserPlaylistsScreen} />
 			<Screen name="Playlist" component={PlaylistScreen} />
+			<Screen name="Album" component={AlbumScreen} />
+			<Screen name="Artist" component={ArtistScreen} />
 		</Navigator>
 	);
 }

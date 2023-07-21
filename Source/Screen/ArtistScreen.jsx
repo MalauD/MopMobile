@@ -1,66 +1,96 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Layout } from '@ui-kitten/components';
+import React, { useEffect, useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import propTypes from 'prop-types';
+import { Layout, Tab, TabView } from '@ui-kitten/components';
+import AlbumGroup from '../Components/Group/AlbumGroup';
 import { TopBar } from '../Navigator/TopBar';
 import { GetArtistById } from '../Api/Music/Music';
-import AlbumGroup from '../Components/Group/AlbumGroup';
+import MusicGroup from '../Components/Group/MusicGroup';
+import ArtistGroup from '../Components/Group/ArtistGroup';
+import ArtistElement from '../Components/Group/GroupItem/ArtistElement';
 
-class ArtistScreen extends React.Component {
-	static propTypes = {
-		route: PropTypes.shape({
-			params: PropTypes.shape({
-				ArtistId: PropTypes.string.isRequired,
-			}).isRequired,
-		}).isRequired,
-		navigation: PropTypes.shape({}).isRequired,
-	};
+function ArtistScreen({ route }) {
+	const navigation = useNavigation();
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			IsFetchingAlbumsOfArtist: false,
-			AlbumsOfArtistIds: undefined,
-			ArtistName: 'Loading',
-		};
-	}
+	const { artistId, artistName, artistPicture } = route.params;
+	const [selectedIndex, setSelectedIndex] = useState(0);
+	const [artistAlbums, setArtistAlbums] = useState([]);
+	const [artistTopTracks, setArtistTopTracks] = useState([]);
+	const [artistRelatedArtists, setArtistRelatedArtists] = useState([]);
+	const [isLoading, setIsLoading] = useState(false);
 
-	componentDidMount() {
-		const { route } = this.props;
+	useEffect(() => {
+		setIsLoading(true);
+		GetArtistById(artistId)
+			.then((res) => {
+				setArtistAlbums(res.albums);
+				setArtistTopTracks(res.top_tracks);
+				setArtistRelatedArtists(res.related_artists);
+				setIsLoading(false);
+			})
+			.catch(() => {});
+	}, [artistId]);
 
-		this.setState({
-			IsFetchingAlbumsOfArtist: true,
-			AlbumsOfArtistIds: undefined,
-		});
+	return (
+		<>
+			<TopBar />
 
-		GetArtistById(route.params.ArtistId, true).then((ApiResult) => {
-			this.setState({
-				IsFetchingAlbumsOfArtist: false,
-				AlbumsOfArtistIds: ApiResult.AlbumsId,
-				ArtistName: ApiResult.Name,
-			});
-		});
-	}
-
-	render() {
-		const { navigation } = this.props;
-		const { IsFetchingAlbumsOfArtist, AlbumsOfArtistIds, ArtistName } = this.state;
-
-		return (
-			<>
-				<TopBar subtitle="Artist" />
-				<Layout level="2" style={{ height: '100%' }}>
-					<AlbumGroup
-						DetailType={ArtistName}
-						ShowDetailType
-						AlbumIds={AlbumsOfArtistIds}
-						IsFetching={IsFetchingAlbumsOfArtist}
-						Count={5}
-						navigation={navigation}
-					/>
-				</Layout>
-			</>
-		);
-	}
+			<Layout level="1" style={{ height: '100%' }}>
+				<ArtistElement
+					artist={{ _id: artistId, name: artistName, picture: artistPicture }}
+					onPress={() => {}}
+					index={0}
+				/>
+				<TabView
+					selectedIndex={selectedIndex}
+					onSelect={(index) => setSelectedIndex(index)}
+					shouldLoadComponent={(index) => index === selectedIndex}
+				>
+					<Tab title="Top tracks">
+						<MusicGroup hideHeader musics={artistTopTracks} isLoading={isLoading} />
+					</Tab>
+					<Tab title="Albums">
+						<AlbumGroup
+							hideHeader
+							albums={artistAlbums}
+							isLoading={isLoading}
+							onAlbumElementPress={(album, _) => {
+								navigation.navigate('Album', {
+									albumId: album._id,
+									albumName: album.name,
+									albumCover: album.cover,
+								});
+							}}
+						/>
+					</Tab>
+					<Tab title="Related artists">
+						<ArtistGroup
+							hideHeader
+							artists={artistRelatedArtists}
+							isLoading={isLoading}
+							onArtistElementPress={(artist, _) => {
+								navigation.navigate('Artist', {
+									artistId: artist._id,
+									artistName: artist.name,
+									artistPicture: artist.picture,
+								});
+							}}
+						/>
+					</Tab>
+				</TabView>
+			</Layout>
+		</>
+	);
 }
+
+ArtistScreen.propTypes = {
+	route: propTypes.shape({
+		params: propTypes.shape({
+			artistId: propTypes.number.isRequired,
+			artistName: propTypes.string.isRequired,
+			artistPicture: propTypes.string.isRequired,
+		}).isRequired,
+	}).isRequired,
+};
 
 export default ArtistScreen;

@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react';
+import { useNavigation } from '@react-navigation/native';
 import PropTypes from 'prop-types';
 import { Icon, Input, Layout, Button, TabView, Tab } from '@ui-kitten/components';
 import { View, StyleSheet } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import debounce from 'lodash.debounce';
 import MusicGroup from '../Components/Group/MusicGroup';
 import AlbumGroup from '../Components/Group/AlbumGroup';
@@ -107,6 +107,8 @@ function indexToSearchType(index) {
 }
 
 export default function SearchScreen() {
+	const navigation = useNavigation();
+
 	const [selectedIndex, setSelectedIndex] = useState(0);
 	const [isLoading, setIsLoading] = useState(false);
 	const [musics, setMusics] = useState([]);
@@ -170,6 +172,13 @@ export default function SearchScreen() {
 							hideHeader
 							albums={albums}
 							isLoading={isLoading}
+							onAlbumElementPress={(album, _) => {
+								navigation.navigate('Album', {
+									albumId: album._id,
+									albumName: album.name,
+									albumCover: album.cover,
+								});
+							}}
 						/>
 					</Tab>
 					<Tab title="Artists">
@@ -178,6 +187,13 @@ export default function SearchScreen() {
 							hideHeader
 							artists={artists}
 							isLoading={isLoading}
+							onArtistElementPress={(artist, _) => {
+								navigation.navigate('Artist', {
+									artistId: artist._id,
+									artistName: artist.name,
+									artistPicture: artist.picture,
+								});
+							}}
 						/>
 					</Tab>
 				</TabView>
