@@ -5,7 +5,9 @@ import { View, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import debounce from 'lodash.debounce';
 import MusicGroup from '../Components/Group/MusicGroup';
-import { SearchMusic } from '../Api/Music/Search';
+import AlbumGroup from '../Components/Group/AlbumGroup';
+import ArtistGroup from '../Components/Group/ArtistGroup';
+import { SearchMusic, SearchAlbum, SearchArtist } from '../Api/Music/Search';
 
 function SearchIcon(props) {
 	return <Icon {...props} name="search" />;
@@ -34,7 +36,7 @@ const styles = StyleSheet.create({
 	},
 });
 
-function SearchTopBar({ onQuickSearch, onSearch }) {
+function SearchTopBar({ onQuickSearch, onSearch, searchType }) {
 	const [searchValue, setSearchValue] = useState('');
 	const inputRef = useRef(null);
 
@@ -53,12 +55,22 @@ function SearchTopBar({ onQuickSearch, onSearch }) {
 		};
 	}, []);
 
+	useEffect(() => {
+		if (searchValue !== '') {
+			if (inputRef.current.isFocused()) {
+				onQuickSearch(searchValue);
+			} else {
+				onSearch(searchValue);
+			}
+		}
+	}, [searchType]);
+
 	return (
 		<View style={styles.container}>
 			<BackButton />
 			<Input
 				style={{ flex: 1 }}
-				placeholder="Search for musics"
+				placeholder={`Search for ${searchType}`}
 				accessoryLeft={SearchIcon}
 				returnKeyType="search"
 				onSubmitEditing={() => onSearch(searchValue)}
@@ -78,34 +90,66 @@ function SearchTopBar({ onQuickSearch, onSearch }) {
 SearchTopBar.propTypes = {
 	onQuickSearch: PropTypes.func.isRequired,
 	onSearch: PropTypes.func.isRequired,
+	searchType: PropTypes.string.isRequired,
 };
+
+function indexToSearchType(index) {
+	switch (index) {
+		case 0:
+			return 'musics';
+		case 1:
+			return 'albums';
+		case 2:
+			return 'artists';
+		default:
+			return 'musics';
+	}
+}
 
 export default function SearchScreen() {
 	const [selectedIndex, setSelectedIndex] = useState(0);
 	const [isLoading, setIsLoading] = useState(false);
 	const [musics, setMusics] = useState([]);
+	const [albums, setAlbums] = useState([]);
+	const [artists, setArtists] = useState([]);
+
+	const getSearch = () => {
+		switch (selectedIndex) {
+			case 0:
+				return { SearchFunc: SearchMusic, SetFunc: setMusics, prev: musics };
+			case 1:
+				return { SearchFunc: SearchAlbum, SetFunc: setAlbums, prev: albums };
+			case 2:
+				return { SearchFunc: SearchArtist, SetFunc: setArtists, prev: artists };
+			default:
+				return {};
+		}
+	};
 
 	const onQuickSearch = (searchValue) => {
 		setIsLoading(true);
-		SearchMusic(searchValue, 14, 0, true).then((res) => {
-			setMusics(res);
+		const { SearchFunc, SetFunc } = getSearch();
+		SearchFunc(searchValue, 14, 0, true).then((res) => {
+			SetFunc(res);
 			setIsLoading(false);
 		});
 	};
 
 	const onSearch = (searchValue) => {
-		SearchMusic(searchValue, 14, 0, false).then((res) => {
-			setMusics([
-				...musics,
-				...res.filter((music) => !musics.some((m) => m.id === music.id)),
-			]);
+		const { SearchFunc, SetFunc, prev } = getSearch();
+		SearchFunc(searchValue, 14, 0, false).then((res) => {
+			SetFunc([...prev, ...res.filter((d1) => !prev.some((d2) => d1.id === d2.id))]);
 		});
 	};
 
 	return (
 		<>
 			<Layout level="1">
-				<SearchTopBar onQuickSearch={onQuickSearch} onSearch={onSearch} />
+				<SearchTopBar
+					onQuickSearch={onQuickSearch}
+					onSearch={onSearch}
+					searchType={indexToSearchType(selectedIndex)}
+				/>
 			</Layout>
 			<Layout level="2" style={{ height: '100%' }}>
 				<TabView
@@ -117,6 +161,22 @@ export default function SearchScreen() {
 							title="Musics"
 							hideHeader
 							musics={musics}
+							isLoading={isLoading}
+						/>
+					</Tab>
+					<Tab title="Albums">
+						<AlbumGroup
+							title="Albums"
+							hideHeader
+							albums={albums}
+							isLoading={isLoading}
+						/>
+					</Tab>
+					<Tab title="Artists">
+						<ArtistGroup
+							title="Artists"
+							hideHeader
+							artists={artists}
 							isLoading={isLoading}
 						/>
 					</Tab>

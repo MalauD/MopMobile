@@ -18,11 +18,11 @@ export function SearchMusic(query, maxResults = 10, page = 0, noIndex = false) {
 	});
 }
 
-export function SearchAlbum(query) {
+export function SearchAlbum(query, maxResults = 10, page = 0, noIndex = false) {
 	return new Promise((resolve, reject) => {
 		GetApiAddress()
 			.then((url) => {
-				Axios.get(`${url}/Music/Search/Album/Name/${query}`)
+				Axios.get(`${url}/api/search/album/${query}?maxResults=${maxResults}&page=${page}&noIndex=${noIndex}`)
 					.then((res) => {
 						resolve(res.data);
 					})
@@ -35,11 +35,11 @@ export function SearchAlbum(query) {
 	});
 }
 
-export function SearchArtist(query) {
+export function SearchArtist(query, maxResults = 10, page = 0, noIndex = false) {
 	return new Promise((resolve, reject) => {
 		GetApiAddress()
 			.then((url) => {
-				Axios.get(`${url}/Music/Search/Artist/Name/${query}`)
+				Axios.get(`${url}/api/search/artist/${query}?maxResults=${maxResults}&page=${page}&noIndex=${noIndex}`)
 					.then((res) => {
 						resolve(res.data);
 					})

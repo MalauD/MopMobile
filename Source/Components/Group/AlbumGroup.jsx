@@ -1,96 +1,117 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, View } from 'react-native';
-import { Spinner, List, ListItem } from '@ui-kitten/components';
-import { AlbumItem } from './GroupItem/AlbumItem';
+import { Layout, List, ListItem, Text } from '@ui-kitten/components';
+import AlbumElement from './GroupItem/AlbumElement';
+import { DefaultAccesorySet } from './GroupItem/Accessories/AccessorySets';
+import TrackPlayer from '../Player/TrackPlayer';
+import LoadingLayout from '../LoadingLayout';
+import { DefaultGroupAccesorySet } from './Accessories/AccessorySets';
 
-const styles = StyleSheet.create({
-	loading: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
-	},
-});
-
-class AlbumGroup extends React.Component {
-	static propTypes = {
-		IsFetching: PropTypes.bool.isRequired,
-		DetailType: PropTypes.string,
-		AlbumIds: PropTypes.arrayOf(PropTypes.string),
-		ShowDetailType: PropTypes.bool,
-		Reverse: PropTypes.bool,
-		Count: PropTypes.number,
-		navigation: PropTypes.shape({
-			navigate: PropTypes.func,
-		}).isRequired,
-	};
-
-	static defaultProps = {
-		DetailType: undefined,
-		AlbumIds: undefined,
-		ShowDetailType: false,
-		Reverse: false,
-		Count: 10,
-	};
-
-	constructor(props) {
-		super(props);
-		const { Count } = this.props;
-		this.state = {
-			Count,
-		};
+function AlbumGroup({
+	title,
+	onEndReached,
+	albums,
+	isLoading,
+	elementAccessories,
+	groupAccessories,
+	onAlbumElementPress,
+	hideHeader,
+	ListHeaderComponent,
+	onRefresh,
+	refreshing,
+}) {
+	if (isLoading) {
+		return <LoadingLayout />;
 	}
 
-	OnItemClick = (AlbumId) => {
-		const { navigation } = this.props;
-		navigation.navigate('Album', { AlbumId });
-	};
-
-	render() {
-		const { Count } = this.state;
-		const { IsFetching, DetailType, AlbumIds, ShowDetailType, Reverse } = this.props;
-
-		if (IsFetching) {
-			return (
+	return (
+		<List
+			data={albums}
+			renderItem={({ item, index }) => (
+				<AlbumElement
+					album={item}
+					index={index}
+					moreAccessories={elementAccessories}
+					onPress={onAlbumElementPress}
+				/>
+			)}
+			onEndReachedThreshold={0.1}
+			onEndReached={() => onEndReached()}
+			keyExtractor={(item) => `item_${item._id}`}
+			refreshing={refreshing}
+			onRefresh={onRefresh}
+			initialNumToRender={15}
+			ListHeaderComponent={() => (
 				<>
-					{!ShowDetailType || <ListItem title={DetailType} level="2" />}
-					<View style={styles.loading}>
-						<Spinner />
-					</View>
-				</>
-			);
-		}
-
-		if (AlbumIds) {
-			const Albums = AlbumIds.map((id) => ({ id }));
-			const AlbumsReversed = Reverse ? [...Albums].reverse() : Albums;
-			AlbumsReversed.length = Count;
-
-			const AlbumItemWithEvent = (props) => (
-				<AlbumItem {...props} OnItemClick={this.OnItemClick} />
-			);
-
-			return (
-				<>
-					{!ShowDetailType || (
-						<ListItem title={DetailType} level="2" onPress={this.onDetailPress} />
+					<ListHeaderComponent />
+					{hideHeader || (
+						<ListItem
+							title={title}
+							level="2"
+							style={{ paddingVertical: 4, minHeight: 40 }}
+							accessoryRight={() => (
+								<>
+									{groupAccessories.map((Accessory, index) => (
+										<Accessory key={index} albums={albums} />
+									))}
+								</>
+							)}
+						/>
 					)}
-
-					<List
-						data={AlbumsReversed.filter((el) => el != null).map((el, order) => ({
-							...el,
-							order,
-						}))}
-						renderItem={AlbumItemWithEvent}
-						onEndReachedThreshold={0.5}
-						onEndReached={() => this.setState((prev) => ({ Count: prev.Count + 30 }))}
-					/>
 				</>
-			);
-		}
-
-		return <></>;
-	}
+			)}
+			ListFooterComponent={() => (
+				<Layout level="2" style={{ height: 250 }}>
+					<Text
+						style={{
+							textAlign: 'center',
+							marginTop: 5,
+							fontFamily: 'pacifico',
+							fontSize: 20,
+						}}
+					>
+						{albums.length === 0 ? 'No Albums :(' : "That's all folks!"}
+					</Text>
+				</Layout>
+			)}
+		/>
+	);
 }
+
+AlbumGroup.propTypes = {
+	albums: PropTypes.arrayOf(PropTypes.shape({ _id: PropTypes.number.isRequired })).isRequired,
+	isLoading: PropTypes.bool,
+	title: PropTypes.string.isRequired,
+	actions: PropTypes.func,
+	elementAccessories: PropTypes.arrayOf(PropTypes.func),
+	groupAccessories: PropTypes.arrayOf(PropTypes.func),
+	allowSort: PropTypes.bool,
+	alwaysSort: PropTypes.bool,
+	displayActionsOnSort: PropTypes.bool,
+	onEndReached: PropTypes.func,
+	onAlbumElementPress: PropTypes.func,
+	hideHeader: PropTypes.bool,
+	onRefresh: PropTypes.func,
+	refreshing: PropTypes.bool,
+	ListHeaderComponent: PropTypes.elementType,
+};
+
+AlbumGroup.defaultProps = {
+	isLoading: false,
+	actions: null,
+	elementAccessories: DefaultAccesorySet,
+	groupAccessories: DefaultGroupAccesorySet,
+	allowSort: false,
+	alwaysSort: false,
+	displayActionsOnSort: false,
+	onEndReached: () => {},
+	onAlbumElementPress: (Album, _) => {
+		TrackPlayer.removeAllAndPlay(Album);
+	},
+	hideHeader: false,
+	onRefresh: undefined,
+	refreshing: undefined,
+	ListHeaderComponent: () => null,
+};
 
 export default AlbumGroup;
