@@ -20,7 +20,7 @@ function AccountScreen() {
 					OnLikedMusicsClick={() => setSelectedIndex(1)}
 					OnViewedMusicsClick={() => setSelectedIndex(2)}
 					OnOwnPlaylistClick={() =>
-						navigation.navigate('UserPlaylists', {
+						navigation.push('UserPlaylists', {
 							user: currentUser,
 						})
 					}

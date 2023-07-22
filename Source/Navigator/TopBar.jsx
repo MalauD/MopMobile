@@ -12,7 +12,7 @@ function SearchButton() {
 			appearance="ghost"
 			status="basic"
 			style={{ paddingHorizontal: 0, paddingVertical: 0 }}
-			onPress={() => navigation.navigate('Search')}
+			onPress={() => navigation.push('Search')}
 			accessoryLeft={(evaProps) => <Icon {...evaProps} name="search" />}
 		/>
 	);

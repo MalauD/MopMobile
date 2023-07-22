@@ -40,11 +40,7 @@ function SearchTopBar({ onQuickSearch, onSearch, searchType }) {
 	const [searchValue, setSearchValue] = useState('');
 	const inputRef = useRef(null);
 
-	const handleChange = (newSearchValue) => {
-		onQuickSearch(newSearchValue);
-	};
-
-	const debounceFunc = useMemo(() => debounce(handleChange, 500), []);
+	const debounceFunc = useMemo(() => debounce(onQuickSearch, 500), []);
 
 	useEffect(() => {
 		setTimeout(() => {
@@ -173,7 +169,7 @@ export default function SearchScreen() {
 							albums={albums}
 							isLoading={isLoading}
 							onAlbumElementPress={(album, _) => {
-								navigation.navigate('Album', {
+								navigation.push('Album', {
 									albumId: album._id,
 									albumName: album.name,
 									albumCover: album.cover,
@@ -188,7 +184,7 @@ export default function SearchScreen() {
 							artists={artists}
 							isLoading={isLoading}
 							onArtistElementPress={(artist, _) => {
-								navigation.navigate('Artist', {
+								navigation.push('Artist', {
 									artistId: artist._id,
 									artistName: artist.name,
 									artistPicture: artist.picture,

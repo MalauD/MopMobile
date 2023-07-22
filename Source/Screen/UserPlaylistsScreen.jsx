@@ -43,7 +43,7 @@ function UserPlaylistsScreen({ route }) {
 	}, []);
 
 	const onPlaylistElementPress = (playlist) => {
-		navigation.navigate('Playlist', {
+		navigation.push('Playlist', {
 			playlistId: playlist._id,
 			playlistName: playlist.name,
 			playlistCreatorUsername: username,

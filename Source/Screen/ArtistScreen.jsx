@@ -55,7 +55,7 @@ function ArtistScreen({ route }) {
 							albums={artistAlbums}
 							isLoading={isLoading}
 							onAlbumElementPress={(album, _) => {
-								navigation.navigate('Album', {
+								navigation.push('Album', {
 									albumId: album._id,
 									albumName: album.name,
 									albumCover: album.cover,
@@ -69,7 +69,7 @@ function ArtistScreen({ route }) {
 							artists={artistRelatedArtists}
 							isLoading={isLoading}
 							onArtistElementPress={(artist, _) => {
-								navigation.navigate('Artist', {
+								navigation.push('Artist', {
 									artistId: artist._id,
 									artistName: artist.name,
 									artistPicture: artist.picture,

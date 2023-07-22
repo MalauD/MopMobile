@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { BottomNavigation, BottomNavigationTab, Icon } from '@ui-kitten/components';
+import { BottomNavigation, BottomNavigationTab, Icon, useTheme } from '@ui-kitten/components';
 import { View } from 'react-native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { AccountScreen } from '../Screen/AccountScreen';
 import SuggestionScreen from '../Screen/SuggestionScreen';
 import PlayerScreen from '../Screen/PlayerScreen';
@@ -15,6 +16,7 @@ import AlbumScreen from '../Screen/AlbumScreen';
 import ArtistScreen from '../Screen/ArtistScreen';
 
 const { Navigator, Screen } = createBottomTabNavigator();
+const HomeStack = createNativeStackNavigator();
 
 function SuggestionIcon(props) {
 	return <Icon {...props} name="bulb-outline" />;
@@ -71,22 +73,50 @@ BottomTabBar.propTypes = {
 	}).isRequired,
 };
 
+function HomeStackWarper({ component }) {
+	return (
+		<HomeStack.Navigator screenOptions={{ headerShown: false }}>
+			<HomeStack.Screen name="RootStack" component={component} />
+			<HomeStack.Screen name="Search" component={SearchScreen} />
+			<HomeStack.Screen name="UserPlaylists" component={UserPlaylistsScreen} />
+			<HomeStack.Screen name="Playlist" component={PlaylistScreen} />
+			<HomeStack.Screen name="Album" component={AlbumScreen} />
+			<HomeStack.Screen name="Artist" component={ArtistScreen} />
+		</HomeStack.Navigator>
+	);
+}
+
+HomeStackWarper.propTypes = {
+	component: PropTypes.func.isRequired,
+};
+
+function WrappedSuggestionScreen() {
+	return <HomeStackWarper component={SuggestionScreen} />;
+}
+function WrappedTrendingScreen() {
+	return <HomeStackWarper component={TrendingScreen} />;
+}
+function WrappedPlayerScreen() {
+	return <HomeStackWarper component={PlayerScreen} />;
+}
+function WrappedAccountScreen() {
+	return <HomeStackWarper component={AccountScreen} />;
+}
+
 export default function HomeNavigator() {
+	const theme = useTheme();
+
 	return (
 		<Navigator
 			{...useBottomNavigationState()}
 			tabBar={(props) => <BottomTabBar {...props} />}
 			screenOptions={() => ({ headerShown: false })}
+			sceneContainerStyle={{ backgroundColor: theme['background-basic-color-1'] }}
 		>
-			<Screen name="Suggestion" component={SuggestionScreen} />
-			<Screen name="Trending" component={TrendingScreen} />
-			<Screen name="Player" component={PlayerScreen} />
-			<Screen name="Account" component={AccountScreen} />
-			<Screen name="Search" component={SearchScreen} />
-			<Screen name="UserPlaylists" component={UserPlaylistsScreen} />
-			<Screen name="Playlist" component={PlaylistScreen} />
-			<Screen name="Album" component={AlbumScreen} />
-			<Screen name="Artist" component={ArtistScreen} />
+			<Screen name="Suggestion" component={WrappedSuggestionScreen} />
+			<Screen name="Trending" component={WrappedTrendingScreen} />
+			<Screen name="Player" component={WrappedPlayerScreen} />
+			<Screen name="Account" component={WrappedAccountScreen} />
 		</Navigator>
 	);
 }
