@@ -217,15 +217,6 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
-
-        release {
-            if (project.hasProperty('MOP_UPLOAD_STORE_FILE')) {
-                storeFile file(MOP_UPLOAD_STORE_FILE)
-                storePassword MOP_UPLOAD_STORE_PASSWORD
-                keyAlias MOP_UPLOAD_KEY_ALIAS
-                keyPassword MOP_UPLOAD_KEY_PASSWORD
-            }
-        }
     }
     buildTypes {
         debug {
