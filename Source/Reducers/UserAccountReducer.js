@@ -2,6 +2,8 @@ import { LOG_ACCOUNT, LOG_OUT_ACCOUNT, LIKE_MUSIC, UNLIKE_MUSIC } from '../Actio
 
 const InitialState = null;
 
+/* eslint-disable default-param-last */
+/* eslint-disable react/destructuring-assignment */
 export default function UserAccountReducer(state = InitialState, action) {
 	switch (action.type) {
 		case LOG_ACCOUNT:

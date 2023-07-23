@@ -13,6 +13,7 @@ const initialState = {
 	},
 };
 
+/* eslint-disable default-param-last */
 export default function PlayerReducer(state = initialState, action) {
 	switch (action.type) {
 		case CHANGE_PLAYING_MUSIC:
