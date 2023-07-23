@@ -34,4 +34,12 @@ export default async function PlaybackService() {
   RNTrackPlayer.addEventListener(Event.RemoteDuck, async (event) => {
     RNTrackPlayer.setVolume(event.ducking ? 0.5 : 1);
   });
+
+  RNTrackPlayer.addEventListener(Event.PlaybackQueueEnded, async (event) => {
+    const queue = await TrackPlayer.getQueue();
+    const queueIds = queue.map((m) => m._id);
+    const related = await GetRelatedMusics(queueIds, queueIds, 20);
+    await TrackPlayer.addTracks(related);
+    await TrackPlayer.play();
+  });
 }

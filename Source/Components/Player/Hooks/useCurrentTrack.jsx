@@ -18,12 +18,16 @@ function useCurrentTrack() {
 
 	useTrackPlayerEvents([Event.PlaybackTrackChanged], async (event) => {
 		if (event.type === Event.PlaybackTrackChanged) {
-			const track = await RNTtrackPlayer.getTrack(event.nextTrack);
-			if (track) {
-				const music = TrackPlayer.trackToApiMusic(track);
-				setCurrentTrack(music);
-			} else {
+			if (event.nextTrack == null) {
 				setCurrentTrack(undefined);
+			} else {
+				const track = await RNTtrackPlayer.getTrack(event.nextTrack);
+				if (track) {
+					const music = TrackPlayer.trackToApiMusic(track);
+					setCurrentTrack(music);
+				} else {
+					setCurrentTrack(undefined);
+				}
 			}
 		}
 	});
