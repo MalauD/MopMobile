@@ -1,87 +1,54 @@
 import Axios from 'axios';
-import { GetApiAddress } from '../ApiUtils';
 
 export function GetAlbumById(id) {
 	return new Promise((resolve, reject) => {
-		GetApiAddress()
-			.then((url) => {
-				Axios.get(`${url}/api/album/${id}`)
-					.then((res) => {
-						resolve(res.data);
-					})
-					.catch((err) => {
-						console.warn(err);
-						reject(err);
-					});
+		Axios.get(`/api/album/${id}`)
+			.then((res) => {
+				resolve(res.data);
 			})
-			.catch((err) => reject(err));
+			.catch((err) => {
+				reject(err);
+			});
 	});
 }
 
 export function GetArtistById(id) {
 	return new Promise((resolve, reject) => {
-		GetApiAddress()
-			.then((url) => {
-				Axios.get(`${url}/api/artist/${id}`)
-					.then((res) => {
-						resolve(res.data);
-					})
-					.catch((err) => {
-						console.warn(err);
-						reject(err);
-					});
+		Axios.get(`/api/artist/${id}`)
+			.then((res) => {
+				resolve(res.data);
 			})
-			.catch((err) => reject(err));
+			.catch((err) => {
+				reject(err);
+			});
 	});
 }
 
 export function LikeMusic(id) {
 	return new Promise((resolve, reject) => {
-		GetApiAddress()
-			.then((url) => {
-				Axios.get(`${url}/api/music/${id}/like`)
-					.then(() => {
-						resolve();
-					})
-					.catch((err) => {
-						console.warn(err);
-						reject(err);
-					});
+		Axios.get(`/api/music/${id}/like`)
+			.then(() => {
+				resolve();
 			})
-			.catch((err) => reject(err));
-	});
-}
-
-export function GetMusicUrl(id) {
-	return new Promise((resolve, reject) => {
-		GetApiAddress()
-			.then((url) => {
-				resolve(`${url}/music/${id}/audio`);
-			})
-			.catch((err) => reject(err));
+			.catch((err) => {
+				reject(err);
+			});
 	});
 }
 
 export function GetRelatedMusics(MusicIds, ExcludeIds, limit) {
 	return new Promise((resolve, reject) => {
-		GetApiAddress()
-			.then((url) => {
-				const data = {
-					Exclude: ExcludeIds,
-					MusicIds,
-					Limit: limit,
-				};
-				Axios.post(`${url}/api/related/musics`, data)
-					.then((res) => {
-
-						console.log(res);
-						resolve(res.data.RelatedMusics);
-					})
-					.catch((err) => {
-						console.warn(err);
-						reject(err);
-					});
+		const data = {
+			Exclude: ExcludeIds,
+			MusicIds,
+			Limit: limit,
+		};
+		Axios.post(`/api/related/musics`, data)
+			.then((res) => {
+				resolve(res.data.RelatedMusics);
 			})
-			.catch((err) => reject(err));
+			.catch((err) => {
+				reject(err);
+			});
 	});
 }

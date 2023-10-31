@@ -1,5 +1,6 @@
 import RNTrackPlayer, { Capability, AppKilledPlaybackBehavior } from 'react-native-track-player';
 import EventEmitter from 'events';
+import Axios from 'axios';
 import { GetApiAddress, getCookie } from '../../Api/ApiUtils';
 
 const TrackPlayer = {
@@ -9,8 +10,6 @@ const TrackPlayer = {
 
 	init: async () => {
 		TrackPlayer.Emitter = new EventEmitter();
-
-		TrackPlayer.BaseMusicUrl = await GetApiAddress();
 
 		TrackPlayer.MopIdCookie = await getCookie('mop-id');
 
@@ -34,7 +33,7 @@ const TrackPlayer = {
 
 	apiMusicToTrack: (apiMusic) => ({
 		id: apiMusic._id,
-		url: `${TrackPlayer.BaseMusicUrl}/api/music/${apiMusic._id}/audio`,
+		url: `${Axios.defaults.baseURL}/api/music/${apiMusic._id}/audio`,
 		title: apiMusic.title,
 		artist: apiMusic.artist_name,
 		artwork: apiMusic.image_url,

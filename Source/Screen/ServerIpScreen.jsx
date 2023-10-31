@@ -44,7 +44,10 @@ export default function ServerIpScreen() {
 				value={ipfield}
 				label="Mop Server Ip"
 				placeholder="Enter a valid ip address"
-				onChangeText={setIpField}
+				onChangeText={(v) => {
+					setIpField(v);
+					setIpfieldStatus('primary');
+				}}
 				status={ipfieldStatus}
 			/>
 

@@ -1,70 +1,49 @@
 import Axios from 'axios';
-import { GetApiAddress } from '../ApiUtils';
 
 export function Login(data) {
 	return new Promise((resolve, reject) => {
-		GetApiAddress()
-			.then((url) => {
-				Axios.post(`${url}/api/login`, data)
-					.then((res) => {
-						resolve(res.data.success);
-					})
-					.catch((err) => {
-						console.warn(err);
-						reject(Error('Cannot login'));
-					});
+		Axios.post(`/api/login`, data)
+			.then((res) => {
+				resolve(res.data.success);
 			})
-			.catch((err) => reject(err));
+			.catch(() => {
+				reject(Error('Cannot login'));
+			});
 	});
 }
 
 export function Register(data) {
 	return new Promise((resolve, reject) => {
-		GetApiAddress()
-			.then((url) => {
-				Axios.post(`${url}/api/register`, data)
-					.then((res) => {
-						resolve(res.data.success);
-					})
-					.catch((err) => {
-						console.warn(err);
-						reject(Error('Cannot login'));
-					});
+		Axios.post(`/api/register`, data)
+			.then((res) => {
+				resolve(res.data.success);
 			})
-			.catch((err) => reject(err));
+			.catch(() => {
+				reject(Error('Cannot login'));
+			});
 	});
 }
 
 export function Logout() {
 	return new Promise((resolve, reject) => {
-		GetApiAddress()
-			.then((url) => {
-				Axios.post(`${url}/api/logout`)
-					.then(() => {
-						resolve();
-					})
-					.catch((err) => {
-						console.warn(err);
-						reject(Error('Cannot logout'));
-					});
+		Axios.post(`/api/logout`)
+			.then(() => {
+				resolve();
 			})
-			.catch((err) => reject(err));
+			.catch(() => {
+				reject(Error('Cannot logout'));
+			});
 	});
 }
 
 export function GetAccount() {
 	return new Promise((resolve, reject) => {
-		GetApiAddress()
-			.then((url) => {
-				Axios.get(`${url}/api/me`)
-					.then((res) => {
-						resolve(res.data.Account);
-					})
-					.catch((err) => {
-						console.warn(err);
-						reject(Error('Cannot get account'));
-					});
+		Axios.get(`/api/me`)
+			.then((res) => {
+				resolve(res.data.Account);
 			})
-			.catch((err) => reject(err));
+			.catch(() => {
+				reject(Error('Cannot get account'));
+			});
 	});
 }
