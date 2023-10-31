@@ -22,18 +22,14 @@ function accessoryRight() {
 	return <SearchButton />;
 }
 
-export function TopBar({ title, subtitle, logged }) {
+export default function TopBar({ logged }) {
 	return <TopNavigation title={AppName} accessoryRight={logged ? accessoryRight : null} />;
 }
 
 TopBar.propTypes = {
-	title: PropTypes.string,
-	subtitle: PropTypes.string,
 	logged: PropTypes.bool,
 };
 
 TopBar.defaultProps = {
-	title: 'MOP',
-	subtitle: '',
 	logged: true,
 };

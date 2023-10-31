@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import propTypes from 'prop-types';
 import { Layout } from '@ui-kitten/components';
 import MusicGroup from '../Components/Group/MusicGroup';
-import { TopBar } from '../Navigator/TopBar';
 import { GetPlaylist } from '../Api/Music/Playlist';
 
 function PlaylistScreen({ route }) {
@@ -22,16 +21,13 @@ function PlaylistScreen({ route }) {
 	}, [playlistId]);
 
 	return (
-		<>
-			<TopBar />
-			<Layout level="2" style={{ height: '100%' }}>
-				<MusicGroup
-					title={`${playlistName} by ${playlistCreatorUsername}`}
-					musics={playlistMusics}
-					isLoading={isLoading}
-				/>
-			</Layout>
-		</>
+		<Layout level="2" style={{ height: '100%' }}>
+			<MusicGroup
+				title={`${playlistName} by ${playlistCreatorUsername}`}
+				musics={playlistMusics}
+				isLoading={isLoading}
+			/>
+		</Layout>
 	);
 }
 

@@ -3,7 +3,6 @@ import { useNavigation } from '@react-navigation/native';
 import propTypes from 'prop-types';
 import { Layout, Tab, TabView } from '@ui-kitten/components';
 import AlbumGroup from '../Components/Group/AlbumGroup';
-import { TopBar } from '../Navigator/TopBar';
 import { GetArtistById } from '../Api/Music/Music';
 import MusicGroup from '../Components/Group/MusicGroup';
 import ArtistGroup from '../Components/Group/ArtistGroup';
@@ -32,54 +31,50 @@ function ArtistScreen({ route }) {
 	}, [artistId]);
 
 	return (
-		<>
-			<TopBar />
-
-			<Layout level="1" style={{ height: '100%' }}>
-				<ArtistElement
-					artist={{ _id: artistId, name: artistName, picture: artistPicture }}
-					onPress={() => {}}
-					index={0}
-				/>
-				<TabView
-					selectedIndex={selectedIndex}
-					onSelect={(index) => setSelectedIndex(index)}
-					shouldLoadComponent={(index) => index === selectedIndex}
-				>
-					<Tab title="Top tracks">
-						<MusicGroup hideHeader musics={artistTopTracks} isLoading={isLoading} />
-					</Tab>
-					<Tab title="Albums">
-						<AlbumGroup
-							hideHeader
-							albums={artistAlbums}
-							isLoading={isLoading}
-							onAlbumElementPress={(album, _) => {
-								navigation.push('Album', {
-									albumId: album._id,
-									albumName: album.name,
-									albumCover: album.cover,
-								});
-							}}
-						/>
-					</Tab>
-					<Tab title="Related artists">
-						<ArtistGroup
-							hideHeader
-							artists={artistRelatedArtists}
-							isLoading={isLoading}
-							onArtistElementPress={(artist, _) => {
-								navigation.push('Artist', {
-									artistId: artist._id,
-									artistName: artist.name,
-									artistPicture: artist.picture,
-								});
-							}}
-						/>
-					</Tab>
-				</TabView>
-			</Layout>
-		</>
+		<Layout level="1" style={{ height: '100%' }}>
+			<ArtistElement
+				artist={{ _id: artistId, name: artistName, picture: artistPicture }}
+				onPress={() => {}}
+				index={0}
+			/>
+			<TabView
+				selectedIndex={selectedIndex}
+				onSelect={(index) => setSelectedIndex(index)}
+				shouldLoadComponent={(index) => index === selectedIndex}
+			>
+				<Tab title="Top tracks">
+					<MusicGroup hideHeader musics={artistTopTracks} isLoading={isLoading} />
+				</Tab>
+				<Tab title="Albums">
+					<AlbumGroup
+						hideHeader
+						albums={artistAlbums}
+						isLoading={isLoading}
+						onAlbumElementPress={(album, _) => {
+							navigation.push('Album', {
+								albumId: album._id,
+								albumName: album.name,
+								albumCover: album.cover,
+							});
+						}}
+					/>
+				</Tab>
+				<Tab title="Related artists">
+					<ArtistGroup
+						hideHeader
+						artists={artistRelatedArtists}
+						isLoading={isLoading}
+						onArtistElementPress={(artist, _) => {
+							navigation.push('Artist', {
+								artistId: artist._id,
+								artistName: artist.name,
+								artistPicture: artist.picture,
+							});
+						}}
+					/>
+				</Tab>
+			</TabView>
+		</Layout>
 	);
 }
 

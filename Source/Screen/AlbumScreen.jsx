@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import propTypes from 'prop-types';
 import { Layout } from '@ui-kitten/components';
 import MusicGroup from '../Components/Group/MusicGroup';
-import { TopBar } from '../Navigator/TopBar';
 import { GetAlbumById } from '../Api/Music/Music';
 
 function AlbumScreen({ route }) {
@@ -22,12 +21,9 @@ function AlbumScreen({ route }) {
 	}, [albumId]);
 
 	return (
-		<>
-			<TopBar />
-			<Layout level="2" style={{ height: '100%' }}>
-				<MusicGroup title={albumName} musics={albumMusics} isLoading={isLoading} />
-			</Layout>
-		</>
+		<Layout level="2" style={{ height: '100%' }}>
+			<MusicGroup title={albumName} musics={albumMusics} isLoading={isLoading} />
+		</Layout>
 	);
 }
 

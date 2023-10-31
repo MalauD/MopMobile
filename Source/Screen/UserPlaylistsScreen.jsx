@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { useNavigation } from '@react-navigation/native';
 import PlaylistGroup from '../Components/Group/PlaylistGroup';
 import { GetPlaylistsOf } from '../Api/Music/Playlist';
-import { TopBar } from '../Navigator/TopBar';
 
 function UserPlaylistsScreen({ route }) {
 	const {
@@ -51,9 +50,7 @@ function UserPlaylistsScreen({ route }) {
 	};
 
 	return (
-		<>
-			<TopBar />
-			<Layout level="2" style={{ height: '100%' }}>
+		<Layout level="2" style={{ height: '100%' }}>
 				<PlaylistGroup
 					title={`Playlists of ${username}`}
 					playlists={playlists}
@@ -62,7 +59,6 @@ function UserPlaylistsScreen({ route }) {
 					// onEndReached={getPlaylists}
 				/>
 			</Layout>
-		</>
 	);
 }
 

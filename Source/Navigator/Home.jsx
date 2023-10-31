@@ -14,6 +14,7 @@ import UserPlaylistsScreen from '../Screen/UserPlaylistsScreen';
 import PlaylistScreen from '../Screen/PlaylistScreen';
 import AlbumScreen from '../Screen/AlbumScreen';
 import ArtistScreen from '../Screen/ArtistScreen';
+import TopBar from './TopBar';
 
 const { Navigator, Screen } = createBottomTabNavigator();
 const HomeStack = createNativeStackNavigator();
@@ -41,7 +42,6 @@ const useBottomNavigationState = (initialState = 1) => {
 
 function BottomTabBar({ navigation, state }) {
 	const shownState = state.index > 3 ? undefined : state.index;
-
 	return (
 		<>
 			{state.index !== 2 && (
@@ -75,9 +75,13 @@ BottomTabBar.propTypes = {
 
 function HomeStackWarper({ component }) {
 	return (
-		<HomeStack.Navigator screenOptions={{ headerShown: false }}>
+		<HomeStack.Navigator screenOptions={{ header: () => <TopBar logged /> }}>
 			<HomeStack.Screen name="RootStack" component={component} />
-			<HomeStack.Screen name="Search" component={SearchScreen} />
+			<HomeStack.Screen
+				name="Search"
+				component={SearchScreen}
+				options={{ headerShown: false }}
+			/>
 			<HomeStack.Screen name="UserPlaylists" component={UserPlaylistsScreen} />
 			<HomeStack.Screen name="Playlist" component={PlaylistScreen} />
 			<HomeStack.Screen name="Album" component={AlbumScreen} />
@@ -110,7 +114,7 @@ export default function HomeNavigator() {
 		<Navigator
 			{...useBottomNavigationState()}
 			tabBar={(props) => <BottomTabBar {...props} />}
-			screenOptions={() => ({ headerShown: false })}
+			screenOptions={{ headerShown: false }}
 			sceneContainerStyle={{ backgroundColor: theme['background-basic-color-1'] }}
 		>
 			<Screen name="Suggestion" component={WrappedSuggestionScreen} />
