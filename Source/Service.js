@@ -35,7 +35,7 @@ export default async function PlaybackService() {
     RNTrackPlayer.setVolume(event.ducking ? 0.5 : 1);
   });
 
-  RNTrackPlayer.addEventListener(Event.PlaybackQueueEnded, async (event) => {
+  RNTrackPlayer.addEventListener(Event.PlaybackQueueEnded, async () => {
     const queue = await TrackPlayer.getQueue();
     const queueIds = queue.map((m) => m._id);
     const related = await GetRelatedMusics(queueIds, queueIds, 20);

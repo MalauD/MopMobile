@@ -37,7 +37,6 @@ export function AddToPlaylist(playlistId, musicIds) {
 }
 
 export function RemoveFromPlaylist(playlistId, musicIndex) {
-	console.log(playlistId, musicIndex);
 	return new Promise((resolve, reject) => {
 		Axios.delete(`/api/playlist/${playlistId}/musics`, { data: { AtIndex: musicIndex } })
 			.then(() => {

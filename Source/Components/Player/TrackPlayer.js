@@ -1,7 +1,7 @@
 import RNTrackPlayer, { Capability, AppKilledPlaybackBehavior } from 'react-native-track-player';
 import EventEmitter from 'events';
 import Axios from 'axios';
-import { GetApiAddress, getCookie } from '../../Api/ApiUtils';
+import { getCookie } from '../../Api/ApiUtils';
 
 const TrackPlayer = {
 	Emitter: undefined,
