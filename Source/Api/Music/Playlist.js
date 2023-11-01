@@ -23,3 +23,28 @@ export function GetPlaylist(id) {
 			});
 	});
 }
+
+export function AddToPlaylist(playlistId, musicId) {
+	return new Promise((resolve, reject) => {
+		Axios.post(`/api/playlist/${playlistId}/musics`, { MusicsId: [musicId] })
+			.then(() => {
+				resolve();
+			})
+			.catch((err) => {
+				reject(err);
+			});
+	});
+}
+
+export function RemoveFromPlaylist(playlistId, musicIndex) {
+	console.log(playlistId, musicIndex);
+	return new Promise((resolve, reject) => {
+		Axios.delete(`/api/playlist/${playlistId}/musics`, { data: { AtIndex: musicIndex } })
+			.then(() => {
+				resolve();
+			})
+			.catch((err) => {
+				reject(err);
+			});
+	});
+}

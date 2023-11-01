@@ -65,6 +65,7 @@ function MusicElement({
 				<View style={{ flex: 1 }} />
 				<ListItem
 					title={title}
+					style={{ borderTopLeftRadius: 10, borderTopRightRadius: 10 }}
 					description={artist_name}
 					accessoryLeft={() => <MusicImage />}
 					accessoryRight={() => <LikeMusicButton music={{ _id }} />}
@@ -77,6 +78,7 @@ function MusicElement({
 							artist_name,
 							image_url,
 						}}
+						musicIndex={index}
 						hideModal={() => setModalVisible(false)}
 						key={i}
 					/>
