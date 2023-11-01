@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Layout, List, ListItem, Text } from '@ui-kitten/components';
 import AlbumElement from './GroupItem/AlbumElement';
 import { DefaultAccesorySet } from './GroupItem/Accessories/AccessorySets';
-import LoadingLayout from '../LoadingLayout';
+import LoadingLayout from '../Tools/LoadingLayout';
 import { DefaultGroupAccesorySet } from './Accessories/AccessorySets';
 
 function AlbumGroup({

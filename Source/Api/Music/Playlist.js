@@ -48,3 +48,27 @@ export function RemoveFromPlaylist(playlistId, musicIndex) {
 			});
 	});
 }
+
+export function CreatePlaylist(name, musicIds, isPublic) {
+	return new Promise((resolve, reject) => {
+		Axios.post('/api/playlist/create', { Name: name, MusicsId: musicIds, IsPublic:  isPublic})
+			.then((res) => {
+				resolve(res.data.CreatedPlaylistId);
+			})
+			.catch((err) => {
+				reject(err);
+			});
+	});
+}
+
+export function DeletePlaylist(id) {
+	return new Promise((resolve, reject) => {
+		Axios.delete(`/api/playlist/${id}`)
+			.then(() => {
+				resolve();
+			})
+			.catch((err) => {
+				reject(err);
+			});
+	});
+}

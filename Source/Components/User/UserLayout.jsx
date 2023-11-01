@@ -6,7 +6,7 @@ import { View } from 'react-native';
 import { Header } from './UserExtras/Header';
 import { Logout, GetAccount } from '../../Api/Authentication/Auth';
 import { LogMyAccount, LogOutMyAccount } from '../../Action/AccountAction';
-import LoadingLayout from '../LoadingLayout';
+import LoadingLayout from '../Tools/LoadingLayout';
 
 function LikeIcon(props) {
 	return <Icon {...props} fill="#cc506c" name="heart" />;

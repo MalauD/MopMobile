@@ -10,7 +10,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import RootReducer from './Reducers/RootReducer';
 import PlayerGuard from './Components/Player/PlayerGuard';
 import useAuth from './Hooks/useAuth';
-import LoadingLayout from './Components/LoadingLayout';
+import LoadingLayout from './Components/Tools/LoadingLayout';
 import AuthStack from './Navigator/AuthStack';
 import Home from './Navigator/Home';
 

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Layout, List, ListItem, Text } from '@ui-kitten/components';
 import PlaylistElement from './GroupItem/PlaylistElement';
-import LoadingLayout from '../LoadingLayout';
+import LoadingLayout from '../Tools/LoadingLayout';
 
 function PlaylistGroup({
 	title,
@@ -15,6 +15,7 @@ function PlaylistGroup({
 	hideHeader,
 	onRefresh,
 	refreshing,
+	ListFooterComponent,
 }) {
 	if (isLoading) {
 		return <LoadingLayout />;
@@ -43,16 +44,20 @@ function PlaylistGroup({
 				onRefresh={onRefresh}
 				ListFooterComponent={() => (
 					<Layout level="2" style={{ height: 250 }}>
-						<Text
-							style={{
-								textAlign: 'center',
-								marginTop: 5,
-								fontFamily: 'pacifico',
-								fontSize: 20,
-							}}
-						>
-							{playlists.length === 0 ? 'No playlists :(' : "That's all folks!"}
-						</Text>
+						{ListFooterComponent ? (
+							<ListFooterComponent />
+						) : (
+							<Text
+								style={{
+									textAlign: 'center',
+									marginTop: 5,
+									fontFamily: 'pacifico',
+									fontSize: 20,
+								}}
+							>
+								{playlists.length === 0 ? 'No playlists :(' : "That's all folks!"}
+							</Text>
+						)}
 					</Layout>
 				)}
 			/>
@@ -75,6 +80,7 @@ PlaylistGroup.propTypes = {
 	hideHeader: PropTypes.bool,
 	onRefresh: PropTypes.func,
 	refreshing: PropTypes.bool,
+	ListFooterComponent: PropTypes.func,
 };
 
 PlaylistGroup.defaultProps = {
@@ -90,6 +96,7 @@ PlaylistGroup.defaultProps = {
 	hideHeader: false,
 	onRefresh: undefined,
 	refreshing: undefined,
+	ListFooterComponent: undefined,
 };
 
 export default PlaylistGroup;

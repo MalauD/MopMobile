@@ -4,7 +4,7 @@ import { Layout, List, ListItem, Text } from '@ui-kitten/components';
 import ArtistElement from './GroupItem/ArtistElement';
 import { DefaultAccesorySet } from './GroupItem/Accessories/AccessorySets';
 import TrackPlayer from '../Player/TrackPlayer';
-import LoadingLayout from '../LoadingLayout';
+import LoadingLayout from '../Tools/LoadingLayout';
 import { DefaultGroupAccesorySet } from './Accessories/AccessorySets';
 
 function ArtistGroup({

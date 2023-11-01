@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import Axios from 'axios';
 import useSaveServerIp from '../Hooks/useSaveServerIp';
 import useServerIp from '../Hooks/useServerIp';
-import LoadingLayout from '../Components/LoadingLayout';
+import LoadingLayout from '../Components/Tools/LoadingLayout';
 
 function SaveIcon(props) {
 	return <Icon {...props} name="save-outline" />;

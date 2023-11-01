@@ -29,8 +29,10 @@ AddToPlaylistAccessory.propTypes = {
 };
 
 function RemoveFromPlaylistAccessory({ playlistId, musicIndex, hideModal }) {
+	const navigation = useNavigation();
 	const onPress = async () => {
 		RemoveFromPlaylist(playlistId, musicIndex).then(() => {
+			navigation.goBack();
 			hideModal();
 		});
 	};
