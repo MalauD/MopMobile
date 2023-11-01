@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Layout, List, ListItem, Text } from '@ui-kitten/components';
 import PlaylistElement from './GroupItem/PlaylistElement';
 import LoadingLayout from '../Tools/LoadingLayout';
+import { DefaultPlaylistAccesorySet } from './GroupItem/Accessories/PlaylistAccessorySets';
 
 function PlaylistGroup({
 	title,
@@ -86,7 +87,7 @@ PlaylistGroup.propTypes = {
 PlaylistGroup.defaultProps = {
 	isLoading: false,
 	actions: null,
-	elementAccessories: [],
+	elementAccessories: DefaultPlaylistAccesorySet,
 	allowSort: false,
 	alwaysSort: false,
 	displayActionsOnSort: false,
