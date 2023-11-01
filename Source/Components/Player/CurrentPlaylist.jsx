@@ -5,6 +5,7 @@ import MusicGroup from '../Group/MusicGroup';
 import useQueue from './Hooks/useQueue';
 import { QueueAccessorySet } from '../Group/GroupItem/Accessories/AccessorySets';
 import useCurrentTrackIndex from './Hooks/useCurrentTrackIndex';
+import { QueueGroupAccessorySet } from '../Group/Accessories/AccessorySets';
 
 function CurrentPlaylist({ HeaderComponent }) {
 	const queue = useQueue();
@@ -15,7 +16,7 @@ function CurrentPlaylist({ HeaderComponent }) {
 			title="Queue"
 			musics={queue}
 			elementAccessories={QueueAccessorySet}
-			groupAccessories={QueueAccessorySet}
+			groupAccessories={QueueGroupAccessorySet}
 			highlightedMusicsIndex={[currentTrackIndex]}
 			onMusicElementPress={(_, index) => {
 				RNTrackPlayer.skip(index);

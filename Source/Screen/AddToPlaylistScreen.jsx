@@ -30,7 +30,10 @@ function AddToPlaylistScreen({ route }) {
 	}, []);
 
 	const onPlaylistElementPress = (playlist) => {
-		AddToPlaylist(playlist._id, route.params.music._id).then(() => {
+		AddToPlaylist(
+			playlist._id,
+			route.params.musics.map(({ _id }) => _id)
+		).then(() => {
 			navigation.goBack();
 		});
 	};
@@ -38,7 +41,7 @@ function AddToPlaylistScreen({ route }) {
 	return (
 		<Layout level="1" style={{ height: '100%' }}>
 			<PlaylistGroup
-				title={`Add ${route.params.music.title} by ${route.params.music.artist_name} to a playlist`}
+				title={`Add ${route.params.musics.length} musics to playlist`}
 				playlists={playlists}
 				isLoading={isLoading}
 				onPlaylistElementPress={onPlaylistElementPress}
@@ -58,11 +61,13 @@ function AddToPlaylistScreen({ route }) {
 AddToPlaylistScreen.propTypes = {
 	route: PropTypes.shape({
 		params: PropTypes.shape({
-			music: PropTypes.shape({
-				_id: PropTypes.number.isRequired,
-				title: PropTypes.string.isRequired,
-				artist_name: PropTypes.string.isRequired,
-			}).isRequired,
+			musics: PropTypes.arrayOf(
+				PropTypes.shape({
+					_id: PropTypes.number.isRequired,
+					title: PropTypes.string.isRequired,
+					artist_name: PropTypes.string.isRequired,
+				})
+			).isRequired,
 		}).isRequired,
 	}).isRequired,
 };

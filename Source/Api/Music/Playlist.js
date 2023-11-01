@@ -24,9 +24,9 @@ export function GetPlaylist(id) {
 	});
 }
 
-export function AddToPlaylist(playlistId, musicId) {
+export function AddToPlaylist(playlistId, musicIds) {
 	return new Promise((resolve, reject) => {
-		Axios.post(`/api/playlist/${playlistId}/musics`, { MusicsId: [musicId] })
+		Axios.post(`/api/playlist/${playlistId}/musics`, { MusicsId: musicIds })
 			.then(() => {
 				resolve();
 			})

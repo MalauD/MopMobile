@@ -10,7 +10,7 @@ function AddToPlaylistAccessory({ music, hideModal }) {
 	const onPress = async () => {
 		hideModal();
 		navigation.navigate('AddToPlaylist', {
-			music,
+			musics: [music],
 		});
 	};
 

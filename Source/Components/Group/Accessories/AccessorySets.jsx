@@ -1,6 +1,7 @@
 import { AddAllToCurrentPlaylistAccessory, PlayAllAccessory } from './PlayerAccessory';
+import { SaveToPlaylistAccessory } from './PlaylistAccessory';
 
 const DefaultGroupAccesorySet = [AddAllToCurrentPlaylistAccessory, PlayAllAccessory];
-const QueueGroupeAccessorySet = [];
+const QueueGroupAccessorySet = [SaveToPlaylistAccessory];
 
-export { DefaultGroupAccesorySet, QueueGroupeAccessorySet };
+export { DefaultGroupAccesorySet, QueueGroupAccessorySet };
