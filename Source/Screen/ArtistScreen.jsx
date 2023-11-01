@@ -1,12 +1,43 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import propTypes from 'prop-types';
-import { Layout, Tab, TabView } from '@ui-kitten/components';
+import { Icon, Layout, ListItem, Tab, TabView } from '@ui-kitten/components';
 import AlbumGroup from '../Components/Group/AlbumGroup';
 import { GetArtistById } from '../Api/Music/Music';
 import MusicGroup from '../Components/Group/MusicGroup';
 import ArtistGroup from '../Components/Group/ArtistGroup';
 import ArtistElement from '../Components/Group/GroupItem/ArtistElement';
+import TrackPlayer from '../Components/Player/TrackPlayer';
+
+function PlayTopTracksAccessory({ top_tracks, hideModal }) {
+	const onPress = async () => {
+		await TrackPlayer.removeAllAndPlayMultiple(top_tracks);
+		hideModal();
+	};
+
+	return (
+		<ListItem
+			title="Play Top Tracks"
+			onPress={onPress}
+			accessoryLeft={(evaProps) => <Icon {...evaProps} name="play-circle-outline" />}
+		/>
+	);
+}
+
+function AddTopTracksAccessory({ top_tracks, hideModal }) {
+	const onPress = async () => {
+		await TrackPlayer.addTracks(top_tracks);
+		hideModal();
+	};
+
+	return (
+		<ListItem
+			title="Add Top Tracks"
+			onPress={onPress}
+			accessoryLeft={(evaProps) => <Icon {...evaProps} name="plus-circle-outline" />}
+		/>
+	);
+}
 
 function ArtistScreen({ route }) {
 	const navigation = useNavigation();
@@ -36,6 +67,10 @@ function ArtistScreen({ route }) {
 				artist={{ _id: artistId, name: artistName, picture: artistPicture }}
 				onPress={() => {}}
 				index={0}
+				moreAccessories={[
+					(props) => <PlayTopTracksAccessory {...props} top_tracks={artistTopTracks} />,
+					(props) => <AddTopTracksAccessory {...props} top_tracks={artistTopTracks} />,
+				]}
 			/>
 			<TabView
 				selectedIndex={selectedIndex}
