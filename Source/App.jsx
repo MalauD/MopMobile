@@ -13,7 +13,7 @@ import useAuth from './Hooks/useAuth';
 import LoadingLayout from './Components/Tools/LoadingLayout';
 import AuthStack from './Navigator/AuthStack';
 import Home from './Navigator/Home';
-import { default as theme } from './theme.json';
+import theme from './theme.json';
 
 const store = createStore(
 	RootReducer,
