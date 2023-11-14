@@ -13,6 +13,7 @@ import useAuth from './Hooks/useAuth';
 import LoadingLayout from './Components/Tools/LoadingLayout';
 import AuthStack from './Navigator/AuthStack';
 import Home from './Navigator/Home';
+import { default as theme } from './theme.json';
 
 const store = createStore(
 	RootReducer,
@@ -35,7 +36,7 @@ export default function App() {
 		<Provider store={store}>
 			<GestureHandlerRootView style={{ flex: 1 }}>
 				<IconRegistry icons={EvaIconsPack} />
-				<ApplicationProvider {...eva} theme={eva.dark}>
+				<ApplicationProvider {...eva} theme={{ ...eva.dark, ...theme }}>
 					<PlayerGuard>
 						<NavigationContainer>
 							<MainRouter />
