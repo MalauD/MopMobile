@@ -25,7 +25,7 @@ Axios.defaults.withCredentials = true;
 function MainRouter() {
 	const { user, loading } = useAuth();
 
-	if (loading) return <LoadingLayout />;
+	if (loading) return <LoadingLayout includeLogo />;
 
 	if (!user) return <AuthStack />;
 	return <Home />;

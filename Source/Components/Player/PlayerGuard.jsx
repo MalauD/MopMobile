@@ -22,7 +22,7 @@ const useSetupPlayer = () => {
 
 function PlayerGuard({ children }) {
 	const playerReady = useSetupPlayer();
-	if (!playerReady) return <LoadingLayout />;
+	if (!playerReady) return <LoadingLayout includeLogo />;
 	return children;
 }
 
