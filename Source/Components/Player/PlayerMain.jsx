@@ -45,7 +45,7 @@ export default function PlayerMain() {
 					<Button
 						appearance="ghost"
 						size="giant"
-						status="basic"
+						status="primary"
 						accessoryLeft={(evaProps) => (
 							<Icon {...evaProps} name="skip-back-outline" />
 						)}
@@ -53,11 +53,11 @@ export default function PlayerMain() {
 							RNTrackPlayer.skipToPrevious();
 						}}
 					/>
-					<PlayPauseToggle size="giant" status="basic" />
+					<PlayPauseToggle size="giant" status="primary" />
 					<Button
 						appearance="ghost"
 						size="giant"
-						status="basic"
+						status="primary"
 						accessoryLeft={(evaProps) => (
 							<Icon {...evaProps} name="skip-forward-outline" />
 						)}
