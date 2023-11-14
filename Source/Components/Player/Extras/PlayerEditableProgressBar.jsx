@@ -32,9 +32,9 @@ export default function PlayerEditableProgressBar() {
 		<>
 			<Slider
 				containerStyle={{ marginHorizontal: 20, marginVertical: 0 }}
-				thumbTintColor={theme['color-info-500']}
-				maximumTrackTintColor={theme['color-primary-transparent-600']}
-				minimumTrackTintColor={theme['color-info-500']}
+				thumbTintColor={theme['color-basic-100']}
+				maximumTrackTintColor={theme['color-basic-700']}
+				minimumTrackTintColor={theme['color-basic-300']}
 				minimumValue={0}
 				animateTransitions
 				animationType="timing"
@@ -54,6 +54,7 @@ export default function PlayerEditableProgressBar() {
 				style={{
 					flexDirection: 'row',
 					justifyContent: 'space-between',
+					marginTop: 0,
 					marginBottom: 0,
 					marginHorizontal: 20,
 				}}

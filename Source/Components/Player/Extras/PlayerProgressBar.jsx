@@ -29,7 +29,7 @@ function ProgressBar({ eva }) {
 				style={{
 					borderTopRightRadius: 10,
 					flex: progress.duration - progress.position,
-					backgroundColor: 'transparent',
+					backgroundColor: eva.style.backgroundColor,
 				}}
 			/>
 		</View>
@@ -43,7 +43,8 @@ ProgressBar.propTypes = {
 };
 
 const PlayerProgressBar = withStyles(ProgressBar, (theme) => ({
-	ProgressColor: theme['color-info-transparent-default-border'],
+	ProgressColor: theme['color-primary-500'],
+	backgroundColor: theme['color-basic-800'],
 }));
 
 export default PlayerProgressBar;
