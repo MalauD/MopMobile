@@ -63,4 +63,29 @@ AddToCurrentPlaylistAccessory.propTypes = {
 	hideModal: PropTypes.func.isRequired,
 };
 
-export { PlayAccessory, PlayNextAccessory, AddToCurrentPlaylistAccessory };
+function RemoveFromPlayerAccessory({ musicIndex, hideModal }) {
+	const onPress = async () => {
+		await TrackPlayer.removeTracks([musicIndex]);
+		hideModal();
+	};
+
+	return (
+		<ListItem
+			title="Remove from Player"
+			onPress={onPress}
+			accessoryLeft={(evaProps) => <Icon {...evaProps} name="trash-2-outline" />}
+		/>
+	);
+}
+
+RemoveFromPlayerAccessory.propTypes = {
+	musicIndex: PropTypes.number.isRequired,
+	hideModal: PropTypes.func.isRequired,
+};
+
+export {
+	PlayAccessory,
+	PlayNextAccessory,
+	AddToCurrentPlaylistAccessory,
+	RemoveFromPlayerAccessory,
+};

@@ -3,6 +3,7 @@ import {
 	AddToCurrentPlaylistAccessory,
 	PlayAccessory,
 	PlayNextAccessory,
+	RemoveFromPlayerAccessory,
 } from './PlayerAccessories';
 import { AddToPlaylistAccessory, RemoveFromPlaylistAccessory } from './PlaylistAccesories';
 
@@ -26,6 +27,6 @@ const OwnPlaylistAccessorySet = (playlistId) =>
 			}
 	);
 
-const QueueAccessorySet = [];
+const QueueAccessorySet = [PlayNextAccessory, AddToPlaylistAccessory, RemoveFromPlayerAccessory];
 
 export { DefaultAccesorySet, QueueAccessorySet, OwnPlaylistAccessorySet };
