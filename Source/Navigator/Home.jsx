@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { BottomNavigation, BottomNavigationTab, Icon, useTheme } from '@ui-kitten/components';
 import { View } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { AccountScreen } from '../Screen/AccountScreen';
+import AccountScreen from '../Screen/AccountScreen';
 import SuggestionScreen from '../Screen/SuggestionScreen';
 import PlayerScreen from '../Screen/PlayerScreen';
 import PlayerOverlay from '../Components/Player/PlayerOverlay';
@@ -16,6 +16,7 @@ import AlbumScreen from '../Screen/AlbumScreen';
 import ArtistScreen from '../Screen/ArtistScreen';
 import TopBar from './TopBar';
 import AddToPlaylistScreen from '../Screen/AddToPlaylistScreen';
+import SettingsScreen from '../Screen/SettingsScreen';
 
 const { Navigator, Screen } = createBottomTabNavigator();
 const HomeStack = createNativeStackNavigator();
@@ -88,6 +89,7 @@ function HomeStackWarper({ component }) {
 			<HomeStack.Screen name="Album" component={AlbumScreen} />
 			<HomeStack.Screen name="Artist" component={ArtistScreen} />
 			<HomeStack.Screen name="AddToPlaylist" component={AddToPlaylistScreen} />
+			<HomeStack.Screen name="Settings" component={SettingsScreen} />
 		</HomeStack.Navigator>
 	);
 }

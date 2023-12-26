@@ -49,3 +49,27 @@ export function GetSuggestion(memory, likeHistRatio, novelty, limit) {
 			});
 	});
 }
+
+export function GetPreferedFormat() {
+	return new Promise((resolve, reject) => {
+		Axios.get(`/api/me/preferedformat`)
+			.then((res) => {
+				resolve(res.data);
+			})
+			.catch((err) => {
+				reject(err);
+			});
+	});
+}
+
+export function SetPreferedFormat(format) {
+	return new Promise((resolve, reject) => {
+		Axios.post(`/api/me/preferedformat`, { format })
+			.then((res) => {
+				resolve(res.data);
+			})
+			.catch((err) => {
+				reject(err);
+			});
+	});
+}

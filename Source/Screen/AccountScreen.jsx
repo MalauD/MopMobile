@@ -2,7 +2,7 @@ import React from 'react';
 import { ViewPager } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
-import { UserLayout } from '../Components/User/UserLayout';
+import UserLayout from '../Components/User/UserLayout';
 import LikedMusics from '../Components/Group/LikedMusics';
 import ViewedMusics from '../Components/Group/ViewedMusics';
 
@@ -28,4 +28,4 @@ function AccountScreen() {
 	);
 }
 
-export { AccountScreen };
+export default AccountScreen;

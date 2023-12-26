@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect, useSelector } from 'react-redux';
-import { Layout, Button, Text, ListItem, Icon } from '@ui-kitten/components';
+import { Layout, Button, ListItem, Icon } from '@ui-kitten/components';
 import { View } from 'react-native';
-import { Header } from './UserExtras/Header';
-import { Logout, GetAccount } from '../../Api/Authentication/Auth';
-import { LogMyAccount, LogOutMyAccount } from '../../Action/AccountAction';
+import { useNavigation } from '@react-navigation/native';
+import Header from './UserExtras/Header';
+import { Logout } from '../../Api/Authentication/Auth';
+import { LogOutMyAccount } from '../../Action/AccountAction';
 import LoadingLayout from '../Tools/LoadingLayout';
 
 function LikeIcon(props) {
@@ -20,6 +21,10 @@ function PlaylistIcon(props) {
 	return <Icon {...props} name="list-outline" />;
 }
 
+function SettingsIcon(props) {
+	return <Icon {...props} name="settings-outline" />;
+}
+
 function UserLayoutConnected({
 	dispatch,
 	OnLikedMusicsClick,
@@ -27,6 +32,7 @@ function UserLayoutConnected({
 	OnOwnPlaylistClick,
 }) {
 	const account = useSelector((state) => state.UserAccountReducer);
+	const navigation = useNavigation();
 
 	const OnLogoutPress = () => {
 		Logout()
@@ -59,6 +65,13 @@ function UserLayoutConnected({
 				accessoryLeft={PlaylistIcon}
 				onPress={OnOwnPlaylistClick}
 			/>
+			<ListItem
+				title="Settings"
+				level="2"
+				accessoryLeft={SettingsIcon}
+				onPress={() => navigation.push('Settings')}
+			/>
+
 			<View style={{ padding: 16 }}>
 				<Button onPress={OnLogoutPress}>Logout</Button>
 			</View>
@@ -75,4 +88,4 @@ UserLayoutConnected.propTypes = {
 
 const UserLayout = connect()(UserLayoutConnected);
 
-export { UserLayout };
+export default UserLayout;

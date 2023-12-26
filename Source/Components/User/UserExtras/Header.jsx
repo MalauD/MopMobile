@@ -8,7 +8,7 @@ const styles = StyleService.create({
 	},
 });
 
-export function Header({ Username, likedMusicCount }) {
+export default function Header({ Username, likedMusicCount }) {
 	return (
 		<Layout style={styles.header} level="1">
 			<Text category="h4">{Username}</Text>
@@ -18,8 +18,3 @@ export function Header({ Username, likedMusicCount }) {
 		</Layout>
 	);
 }
-
-Header.propTypes = {
-	Username: PropTypes.string.isRequired,
-	likedMusicCount: PropTypes.number.isRequired,
-};
