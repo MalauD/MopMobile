@@ -41,6 +41,7 @@ function SuggestionGroup() {
 		<Layout level="2" style={{ height: '100%' }}>
 			<MusicGroup
 				title="Suggestion"
+				includeIndexKeyExtractor
 				musics={suggestedMusics}
 				isLoading={isLoading}
 				onEndReached={addSuggestion}
