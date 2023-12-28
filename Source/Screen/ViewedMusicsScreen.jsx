@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Layout } from '@ui-kitten/components';
-import { GetViewedMusics } from '../../Api/User/User';
-import MusicGroup from './MusicGroup';
+import { GetViewedMusics } from '../Api/User/User';
+import MusicGroup from '../Components/Group/MusicGroup';
 
 function ViewedMusics() {
 	const [viewedMusics, setViewedMusics] = useState([]);
@@ -34,6 +34,7 @@ function ViewedMusics() {
 		<Layout level="2" style={{ height: '100%' }}>
 			<MusicGroup
 				title="History"
+				includeIndexKeyExtractor
 				isLoading={isLoading}
 				musics={viewedMusics}
 				onEndReached={onEndReached}

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Layout } from '@ui-kitten/components';
-import { GetLikedMusics } from '../../Api/User/User';
-import MusicGroup from './MusicGroup';
+import { GetLikedMusics } from '../Api/User/User';
+import MusicGroup from '../Components/Group/MusicGroup';
 
 function LikedMusics() {
 	const [likedMusics, setLikedMusics] = useState([]);

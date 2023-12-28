@@ -20,6 +20,7 @@ function MusicGroup({
 	ListHeaderComponent,
 	onRefresh,
 	refreshing,
+	includeIndexKeyExtractor,
 }) {
 	if (isLoading) {
 		return <LoadingLayout />;
@@ -39,7 +40,7 @@ function MusicGroup({
 			)}
 			onEndReachedThreshold={0.1}
 			onEndReached={() => onEndReached()}
-			keyExtractor={(item) => `item_${item._id}`}
+			keyExtractor={(item, idx) => `item_${item._id}_${includeIndexKeyExtractor ? idx : ''}`}
 			refreshing={refreshing}
 			onRefresh={onRefresh}
 			initialNumToRender={15}
@@ -97,6 +98,7 @@ MusicGroup.propTypes = {
 	onRefresh: PropTypes.func,
 	refreshing: PropTypes.bool,
 	ListHeaderComponent: PropTypes.elementType,
+	includeIndexKeyExtractor: PropTypes.bool,
 };
 
 MusicGroup.defaultProps = {
@@ -116,6 +118,7 @@ MusicGroup.defaultProps = {
 	onRefresh: undefined,
 	refreshing: undefined,
 	ListHeaderComponent: () => null,
+	includeIndexKeyExtractor: false,
 };
 
 export default MusicGroup;

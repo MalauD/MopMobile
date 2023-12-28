@@ -17,6 +17,8 @@ import ArtistScreen from '../Screen/ArtistScreen';
 import TopBar from './TopBar';
 import AddToPlaylistScreen from '../Screen/AddToPlaylistScreen';
 import SettingsScreen from '../Screen/SettingsScreen';
+import LikedMusics from '../Screen/LikedMusicsScreen';
+import ViewedMusics from '../Screen/ViewedMusicsScreen';
 
 const { Navigator, Screen } = createBottomTabNavigator();
 const HomeStack = createNativeStackNavigator();
@@ -90,6 +92,8 @@ function HomeStackWarper({ component }) {
 			<HomeStack.Screen name="Artist" component={ArtistScreen} />
 			<HomeStack.Screen name="AddToPlaylist" component={AddToPlaylistScreen} />
 			<HomeStack.Screen name="Settings" component={SettingsScreen} />
+			<HomeStack.Screen name="LikedMusics" component={LikedMusics} />
+			<HomeStack.Screen name="ViewedMusics" component={ViewedMusics} />
 		</HomeStack.Navigator>
 	);
 }
