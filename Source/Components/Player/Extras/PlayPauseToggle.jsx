@@ -4,8 +4,10 @@ import { usePlaybackState, State } from 'react-native-track-player';
 import TrackPlayer from '../TrackPlayer';
 
 function PlayPauseToggle(props) {
-	const playerState = usePlaybackState();
-	const isLoading = playerState === State.Connecting;
+	const playerState = usePlaybackState().state;
+	if (playerState === undefined) return <Spinner {...props} />;
+
+	const isLoading = playerState === State.Loading;
 	const isPlaying = playerState === State.Playing;
 
 	const onButtonPress = async () => {

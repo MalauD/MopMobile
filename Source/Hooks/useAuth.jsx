@@ -12,20 +12,26 @@ export default function useAuth() {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		GetApiAddress().then((ip) => {
-			Axios.defaults.baseURL = ip;
-			GetUser()
-				.then((data) => {
-					setUser(data);
-					dispatch(LogMyAccount(data));
-					setLoading(false);
-				})
-				.catch(() => {
-					setUser(null);
-					dispatch(LogOutMyAccount());
-					setLoading(false);
-				});
-		});
+		GetApiAddress()
+			.then((ip) => {
+				Axios.defaults.baseURL = ip;
+				GetUser()
+					.then((data) => {
+						setUser(data);
+						dispatch(LogMyAccount(data));
+						setLoading(false);
+					})
+					.catch(() => {
+						setUser(null);
+						dispatch(LogOutMyAccount());
+						setLoading(false);
+					});
+			})
+			.catch(() => {
+				setUser(null);
+				dispatch(LogOutMyAccount());
+				setLoading(false);
+			});
 	}, [IsLogged]);
 
 	return { user, loading };

@@ -5,12 +5,12 @@ function useCurrentTrackIndex() {
 	const [currentTrackIndex, setCurrentTrackIndex] = useState(undefined);
 
 	async function fetchCurrentTrack() {
-		const trackId = await RNTtrackPlayer.getCurrentTrack();
+		const trackId = await RNTtrackPlayer.getActiveTrackIndex();
 		setCurrentTrackIndex(trackId);
 	}
 
-	useTrackPlayerEvents([Event.PlaybackTrackChanged], async (event) => {
-		if (event.type === Event.PlaybackTrackChanged) {
+	useTrackPlayerEvents([Event.PlaybackActiveTrackChanged], async (event) => {
+		if (event.type === Event.PlaybackActiveTrackChanged) {
 			await fetchCurrentTrack();
 		}
 	});

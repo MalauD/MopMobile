@@ -89,7 +89,7 @@ const TrackPlayer = {
 
 	playNext: async (trackFromApi) => {
 		const track = TrackPlayer.apiMusicToTrack(trackFromApi);
-		const nextIndex = (await RNTrackPlayer.getCurrentTrack()) + 1;
+		const nextIndex = (await RNTrackPlayer.getActiveTrackIndex() ?? 0) + 1;
 		await RNTrackPlayer.add(track, nextIndex);
 	},
 

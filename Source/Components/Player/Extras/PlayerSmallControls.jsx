@@ -27,7 +27,6 @@ MusicImage.defaultProps = {
 
 function PlayerSmallControls({ onPress }) {
 	const currentMusic = useCurrentTrack();
-
 	if (currentMusic) {
 		const { title, artist_name, image_url } = currentMusic;
 
