@@ -3,6 +3,13 @@ import EventEmitter from 'events';
 import Axios from 'axios';
 import { getCookie } from '../../Api/ApiUtils';
 
+function remove_trailling_slash(url) {
+	if (url.endsWith('/')) {
+		return url.slice(0, -1);
+	}
+	return url;
+}
+
 const TrackPlayer = {
 	Emitter: undefined,
 	BaseMusicUrl: undefined,
@@ -33,7 +40,7 @@ const TrackPlayer = {
 
 	apiMusicToTrack: (apiMusic) => ({
 		id: apiMusic._id,
-		url: `${Axios.defaults.baseURL}/api/music/${apiMusic._id}/audio`,
+		url: `${remove_trailling_slash(Axios.defaults.baseURL)}/api/music/${apiMusic._id}/audio`,
 		title: apiMusic.title,
 		artist: apiMusic.artist_name,
 		artwork: apiMusic.image_url,

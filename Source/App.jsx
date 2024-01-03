@@ -28,7 +28,11 @@ function MainRouter() {
 	if (loading) return <LoadingLayout includeLogo />;
 
 	if (!user) return <AuthStack />;
-	return <Home />;
+	return (
+		<PlayerGuard>
+			<Home />
+		</PlayerGuard>
+	);
 }
 
 export default function App() {
@@ -37,11 +41,9 @@ export default function App() {
 			<GestureHandlerRootView style={{ flex: 1 }}>
 				<IconRegistry icons={EvaIconsPack} />
 				<ApplicationProvider {...eva} theme={{ ...eva.dark, ...theme }}>
-					<PlayerGuard>
-						<NavigationContainer>
-							<MainRouter />
-						</NavigationContainer>
-					</PlayerGuard>
+					<NavigationContainer>
+						<MainRouter />
+					</NavigationContainer>
 				</ApplicationProvider>
 			</GestureHandlerRootView>
 		</Provider>
