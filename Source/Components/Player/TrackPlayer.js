@@ -1,4 +1,4 @@
-import RNTrackPlayer, { Capability, AppKilledPlaybackBehavior } from 'react-native-track-player';
+import RNTrackPlayer, { Capability, AppKilledPlaybackBehavior, AndroidAudioContentType } from 'react-native-track-player';
 import EventEmitter from 'events';
 import Axios from 'axios';
 import { getCookie } from '../../Api/ApiUtils';
@@ -20,7 +20,10 @@ const TrackPlayer = {
 
 		TrackPlayer.MopIdCookie = await getCookie('mop-id');
 
-		await RNTrackPlayer.setupPlayer();
+		await RNTrackPlayer.setupPlayer({
+			androidAudioContentType: AndroidAudioContentType.Music,
+			autoHandleInterruptions: true
+		});
 
 		await RNTrackPlayer.updateOptions({
 			capabilities: [

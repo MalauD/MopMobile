@@ -9,9 +9,13 @@ import PlayerProgressBar from './Extras/PlayerProgressBar';
 function PlayerOverlay() {
 	const navigation = useNavigation();
 	const playbackState = usePlaybackState().state;
-	
 
-	if (playbackState === undefined || playbackState === State.None || playbackState === State.Stopped) return null;
+	if (
+		playbackState === undefined ||
+		playbackState === State.None ||
+		playbackState === State.Stopped
+	)
+		return null;
 	return (
 		<View
 			style={{
