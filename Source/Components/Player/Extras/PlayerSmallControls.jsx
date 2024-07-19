@@ -45,6 +45,7 @@ function PlayerSmallControls({ onPress }) {
 				accessoryRight={PlayPauseToggle}
 				accessoryLeft={() => <MusicImage image_url={image_url} />}
 				onPress={onPress}
+				disabled
 			/>
 		);
 	}

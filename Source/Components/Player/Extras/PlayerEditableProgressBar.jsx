@@ -2,26 +2,12 @@ import React from 'react';
 import { Easing, View } from 'react-native';
 import { Text, useTheme } from '@ui-kitten/components';
 import { Slider } from '@miblanchard/react-native-slider';
-import RNTrackPlayer, { useProgress } from 'react-native-track-player';
+import useProgressState from '../../../Hooks/useProgressState';
 
 function secondsToText(seconds) {
 	const minutes = Math.floor(seconds / 60);
 	const remainingSeconds = Math.floor(seconds % 60);
 	return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
-}
-
-function useProgressState(refreshRate) {
-	const [progress, setProgress] = React.useState({ position: 0, duration: 0 });
-	const rnProgress = useProgress(refreshRate);
-	React.useEffect(() => {
-		setProgress(rnProgress);
-	}, [rnProgress]);
-	const seekTo = (value) => {
-		RNTrackPlayer.seekTo(value);
-		setProgress({ ...progress, position: value });
-	};
-
-	return [progress, seekTo];
 }
 
 export default function PlayerEditableProgressBar() {
