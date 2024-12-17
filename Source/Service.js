@@ -41,5 +41,6 @@ export default async function PlaybackService() {
     const related = await GetRelatedMusics(queueIds, queueIds, 20);
     await TrackPlayer.addTracks(related);
     await TrackPlayer.play();
+    await TrackPlayer.play();
   });
 }

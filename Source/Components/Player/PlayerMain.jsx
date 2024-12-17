@@ -22,7 +22,7 @@ export default function PlayerMain() {
 						aspectRatio: 1,
 					}}
 					source={{
-						uri: image_url || require('../../Assets/nomusic.jpg'),
+						uri: image_url || '/Ressources/noMusic.jpg',
 					}}
 				/>
 				<Text category="h6" style={{ marginHorizontal: 20 }}>

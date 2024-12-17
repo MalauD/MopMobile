@@ -19,9 +19,7 @@ function MusicElement({
 		return (
 			<FastImage
 				style={{ width: 40, height: 40 }}
-				source={{
-					uri: image_url,
-				}}
+				source={image_url ? { uri: image_url } : require('../../../Assets/nomusic.jpg')}
 				resizeMode={FastImage.resizeMode.contain}
 			/>
 		);

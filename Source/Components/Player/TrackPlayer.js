@@ -46,7 +46,7 @@ const TrackPlayer = {
 		url: `${remove_trailling_slash(Axios.defaults.baseURL)}/api/music/${apiMusic._id}/audio`,
 		title: apiMusic.title,
 		artist: apiMusic.artist_name,
-		artwork: apiMusic.image_url,
+		artwork: apiMusic.image_url || `${remove_trailling_slash(Axios.defaults.baseURL)}/Ressources/noMusic.jpg`,
 		headers: {
 			Cookie: `mop-id=${TrackPlayer.MopIdCookie}`,
 		},
@@ -56,7 +56,7 @@ const TrackPlayer = {
 		_id: track.id,
 		title: track.title,
 		artist_name: track.artist,
-		image_url: track.artwork,
+		image_url: track.artwork || `${remove_trailling_slash(Axios.defaults.baseURL)}/Ressources/noMusic.jpg`,
 	}),
 
 	addTrack: async (trackFromApi) => {
