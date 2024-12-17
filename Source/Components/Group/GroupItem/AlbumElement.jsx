@@ -11,9 +11,7 @@ function AlbumElement({ album: { _id, name, cover }, moreAccessories, onPress, i
 		return (
 			<FastImage
 				style={{ width: 40, height: 40, borderRadius: 10 }}
-				source={{
-					uri: cover,
-				}}
+				source={cover ? { uri: cover } : require('../../../Assets/nomusic.jpg')}
 				resizeMode={FastImage.resizeMode.contain}
 			/>
 		);

@@ -11,9 +11,7 @@ function ArtistElement({ artist: { _id, name, picture }, moreAccessories, onPres
 		return (
 			<FastImage
 				style={{ width: 40, height: 40, borderRadius: 20 }}
-				source={{
-					uri: picture,
-				}}
+				source={picture ? { uri: picture } : require('../../../Assets/defaultavatar.jpg')}
 				resizeMode={FastImage.resizeMode.contain}
 			/>
 		);
