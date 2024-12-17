@@ -111,8 +111,6 @@ export default function SearchScreen() {
 	const [albums, setAlbums] = useState([]);
 	const [artists, setArtists] = useState([]);
 
-	const lastSearchValue = useRef('');
-
 	const getSearch = () => {
 		switch (selectedIndex) {
 			case 0:
@@ -129,9 +127,7 @@ export default function SearchScreen() {
 	const onQuickSearch = (searchValue) => {
 		setIsLoading(true);
 		const { SearchFunc, SetFunc } = getSearch();
-		lastSearchValue.current = searchValue;
 		SearchFunc(searchValue, 14, 0, true).then((res) => {
-			if (lastSearchValue.current !== searchValue) return;
 			SetFunc(res);
 			setIsLoading(false);
 		});
