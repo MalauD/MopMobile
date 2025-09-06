@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ListItem, Avatar } from '@ui-kitten/components';
+import { ListItem, Avatar, useTheme } from '@ui-kitten/components';
 import { ImageBackground } from 'react-native';
 import PlayPauseToggle from './PlayPauseToggle';
 import useCurrentTrack from '../Hooks/useCurrentTrack';
@@ -27,6 +27,7 @@ MusicImage.defaultProps = {
 
 function PlayerSmallControls({ onPress }) {
 	const currentMusic = useCurrentTrack();
+	const theme = useTheme();
 	if (currentMusic) {
 		const { title, artist_name, image_url } = currentMusic;
 
@@ -34,11 +35,12 @@ function PlayerSmallControls({ onPress }) {
 			<ListItem
 				style={{
 					zIndex: 1,
-					paddingBottom: 6,
+					paddingBottom: 8,
 					paddingTop: 6,
 					marginTop: 0,
 					borderBottomLeftRadius: 10,
 					borderBottomRightRadius: 10,
+					backgroundColor: theme['background-basic-color-1'],
 				}}
 				title={title}
 				description={artist_name}

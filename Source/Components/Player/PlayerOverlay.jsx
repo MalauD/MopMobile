@@ -73,8 +73,9 @@ function PlayerOverlay() {
 					right: 0,
 					left: 0,
 					bottom: 0,
-					padding: '1.5%',
+					padding: '2.5%',
 					alignItems: 'center',
+					gap: 0,
 				}}
 				onLayout={(event) => {
 					setBarLength(event.nativeEvent.layout.width);
@@ -83,11 +84,14 @@ function PlayerOverlay() {
 				<View
 					style={{
 						zIndex: 100,
-						height: 2,
+						height: 3,
 						width: '100%',
 						flexDirection: 'row',
 						paddingBottom: 0,
 						marginBottom: 0,
+						backgroundColor: theme['color-primary-900'],
+						borderTopLeftRadius: 10,
+						borderTopRightRadius: 10,
 					}}
 				>
 					<Animated.View
@@ -96,6 +100,7 @@ function PlayerOverlay() {
 								position: 'relative',
 								borderTopLeftRadius: 10,
 								backgroundColor: theme['color-primary-500'],
+								height: 3,
 							},
 							barStyle,
 						]}
