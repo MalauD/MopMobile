@@ -3,7 +3,7 @@ name: Mobile Build
 on:
   push:
     branches:
-      - 'main'
+      - 'master'
 
 jobs:
   android-build:
