@@ -1,30 +1,54 @@
-name: react-native-android-build-apk
+name: Mobile Build
+
 on:
   push:
     branches:
-      - master
+      - 'main'
+
 jobs:
-  install-and-test:
+  android-build:
+    name: Android Build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: Install npm dependencies
-        run: |
-          npm install
-  build-android:
-    needs: install-and-test
-    runs-on: ubuntu-latest
-    steps: 
-      - uses: actions/checkout@v3
-      - name: Install npm dependencies
-        run: |
-          npm install
-      - name: Build Android Release
-        run: |
-          cd android && ./gradlew assembleRelease
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v1
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
-          name: app-release.apk
-          path: android/app/build/outputs/apk/release/
+          fetch-depth: 0
 
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'gradle'
+
+      - name: Validate Gradle wrapper
+        uses: gradle/wrapper-validation-action@v1
+        with:
+          min-wrapper-count: 1
+          allow-snapshots: false
+
+      - name: Fix Gradle wrapper permissions
+        run: |
+          chmod +x android/gradlew
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: |
+          yarn install --frozen-lockfile
+
+      - name: Build Android Application
+        run: |
+          cd android
+          ./gradlew assembleRelease --no-daemon --warning-mode all
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release-android
+          path: android/app/build/outputs/apk/release/*.apk
