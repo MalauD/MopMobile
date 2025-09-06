@@ -89,7 +89,9 @@ PlaylistElement.propTypes = {
 	playlist: PropTypes.shape({
 		_id: PropTypes.string.isRequired,
 		name: PropTypes.string.isRequired,
-		creator: PropTypes.string.isRequired,
+		creator: PropTypes.shape({
+			username: PropTypes.string.isRequired,
+		}).isRequired,
 		public: PropTypes.bool.isRequired,
 		musics: PropTypes.arrayOf(
 			PropTypes.shape({
