@@ -27,7 +27,7 @@ MusicImage.defaultProps = {
 
 function PlayerSmallControls({ onPress }) {
 	const currentMusic = useCurrentTrack();
-	const theme = useTheme();
+
 	if (currentMusic) {
 		const { title, artist_name, image_url } = currentMusic;
 
@@ -40,7 +40,6 @@ function PlayerSmallControls({ onPress }) {
 					marginTop: 0,
 					borderBottomLeftRadius: 10,
 					borderBottomRightRadius: 10,
-					backgroundColor: theme['background-basic-color-1'],
 				}}
 				title={title}
 				description={artist_name}
