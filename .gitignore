@@ -65,3 +65,12 @@ buck-out/
 
 # Profile
 /profiling/
+
+# Expo
+.expo
+dist/
+web-build/
+
+# Expo CNG generated native projects
+/android/
+/ios/

@@ -1,4 +1,39 @@
 {
-	"name": "MopMobile",
-	"displayName": "MopMobile"
+	"expo": {
+		"name": "MopMobile",
+		"slug": "mopmobile",
+		"scheme": "mopmobile",
+		"version": "0.0.1",
+		"orientation": "portrait",
+		"icon": "./Source/Assets/expo/icon.png",
+		"assetBundlePatterns": ["**/*"],
+		"splash": {
+			"image": "./Source/Assets/expo/splash.png",
+			"resizeMode": "contain",
+			"backgroundColor": "#000000"
+		},
+		"ios": {
+			"bundleIdentifier": "com.mopmobile",
+			"supportsTablet": false,
+			"infoPlist": {
+				"UIBackgroundModes": ["audio"]
+			}
+		},
+		"android": {
+			"package": "com.mopmobile",
+			"adaptiveIcon": {
+				"foregroundImage": "./Source/Assets/expo/adaptive-icon.png",
+				"backgroundColor": "#000000"
+			}
+		},
+		"plugins": [
+			"expo-dev-client",
+			[
+				"expo-font",
+				{
+					"fonts": ["./Source/Fonts/pacifico.ttf"]
+				}
+			]
+		]
+	}
 }
