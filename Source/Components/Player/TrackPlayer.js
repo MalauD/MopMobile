@@ -93,14 +93,25 @@ const TrackPlayer = {
 		TrackPlayer.Emitter.emit('tracksRemoved', trackIds);
 	},
 
-	removeAllAndPlay: async (trackFromApi) => {
+	resetQueue: async () => {
+		const queue = await RNTrackPlayer.getQueue();
 		await RNTrackPlayer.reset();
+		if (queue.length > 0) {
+			TrackPlayer.Emitter.emit(
+				'tracksRemoved',
+				queue.map((_, index) => index)
+			);
+		}
+	},
+
+	removeAllAndPlay: async (trackFromApi) => {
+		await TrackPlayer.resetQueue();
 		await TrackPlayer.addTrack(trackFromApi);
 		await TrackPlayer.play();
 	},
 
 	removeAllAndPlayMultiple: async (tracksFromApi) => {
-		await RNTrackPlayer.reset();
+		await TrackPlayer.resetQueue();
 		await TrackPlayer.addTracks(tracksFromApi);
 		await TrackPlayer.play();
 	},
