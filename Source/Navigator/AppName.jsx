@@ -11,7 +11,6 @@ const styles = StyleSheet.create({
 		color: '#ffffff',
 		fontSize: 20,
 		width: 100,
-		textAlignVertical: 'top',
 	},
 });
 

@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { BottomNavigation, BottomNavigationTab, Icon, useTheme } from '@ui-kitten/components';
 import { View } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import AccountScreen from '../Screen/AccountScreen';
 import SuggestionScreen from '../Screen/SuggestionScreen';
 import PlayerScreen from '../Screen/PlayerScreen';
@@ -45,6 +46,7 @@ const useBottomNavigationState = (initialState = 1) => {
 };
 
 function BottomTabBar({ navigation, state }) {
+	const insets = useSafeAreaInsets();
 	const shownState = state.index > 3 ? undefined : state.index;
 	return (
 		<>
@@ -55,6 +57,7 @@ function BottomTabBar({ navigation, state }) {
 				appearance="noIndicator"
 				selectedIndex={shownState}
 				onSelect={(index) => navigation.navigate(state.routeNames[index])}
+				style={{ paddingBottom: insets.bottom }}
 			>
 				<BottomNavigationTab icon={SuggestionIcon} />
 				<BottomNavigationTab icon={TrendingIcon} />

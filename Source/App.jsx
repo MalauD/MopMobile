@@ -7,6 +7,7 @@ import { ApplicationProvider, IconRegistry } from '@ui-kitten/components';
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
 import { NavigationContainer } from '@react-navigation/native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import RootReducer from './Reducers/RootReducer';
 import PlayerGuard from './Components/Player/PlayerGuard';
 import useAuth from './Hooks/useAuth';
@@ -39,12 +40,14 @@ export default function App() {
 	return (
 		<Provider store={store}>
 			<GestureHandlerRootView style={{ flex: 1 }}>
-				<IconRegistry icons={EvaIconsPack} />
-				<ApplicationProvider {...eva} theme={{ ...eva.dark, ...theme }}>
-					<NavigationContainer>
-						<MainRouter />
-					</NavigationContainer>
-				</ApplicationProvider>
+				<SafeAreaProvider>
+					<IconRegistry icons={EvaIconsPack} />
+					<ApplicationProvider {...eva} theme={{ ...eva.dark, ...theme }}>
+						<NavigationContainer>
+							<MainRouter />
+						</NavigationContainer>
+					</ApplicationProvider>
+				</SafeAreaProvider>
 			</GestureHandlerRootView>
 		</Provider>
 	);
