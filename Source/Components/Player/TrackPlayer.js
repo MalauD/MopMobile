@@ -1,4 +1,8 @@
-import RNTrackPlayer, { Capability, AppKilledPlaybackBehavior, AndroidAudioContentType } from 'react-native-track-player';
+import RNTrackPlayer, {
+	Capability,
+	AppKilledPlaybackBehavior,
+	AndroidAudioContentType,
+} from 'react-native-track-player';
 import EventEmitter from 'events';
 import Axios from 'axios';
 import { getCookie } from '../../Api/ApiUtils';
@@ -22,7 +26,7 @@ const TrackPlayer = {
 
 		await RNTrackPlayer.setupPlayer({
 			androidAudioContentType: AndroidAudioContentType.Music,
-			autoHandleInterruptions: true
+			autoHandleInterruptions: true,
 		});
 
 		await RNTrackPlayer.updateOptions({
@@ -46,7 +50,9 @@ const TrackPlayer = {
 		url: `${remove_trailling_slash(Axios.defaults.baseURL)}/api/music/${apiMusic._id}/audio`,
 		title: apiMusic.title,
 		artist: apiMusic.artist_name,
-		artwork: apiMusic.image_url || `${remove_trailling_slash(Axios.defaults.baseURL)}/Ressources/noMusic.jpg`,
+		artwork:
+			apiMusic.image_url ||
+			`${remove_trailling_slash(Axios.defaults.baseURL)}/Ressources/noMusic.jpg`,
 		headers: {
 			Cookie: `mop-id=${TrackPlayer.MopIdCookie}`,
 		},
@@ -56,7 +62,9 @@ const TrackPlayer = {
 		_id: track.id,
 		title: track.title,
 		artist_name: track.artist,
-		image_url: track.artwork || `${remove_trailling_slash(Axios.defaults.baseURL)}/Ressources/noMusic.jpg`,
+		image_url:
+			track.artwork ||
+			`${remove_trailling_slash(Axios.defaults.baseURL)}/Ressources/noMusic.jpg`,
 	}),
 
 	addTrack: async (trackFromApi) => {
@@ -99,8 +107,11 @@ const TrackPlayer = {
 
 	playNext: async (trackFromApi) => {
 		const track = TrackPlayer.apiMusicToTrack(trackFromApi);
-		const nextIndex = (await RNTrackPlayer.getActiveTrackIndex() ?? 0) + 1;
+		const activeTrackIndex = await RNTrackPlayer.getActiveTrackIndex();
+		const queue = await RNTrackPlayer.getQueue();
+		const nextIndex = activeTrackIndex == null ? queue.length : activeTrackIndex + 1;
 		await RNTrackPlayer.add(track, nextIndex);
+		TrackPlayer.Emitter.emit('tracksAdded', [trackFromApi]);
 	},
 
 	getQueue: async () => {
