@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useMemo } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import PropTypes from 'prop-types';
 import { Icon, Input, Layout, Button, TabView, Tab } from '@ui-kitten/components';
@@ -7,7 +7,7 @@ import debounce from 'lodash.debounce';
 import MusicGroup from '../Components/Group/MusicGroup';
 import AlbumGroup from '../Components/Group/AlbumGroup';
 import ArtistGroup from '../Components/Group/ArtistGroup';
-import { SearchMusic, SearchAlbum, SearchArtist } from '../Api/Music/Search';
+import { searchMusic, searchAlbum, searchArtist } from '../Api/Music/Search';
 
 function SearchIcon(props) {
 	return <Icon {...props} name="search" />;
@@ -15,7 +15,6 @@ function SearchIcon(props) {
 
 function BackButton() {
 	const navigation = useNavigation();
-
 	return (
 		<Button
 			appearance="ghost"
@@ -31,35 +30,42 @@ const styles = StyleSheet.create({
 	container: {
 		flexDirection: 'row',
 		padding: 8,
-		// alignItems: 'stretch',
-		//	flexWrap: 'wrap',
 	},
 });
 
-function SearchTopBar({ onQuickSearch, onSearch, searchType }) {
+function SearchTopBar({ onSearch, searchType }) {
 	const [searchValue, setSearchValue] = useState('');
 	const inputRef = useRef(null);
 
-	const debounceFunc = useMemo(() => debounce(onQuickSearch, 500), []);
+	const debouncedSearch = useCallback(
+		debounce((value) => {
+			onSearch(value, true);
+		}, 500),
+		[onSearch]
+	);
 
 	useEffect(() => {
-		setTimeout(() => {
-			inputRef.current?.focus();
-		}, 0);
+		const timer = setTimeout(() => inputRef.current?.focus(), 0);
 		return () => {
-			debounceFunc.cancel();
+			clearTimeout(timer);
+			debouncedSearch.cancel();
 		};
-	}, []);
+	}, [debouncedSearch]);
 
-	useEffect(() => {
-		if (searchValue !== '') {
-			if (inputRef.current.isFocused()) {
-				onQuickSearch(searchValue);
-			} else {
-				onSearch(searchValue);
-			}
+	const handleChangeText = (text) => {
+		setSearchValue(text);
+		if (text.trim() === '') {
+			debouncedSearch.cancel();
+			onSearch('', true);
+		} else {
+			debouncedSearch(text);
 		}
-	}, [searchType]);
+	};
+
+	const handleSubmit = () => {
+		debouncedSearch.cancel();
+		onSearch(searchValue, false);
+	};
 
 	return (
 		<View style={styles.container}>
@@ -69,13 +75,8 @@ function SearchTopBar({ onQuickSearch, onSearch, searchType }) {
 				placeholder={`Search for ${searchType}`}
 				accessoryLeft={SearchIcon}
 				returnKeyType="search"
-				onSubmitEditing={() => onSearch(searchValue)}
-				onChangeText={(newSearchValue) => {
-					setSearchValue(newSearchValue);
-					if (newSearchValue !== '') {
-						debounceFunc(newSearchValue);
-					}
-				}}
+				onSubmitEditing={handleSubmit}
+				onChangeText={handleChangeText}
 				value={searchValue}
 				ref={inputRef}
 			/>
@@ -84,76 +85,87 @@ function SearchTopBar({ onQuickSearch, onSearch, searchType }) {
 }
 
 SearchTopBar.propTypes = {
-	onQuickSearch: PropTypes.func.isRequired,
 	onSearch: PropTypes.func.isRequired,
 	searchType: PropTypes.string.isRequired,
 };
 
-function indexToSearchType(index) {
-	switch (index) {
-		case 0:
-			return 'musics';
-		case 1:
-			return 'albums';
-		case 2:
-			return 'artists';
-		default:
-			return 'musics';
-	}
-}
+const INDEX_TO_SEARCH_TYPE = ['musics', 'albums', 'artists'];
 
 export default function SearchScreen() {
 	const navigation = useNavigation();
-
 	const [selectedIndex, setSelectedIndex] = useState(0);
 	const [isLoading, setIsLoading] = useState(false);
 	const [musics, setMusics] = useState([]);
 	const [albums, setAlbums] = useState([]);
 	const [artists, setArtists] = useState([]);
 
-	const getSearch = () => {
-		switch (selectedIndex) {
-			case 0:
-				return { SearchFunc: SearchMusic, SetFunc: setMusics, prev: musics };
-			case 1:
-				return { SearchFunc: SearchAlbum, SetFunc: setAlbums, prev: albums };
-			case 2:
-				return { SearchFunc: SearchArtist, SetFunc: setArtists, prev: artists };
-			default:
-				return {};
-		}
-	};
+	const abortControllerRef = useRef(null);
 
-	const onQuickSearch = (searchValue) => {
-		setIsLoading(true);
-		const { SearchFunc, SetFunc } = getSearch();
-		SearchFunc(searchValue, 14, 0, true).then((res) => {
-			SetFunc(res);
-			setIsLoading(false);
-		});
-	};
+	const executeSearch = useCallback(
+		async (query, isQuickSearch, index = selectedIndex) => {
+			if (!query.trim()) {
+				if (index === 0) setMusics([]);
+				if (index === 1) setAlbums([]);
+				if (index === 2) setArtists([]);
+				return;
+			}
 
-	const onSearch = (searchValue) => {
-		const { SearchFunc, SetFunc, prev } = getSearch();
-		SearchFunc(searchValue, 14, 0, false).then((res) => {
-			SetFunc([...prev, ...res.filter((d1) => !prev.some((d2) => d1.id === d2.id))]);
-		});
+			if (abortControllerRef.current) {
+				abortControllerRef.current.abort();
+			}
+			abortControllerRef.current = new AbortController();
+
+			setIsLoading(true);
+
+			const searchMap = {
+				0: { fetcher: searchMusic, setter: setMusics, state: musics },
+				1: { fetcher: searchAlbum, setter: setAlbums, state: albums },
+				2: { fetcher: searchArtist, setter: setArtists, state: artists },
+			};
+
+			const { fetcher, setter, state } = searchMap[index];
+
+			try {
+				const res = await fetcher(
+					query,
+					14,
+					0,
+					isQuickSearch,
+					abortControllerRef.current.signal
+				);
+				if (isQuickSearch) {
+					setter(res);
+				} else {
+					setter((prev) => [
+						...prev,
+						...res.filter((item) => !prev.some((existing) => existing.id === item.id)),
+					]);
+				}
+			} catch (error) {
+				if (error.name !== 'CanceledError' && error.name !== 'AbortError') {
+					// Traitement de l'erreur métier
+				}
+			} finally {
+				setIsLoading(false);
+			}
+		},
+		[selectedIndex, musics, albums, artists]
+	);
+
+	const handleTabSelect = (index) => {
+		setSelectedIndex(index);
 	};
 
 	return (
 		<>
 			<Layout level="1">
 				<SearchTopBar
-					onQuickSearch={onQuickSearch}
-					onSearch={onSearch}
-					searchType={indexToSearchType(selectedIndex)}
+					onSearch={executeSearch}
+					searchType={INDEX_TO_SEARCH_TYPE[selectedIndex] || 'musics'}
 				/>
 			</Layout>
-			<Layout level="2" style={{ height: '100%' }}>
-				<TabView
-					selectedIndex={selectedIndex}
-					onSelect={(index) => setSelectedIndex(index)}
-				>
+			<Layout level="2" style={{ flex: 1 }}>
+				<TabView selectedIndex={selectedIndex} onSelect={handleTabSelect}>
 					<Tab title="Musics">
 						<MusicGroup
 							title="Musics"
@@ -168,7 +180,7 @@ export default function SearchScreen() {
 							hideHeader
 							albums={albums}
 							isLoading={isLoading}
-							onAlbumElementPress={(album, _) => {
+							onAlbumElementPress={(album) => {
 								navigation.push('Album', {
 									albumId: album._id,
 									albumName: album.name,
@@ -183,7 +195,7 @@ export default function SearchScreen() {
 							hideHeader
 							artists={artists}
 							isLoading={isLoading}
-							onArtistElementPress={(artist, _) => {
+							onArtistElementPress={(artist) => {
 								navigation.push('Artist', {
 									artistId: artist._id,
 									artistName: artist.name,

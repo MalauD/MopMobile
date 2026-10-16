@@ -1,43 +1,19 @@
 import Axios from 'axios';
 
-export function SearchMusic(query, maxResults = 10, page = 0, noIndex = false) {
-	return new Promise((resolve, reject) => {
-		Axios.get(
-			`/api/search/music/${query}?maxResults=${maxResults}&page=${page}&noIndex=${noIndex}`
-		)
-			.then((res) => {
-				resolve(res.data);
-			})
-			.catch((err) => {
-				reject(err);
-			});
-	});
-}
+export const searchMusic = (query, maxResults = 10, page = 0, noIndex = false, signal = null) =>
+	Axios.get(`/api/search/music/${encodeURIComponent(query)}`, {
+		params: { maxResults, page, noIndex },
+		signal,
+	}).then((res) => res.data);
 
-export function SearchAlbum(query, maxResults = 10, page = 0, noIndex = false) {
-	return new Promise((resolve, reject) => {
-		Axios.get(
-			`/api/search/album/${query}?maxResults=${maxResults}&page=${page}&noIndex=${noIndex}`
-		)
-			.then((res) => {
-				resolve(res.data);
-			})
-			.catch((err) => {
-				reject(err);
-			});
-	});
-}
+export const searchAlbum = (query, maxResults = 10, page = 0, noIndex = false, signal = null) =>
+	Axios.get(`/api/search/album/${encodeURIComponent(query)}`, {
+		params: { maxResults, page, noIndex },
+		signal,
+	}).then((res) => res.data);
 
-export function SearchArtist(query, maxResults = 10, page = 0, noIndex = false) {
-	return new Promise((resolve, reject) => {
-		Axios.get(
-			`/api/search/artist/${query}?maxResults=${maxResults}&page=${page}&noIndex=${noIndex}`
-		)
-			.then((res) => {
-				resolve(res.data);
-			})
-			.catch((err) => {
-				reject(err);
-			});
-	});
-}
+export const searchArtist = (query, maxResults = 10, page = 0, noIndex = false, signal = null) =>
+	Axios.get(`/api/search/artist/${encodeURIComponent(query)}`, {
+		params: { maxResults, page, noIndex },
+		signal,
+	}).then((res) => res.data);
